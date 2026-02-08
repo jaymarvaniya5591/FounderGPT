@@ -186,12 +186,13 @@
     <div id="refresh-modal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>↻ Refreshing Database</h2>
+                <h2 id="refresh-modal-title">↻ Refreshing Database</h2>
+                <button id="refresh-close-btn" class="close-btn hidden" aria-label="Close">×</button>
             </div>
             <div class="modal-body">
-                <div class="spinner"></div>
+                <div id="refresh-spinner" class="spinner"></div>
                 <p id="refresh-status">Scanning for new resources...</p>
-                <label class="checkbox-container">
+                <label id="force-refresh-label" class="checkbox-container">
                     <input type="checkbox" id="force-refresh-checkbox">
                     Force Rescan (Re-process all files)
                 </label>

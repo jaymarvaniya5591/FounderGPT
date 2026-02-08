@@ -426,7 +426,43 @@ function requireAdmin(callback) {
 // ========================================
 async function handleRefresh() {
     closeSidebar();
+
+    const refreshModalTitle = document.getElementById('refresh-modal-title');
+    const refreshSpinner = document.getElementById('refresh-spinner');
+    const refreshCloseBtn = document.getElementById('refresh-close-btn');
+    const forceRefreshLabel = document.getElementById('force-refresh-label');
+
+    // Check if we're in local development
+    const isLocalhost = window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1';
+
+    if (!isLocalhost) {
+        // Production environment - show info popup with close button
+        refreshModalTitle.textContent = 'ℹ️ Local Development Only';
+        refreshStatus.textContent = 'Database refresh is only available when running locally. To add new resources, run the server on your machine and refresh there.';
+        refreshSpinner.classList.add('hidden');
+        forceRefreshLabel.classList.add('hidden');
+        refreshCloseBtn.classList.remove('hidden');
+        refreshModal.classList.remove('hidden');
+
+        // Close button handler
+        refreshCloseBtn.onclick = () => {
+            refreshModal.classList.add('hidden');
+            // Reset modal state for next time
+            refreshModalTitle.textContent = '↻ Refreshing Database';
+            refreshSpinner.classList.remove('hidden');
+            forceRefreshLabel.classList.remove('hidden');
+            refreshCloseBtn.classList.add('hidden');
+        };
+        return;
+    }
+
+    // Local development - proceed with actual refresh
+    refreshModalTitle.textContent = '↻ Refreshing Database';
     refreshStatus.textContent = 'Scanning for new resources...';
+    refreshSpinner.classList.remove('hidden');
+    forceRefreshLabel.classList.remove('hidden');
+    refreshCloseBtn.classList.add('hidden');
     refreshModal.classList.remove('hidden');
 
     try {
