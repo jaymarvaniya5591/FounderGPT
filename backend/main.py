@@ -355,6 +355,25 @@ async def serve_frontend():
         return {"message": "FounderGPT API is running. Frontend not found."}
 
 
+@app.get("/{file_path:path}")
+async def serve_static_files(file_path: str):
+    """
+    Catch-all route to serve static files (CSS, JS, etc.) from frontend directory.
+    This allows relative paths in HTML to work, matching Vercel's behavior.
+    """
+    # Skip API routes
+    if file_path.startswith(("ask", "refresh", "stats", "health", "categories", "resources", "verify-admin", "static/")):
+        raise HTTPException(status_code=404, detail="Not found")
+    
+    # Try to serve the requested file from frontend directory
+    file = frontend_dir / file_path
+    if file.exists() and file.is_file():
+        return FileResponse(str(file))
+    
+    # If file not found, return 404
+    raise HTTPException(status_code=404, detail="File not found")
+
+
 def kill_existing_listeners(port: int = 8000):
     """
     Kill any existing process listening on the specified port.
