@@ -39,6 +39,17 @@
             <span class="refresh-icon">↻</span> Refresh Database
         </button>
 
+        <!-- History Section -->
+        <section class="sidebar-section">
+            <div class="section-header">
+                <h3 class="section-title">HISTORY</h3>
+                <button id="clear-history-btn" class="clear-btn" title="Clear All History">Clear</button>
+            </div>
+            <ul id="history-list" class="item-list">
+                <!-- History populated by JS -->
+            </ul>
+        </section>
+
         <!-- Categories Section -->
         <section class="sidebar-section">
             <h3 class="section-title">CATEGORIES</h3>
@@ -104,11 +115,8 @@
 
         <!-- Results Page -->
         <div id="results-page" class="page hidden">
-            <div class="results-header">
-                <button id="back-btn" class="back-btn">← New scenario</button>
-            </div>
-
             <div class="results-container">
+                <button id="back-btn" class="back-btn">← New scenario</button>
                 <div class="scenario-card">
                     <span class="scenario-label">SCENARIO</span>
                     <p id="scenario-text" class="scenario-text"></p>

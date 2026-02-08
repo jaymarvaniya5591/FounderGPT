@@ -23,6 +23,7 @@ let categories = [];
 let resources = [];
 let currentResourceType = 'book';
 let currentQuery = '';
+let conversationHistory = []; // NEW: History state
 
 // Caches for fast loading
 let categoriesCache = null;
@@ -37,6 +38,8 @@ const sidebarOverlay = document.getElementById('sidebar-overlay');
 const menuBtn = document.getElementById('menu-btn');
 const closeSidebarBtn = document.getElementById('close-sidebar-btn');
 const refreshBtn = document.getElementById('refresh-btn');
+const historyList = document.getElementById('history-list'); // NEW
+const clearHistoryBtn = document.getElementById('clear-history-btn'); // NEW
 
 const categorySearch = document.getElementById('category-search');
 const categoryList = document.getElementById('category-list');
@@ -103,6 +106,9 @@ function init() {
     // Load all cached data in one call
     loadCachedData();
 
+    // Load history
+    loadHistory(); // NEW
+
     // Start keep-alive ping every 10 minutes to prevent Render shutdown
     startKeepAlive();
 
@@ -110,6 +116,9 @@ function init() {
     menuBtn.addEventListener('click', openSidebar);
     closeSidebarBtn.addEventListener('click', closeSidebar);
     sidebarOverlay.addEventListener('click', closeSidebar);
+
+    // History events
+    clearHistoryBtn.addEventListener('click', clearHistory); // NEW
 
     // Refresh button
     refreshBtn.addEventListener('click', handleRefresh);
@@ -639,6 +648,7 @@ async function handleAnalyze() {
         loadingOverlay.classList.add('hidden');
 
         if (data.success) {
+            addToHistory(currentQuery, data.full_response); // NEW: Save to history
             showResults(data);
         } else {
             alert(data.error || 'Analysis failed');
@@ -948,3 +958,86 @@ window.deleteResource = deleteResource;
 window.toggleQuestion = toggleQuestion;
 window.selectCategory = selectCategory;
 window.toggleDropdown = toggleDropdown;
+
+// ========================================
+// History Functions (NEW)
+// ========================================
+function loadHistory() {
+    const saved = localStorage.getItem('scoutmate_history');
+    if (saved) {
+        try {
+            conversationHistory = JSON.parse(saved);
+        } catch (e) {
+            console.error('Failed to parse history', e);
+            conversationHistory = [];
+        }
+    }
+    renderHistoryList();
+}
+
+function saveHistory() {
+    localStorage.setItem('scoutmate_history', JSON.stringify(conversationHistory));
+    renderHistoryList();
+}
+
+function addToHistory(query, fullResponse) {
+    if (conversationHistory.length > 0 && conversationHistory[0].query === query) {
+        return;
+    }
+
+    const newItem = {
+        id: Date.now().toString(),
+        timestamp: Date.now(),
+        query: query,
+        response: fullResponse
+    };
+
+    conversationHistory.unshift(newItem);
+
+    if (conversationHistory.length > 20) {
+        conversationHistory = conversationHistory.slice(0, 20);
+    }
+
+    saveHistory();
+}
+
+function renderHistoryList() {
+    if (conversationHistory.length === 0) {
+        historyList.innerHTML = '<li class="empty-state" style="border:none; background:none; color:var(--text-muted); padding:10px; text-align:center; font-size:12px;">No history yet</li>';
+        return;
+    }
+
+    historyList.innerHTML = conversationHistory.map(item => `
+        <li onclick="loadHistoryItem('${item.id}')" title="${escapeHtml(item.query)}">
+            <span class="item-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(item.query)}</span>
+            <button class="delete-btn" onclick="deleteHistoryItem('${item.id}', event)" title="Delete">🗑</button>
+        </li>
+    `).join('');
+}
+
+window.loadHistoryItem = function (id) {
+    const item = conversationHistory.find(h => h.id === id);
+    if (!item) return;
+
+    currentQuery = item.query;
+    showResults({ full_response: item.response });
+
+    if (window.innerWidth <= 768) {
+        closeSidebar();
+    }
+};
+
+window.deleteHistoryItem = function (id, event) {
+    event.stopPropagation();
+    if (!confirm('Remove this conversation from history?')) return;
+
+    conversationHistory = conversationHistory.filter(h => h.id !== id);
+    saveHistory();
+};
+
+function clearHistory() {
+    if (!conversationHistory.length) return;
+    if (!confirm('Clear all conversation history?')) return;
+    conversationHistory = [];
+    saveHistory();
+}
