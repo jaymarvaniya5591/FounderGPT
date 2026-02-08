@@ -26,6 +26,8 @@ CRITICAL RULES:
    - DO NOT quote lists of concepts without context.
    - DO NOT quote historical trivia unless it contains a specific actionable lesson.
    - IF a chunk contains both a definition and a case study, quote the CASE STUDY part only.
+6. EXPLAIN CONCEPTS:
+   - If you recommend a specific named framework (e.g., "Five-Act Interview", "Bullseye Framework"), you MUST briefly explain what it is (its steps or core principle) in the Answer section. Do not just name-drop it.
 
 PHILOSOPHY:
 - Clarity > advice
