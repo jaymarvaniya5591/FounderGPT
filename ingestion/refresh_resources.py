@@ -298,14 +298,14 @@ class ResourceRefresher:
                 check=True
             )
             
-            print("  ✅ Changes pushed to GitHub")
+            print("  [OK] Changes pushed to GitHub")
             return True
             
         except subprocess.CalledProcessError as e:
-            print(f"  ⚠️ Git command failed: {e}")
+            print(f"  [WARN] Git command failed: {e}")
             return False
         except Exception as e:
-            print(f"  ⚠️ Error during git push: {e}")
+            print(f"  [WARN] Error during git push: {e}")
             return False
 
     def _get_new_files(self, directory: str, resource_type: str, force: bool = False, extensions: list = None) -> list:
