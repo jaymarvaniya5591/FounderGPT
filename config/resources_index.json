@@ -87,7 +87,15 @@
       "resource_type": "article",
       "url": "https://paulgraham.com/ds.html",
       "chunk_count": 8
+    },
+    {
+      "source_file": "Startup = Growth-by-Paul Graham.html",
+      "title": "Startup = Growth",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://paulgraham.com/growth.html",
+      "chunk_count": 10
     }
   ],
-  "last_updated": "2026-02-08T19:16:02.952031"
+  "last_updated": "2026-02-08T19:28:37.684253"
 }
