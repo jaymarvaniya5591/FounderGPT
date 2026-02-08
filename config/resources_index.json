@@ -78,7 +78,7 @@
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://paulgraham.com/ds.html",
-      "chunk_count": 1
+      "chunk_count": 8
     },
     {
       "source_file": "How to Get Startup Ideas-by-Paul Graham.html",
@@ -89,5 +89,5 @@
       "chunk_count": 2
     }
   ],
-  "last_updated": "2026-02-08T18:15:35.355252"
+  "last_updated": "2026-02-08T18:16:44.607890"
 }
