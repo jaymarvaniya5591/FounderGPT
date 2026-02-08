@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Evidence-First Founder - Ground every decision in evidence from great business books.">
+    <meta name="theme-color" content="#141414">
+    <title>Evidence-First Founder</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Sidebar Menu -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <span class="sidebar-title">MENU</span>
+            <button id="close-sidebar-btn" class="close-btn" aria-label="Close menu">&times;</button>
+        </div>
+
+        <button id="refresh-btn" class="refresh-btn">
+            <span class="refresh-icon">↻</span> Refresh Database
+        </button>
+
+        <!-- Categories Section -->
+        <section class="sidebar-section">
+            <h3 class="section-title">CATEGORIES</h3>
+            <input type="search" id="category-search" class="search-input" placeholder="Search categories...">
+            <button id="add-category-btn" class="add-btn">+ Add Category</button>
+            <ul id="category-list" class="item-list">
+                <!-- Categories populated by JS -->
+            </ul>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="sidebar-section">
+            <h3 class="section-title">RESOURCES</h3>
+            <div class="tab-buttons">
+                <button id="books-tab" class="tab-btn active" data-type="book">📚 Books</button>
+                <button id="articles-tab" class="tab-btn" data-type="article">📄 Articles</button>
+            </div>
+            <input type="search" id="resource-search" class="search-input" placeholder="Search books...">
+            <button id="add-resource-btn" class="add-btn">+ Add Book</button>
+            <ul id="resource-list" class="item-list">
+                <!-- Resources populated by JS -->
+            </ul>
+        </section>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hamburger Menu Button -->
+        <button id="menu-btn" class="menu-btn" aria-label="Open menu">
+            <span class="menu-icon">☰</span>
+        </button>
+
+        <!-- Main Page (Input) -->
+        <div id="main-page" class="page">
+            <div class="center-content">
+                <h1 class="main-title">What decision are you facing?</h1>
+                <p class="main-subtitle">Describe your situation. We'll break it down and ground every answer in
+                    evidence.</p>
+
+                <div class="input-container">
+                    <select id="category-select" class="category-select">
+                        <option value="">Select a category</option>
+                        <!-- Options populated by JS -->
+                    </select>
+
+                    <textarea id="query-input" class="query-textarea"
+                        placeholder='e.g. "Users say they like it but won&apos;t pay"' rows="5"></textarea>
+
+                    <button id="analyze-btn" class="analyze-btn" disabled>Analyze with Evidence</button>
+                </div>
+            </div>
+
+            <footer class="footer">
+                <p>Powered by evidence from great business books. No hallucinated advice.</p>
+            </footer>
+        </div>
+
+        <!-- Results Page -->
+        <div id="results-page" class="page hidden">
+            <button id="back-btn" class="back-btn">← New scenario</button>
+
+            <div class="results-container">
+                <div class="scenario-card">
+                    <span class="scenario-label">SCENARIO</span>
+                    <p id="scenario-text" class="scenario-text"></p>
+                </div>
+
+                <div class="evidence-summary-card">
+                    <span class="evidence-label">EVIDENCE SUMMARY</span>
+                    <p id="evidence-summary" class="evidence-text"></p>
+                </div>
+
+                <div class="questions-section">
+                    <h3 id="questions-header" class="questions-header">DECOMPOSED QUESTIONS (0)</h3>
+                    <div id="questions-list" class="questions-list">
+                        <!-- Questions populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="spinner"></div>
+            <p>Analyzing with evidence...</p>
+        </div>
+    </main>
+
+    <!-- Admin Password Modal -->
+    <div id="admin-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔐 Admin Authentication</h2>
+            </div>
+            <div class="modal-body">
+                <p>Enter admin password to continue</p>
+                <input type="password" id="admin-password-input" class="modal-input" placeholder="Enter password...">
+                <p id="admin-error" class="modal-error hidden"></p>
+            </div>
+            <div class="modal-footer">
+                <button id="admin-cancel-btn" class="btn btn-secondary">Cancel</button>
+                <button id="admin-submit-btn" class="btn btn-primary">Verify</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="add-category-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>📁 Add New Category</h2>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="new-category-name" class="modal-input" placeholder="Category name...">
+                <input type="text" id="new-category-desc" class="modal-input" placeholder="Description (optional)...">
+            </div>
+            <div class="modal-footer">
+                <button id="add-category-cancel-btn" class="btn btn-secondary">Cancel</button>
+                <button id="add-category-submit-btn" class="btn btn-primary">Add Category</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Resource Modal -->
+    <div id="add-resource-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="add-resource-title">📚 Add New Book</h2>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="new-resource-title" class="modal-input" placeholder="Title...">
+                <input type="text" id="new-resource-author" class="modal-input" placeholder="Author...">
+                <input type="text" id="new-resource-url" class="modal-input hidden" placeholder="URL (for articles)...">
+                <p class="modal-hint">Note: To add files, place them in the resources/books or resources/articles folder
+                    and click Refresh Database.</p>
+            </div>
+            <div class="modal-footer">
+                <button id="add-resource-cancel-btn" class="btn btn-secondary">Cancel</button>
+                <button id="add-resource-submit-btn" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Refresh Modal -->
+    <div id="refresh-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>↻ Refreshing Database</h2>
+            </div>
+            <div class="modal-body">
+                <div class="spinner"></div>
+                <p id="refresh-status">Scanning for new resources...</p>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="force-refresh-checkbox">
+                    Force Rescan (Re-process all files)
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
