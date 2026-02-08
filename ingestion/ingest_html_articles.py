@@ -174,20 +174,37 @@ class HTMLArticleIngester:
             if not main_content:
                 main_content = soup.find('body') or soup
             
-            # Extract text paragraphs
+            # Extract text paragraphs - try common tags first
             paragraphs = main_content.find_all(['p', 'h1', 'h2', 'h3', 'h4', 'blockquote', 'li'])
+            
+            # Fallback: if very few paragraphs, extract all text from body
+            # This handles Paul Graham style HTML with font tags and br breaks
+            paragraph_texts = []
+            if len(paragraphs) < 3:
+                # Get all text directly using separator to preserve structure
+                raw_text = main_content.get_text(separator='\n')
+                # Split into paragraphs by double newlines or long gaps
+                raw_paragraphs = re.split(r'\n\s*\n+', raw_text)
+                for para in raw_paragraphs:
+                    para = para.strip()
+                    if len(para) > 20:
+                        paragraph_texts.append(("text", para))
+            else:
+                for para in paragraphs:
+                    text = para.get_text(strip=True)
+                    if text and len(text) >= 10:
+                        paragraph_texts.append((para.name, text))
             
             current_section = "Introduction"
             current_chunk = []
             current_length = 0
             
-            for para in paragraphs:
-                text = para.get_text(strip=True)
+            for para_type, text in paragraph_texts:
                 if not text or len(text) < 10:
                     continue
                 
                 # Detect section headings
-                if para.name in ['h1', 'h2', 'h3', 'h4']:
+                if para_type in ['h1', 'h2', 'h3', 'h4']:
                     current_section = text[:100]
                     continue
                 
