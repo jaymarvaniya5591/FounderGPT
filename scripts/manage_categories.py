@@ -21,7 +21,7 @@ from backend.categories import CategoryManager
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Manage categories for StartupGuru",
+        description="Manage categories for FounderGPT",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:

@@ -1,5 +1,5 @@
 """
-Yourguide Configuration Settings
+FounderGPT Configuration Settings
 All environment variables and configuration in one place.
 """
 

@@ -1,5 +1,5 @@
 """
-YourGuide Backend - FastAPI Application
+FounderGPT Backend - FastAPI Application
 Main entry point for the API server.
 """
 
@@ -29,7 +29,7 @@ from config.settings import settings
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="YourGuide",
+    title="FounderGPT",
     description="A platform for founders under stress. Convert chaos into clarity.",
     version="1.0.0"
 )
@@ -187,7 +187,7 @@ async def get_stats():
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
-    return {"status": "healthy", "service": "YourGuide"}
+    return {"status": "healthy", "service": "FounderGPT"}
 
 
 # ========================================
@@ -345,7 +345,7 @@ async def serve_frontend():
     if index_path.exists():
         return FileResponse(str(index_path))
     else:
-        return {"message": "YourGuide API is running. Frontend not found."}
+        return {"message": "FounderGPT API is running. Frontend not found."}
 
 
 def kill_existing_listeners(port: int = 8000):
@@ -405,7 +405,7 @@ if __name__ == "__main__":
     kill_existing_listeners(8000)
     
     print("\n" + "="*50)
-    print("  YourGuide Backend Server")
+    print("  FounderGPT Backend Server")
     print("="*50)
     print(f"\n  Starting server at http://localhost:8000")
     print(f"  API docs at http://localhost:8000/docs")

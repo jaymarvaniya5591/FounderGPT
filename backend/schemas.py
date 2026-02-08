@@ -1,5 +1,5 @@
 """
-Pydantic Schemas for YourGuide API
+Pydantic Schemas for FounderGPT API
 """
 
 from pydantic import BaseModel, Field

@@ -24,7 +24,7 @@ from backend.resources import ResourceManager
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Manage resources (books/articles) for StartupGuru",
+        description="Manage resources (books/articles) for FounderGPT",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
