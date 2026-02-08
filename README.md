@@ -1,117 +1,106 @@
-# YourGuide
+# FounderGPT
 
-**Convert chaos into clarity.** An advisor for founders under stress.
+**Convert chaos into clarity.** An AI-powered advisor for founders navigating tough decisions.
 
-YourGuide takes messy, unstructured founder input and returns structured, evidence-backed advice using only content from great business books and articles stored in a private vector database.
+FounderGPT takes messy, unstructured founder input and returns structured, evidence-backed advice using content from curated startup books and articles stored in a vector database. Powered by **Cohere embeddings**, **Qdrant vector search**, and a multi-LLM fallback system (Claude → OpenAI → Gemini).
 
 ---
 
-## Quick Start
+## ✨ Features
 
-### 1. Install Dependencies
+- 🔍 **RAG-powered answers** from curated startup literature
+- 🔄 **Multi-LLM fallback** (Claude Sonnet 4.5 → GPT-4o → Gemini Flash)
+- 📚 **Cohere embeddings & reranking** for high-quality retrieval
+- 🎯 **Confidence scoring** for every cited source
+- 📖 **Evidence-based responses** with book/article citations
+- 🏷️ **Category management** for organizing resources
+- 🔐 **Admin authentication** for resource management
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone the Repository
 
 ```bash
-cd c:\Users\marva\Documents\project-startupguru\antigravity-code
+git clone https://github.com/jaymarvaniya5591/FounderGPT.git
+cd FounderGPT
+```
+
+### 2. Install Dependencies
+
+```bash
 pip install -r requirements.txt
 ```
 
-### 2. Set Qdrant API Key
+### 3. Configure Environment Variables
 
-Set the environment variable for your Qdrant Cloud API key:
+Copy the example environment file and add your API keys:
 
-```powershell
-$env:QDRANT_API_KEY = "your-qdrant-api-key"
+```bash
+cp .env.example .env
 ```
 
-Or create a `.env` file in the project root:
-```
-QDRANT_API_KEY=your-qdrant-api-key
+Edit `.env` with your credentials:
+
+```env
+# Required
+CLAUDE_API_KEY=your_claude_api_key
+COHERE_API_KEY=your_cohere_api_key
+QDRANT_URL=your_qdrant_url
+QDRANT_API_KEY=your_qdrant_api_key
+ADMIN_PASSWORD=your_admin_password
+
+# Optional (for LLM fallback)
+OPENAI_API_KEY=your_openai_api_key
+GEMINI_API_KEY=your_gemini_api_key
 ```
 
-### 3. Add Resources (Optional but Recommended)
+### 4. Add Resources (Books & Articles)
 
 Place PDF files in the resource folders:
-- **Books**: `resources/books/` (format: `Title - Author.pdf`)
-- **Articles**: `resources/articles/` (format: `Title - Author.pdf`)
+- **Books**: `resources/books/` (format: `Title-by-Author Name.pdf`)
+- **Articles**: `resources/articles/`
 
-### 4. Run the Server
+### 5. Run the Server
 
 ```bash
 python backend/main.py
 ```
 
-### 5. Open the Application
+### 6. Open the Application
 
 Navigate to: **http://localhost:8000**
 
 ---
 
-## How It Works
-
-### Input → Vector Search → Claude → Structured Response
+## 🏗️ Architecture
 
 ```
-[Messy Founder Input]
-        ↓
-[Embedding Model] → [Qdrant Search] → [Top 10 Relevant Chunks]
-        ↓
-[Claude Sonnet 4.5] ← [Strict System Prompt]
-        ↓
+[User Query]
+      ↓
+[Query Expansion] → [Cohere Embeddings] → [Qdrant Vector Search]
+      ↓
+[Cohere Reranker] → [Top 16 Relevant Chunks]
+      ↓
+[LLM (Claude/OpenAI/Gemini)] ← [System Prompt]
+      ↓
 [Structured 5-Section Response with Citations]
 ```
 
----
-
-## Chunking Strategy
-
-The system uses **semantic chunking**, not fixed-size splitting:
-
-1. **Sentence Boundary Splitting**: Text is split at sentence endings (`.`, `!`, `?`)
-2. **Target Size**: ~500 words per chunk with 50-word overlap
-3. **Page Awareness**: Each chunk knows its source page number
-4. **Chapter Detection**: Pattern matching for "Chapter X", "PART I", etc.
-5. **Minimum Threshold**: Chunks under 50 characters are discarded
-
-**Why semantic chunking?**
-- Preserves context and meaning
-- Avoids cutting sentences mid-thought
-- Better retrieval quality than fixed-size splits
+### LLM Fallback Chain
+1. **Claude Sonnet 4.5** (primary)
+2. **GPT-4o** (fallback 1)
+3. **Gemini Flash** (fallback 2)
 
 ---
 
-## Confidence Scoring Logic
+## 📊 Output Format
 
-Each cited resource is assigned a confidence level:
-
-| Level | Definition | Indicators |
-|-------|------------|------------|
-| **High** | Multiple independent sources align OR author speaks from repeated real-world experience | Direct experience, case studies, consistent findings |
-| **Medium** | Strong argument but context-dependent OR supported by limited examples | Single source, theoretical, "it depends" |
-| **Low** | Anecdotal, controversial, or highly situation-specific | One-off stories, contested views, narrow context |
-
-**Rules:**
-- Confidence is assigned per resource, not per section
-- Claude never upgrades confidence beyond what evidence supports
-- Low confidence triggers implicit warnings (e.g., "This view is contested")
-
----
-
-## Disagreement Detection
-
-The system surfaces genuine disagreements between sources:
-
-1. **Topic Overlap Check**: If multiple chunks discuss the same topic (via keyword overlap)
-2. **Semantic Divergence**: But have low similarity scores (< 0.6)
-3. **Context Differentiation**: Claude explicitly explains if disagreement is due to different contexts
-
----
-
-## Output Format
-
-Every response follows this exact structure:
+Every response follows this structure:
 
 ### A. What problem am I actually facing?
-Reframes messy input into the true underlying problem. No advice—only clarity.
+Reframes messy input into the true underlying problem.
 
 ### B. What do great books agree on here?
 Common ground across credible sources, with citations.
@@ -120,184 +109,128 @@ Common ground across credible sources, with citations.
 Real disagreements or tradeoffs. Context-aware.
 
 ### D. What would I do if this were my company?
-1-3 decisive actions. No frameworks. No hedging. Opinionated but evidence-backed.
+Decisive, opinionated actions backed by evidence.
 
 ### E. What should I absolutely NOT do right now?
 The most tempting but dangerous mistakes.
 
 ---
 
-## Adding New Resources
-
-### Books
-1. Place PDF in `resources/books/`
-2. Name format: `Book Title - Author Name.pdf`
-3. Click "Refresh Database" in the UI or call `POST /refresh`
-
-### Articles
-1. Place PDF in `resources/articles/`
-2. Name format: `Article Title - Author Name.pdf`
-3. Optional: Include URL in brackets: `Title [https://example.com] - Author.pdf`
-4. Click "Refresh Database" in the UI or call `POST /refresh`
-
-The refresh system is **idempotent**—it only processes new/modified files.
-
----
-
-## API Endpoints
-
-### Core Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/ask` | Submit a query, get structured response |
-| POST | `/refresh` | Scan and ingest new resources |
-| GET | `/stats` | Get vector database statistics |
-| GET | `/health` | Health check |
-| GET | `/` | Serve frontend |
-
-### Category Management
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/categories` | List all categories |
-| POST | `/categories` | Add category (requires admin password) |
-| DELETE | `/categories/{id}` | Delete category (requires admin password) |
-| GET | `/categories/{id}/resources` | List resources in a category |
-
-### Resource Management
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/resources` | List all resources (optional `?resource_type=book`) |
-| DELETE | `/resources/{source_file}` | Delete resource (requires admin password) |
-| GET | `/resources/{source_file}/link` | Get article URL |
-
-### Admin
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/verify-admin` | Verify admin password |
-
-### Example: Ask
-
-```bash
-curl -X POST http://localhost:8000/ask \
-  -H "Content-Type: application/json" \
-  -d '{"query": "I dont know if I should fire or coach my underperforming CTO"}'
-```
-
----
-
-## CLI Scripts
-
-Manage categories and resources from the command line without starting the server.
-
-### Category Management
-
-```bash
-# List all categories
-python scripts/manage_categories.py list
-
-# Add a new category
-python scripts/manage_categories.py add "Category Name" "Description"
-
-# Delete a category
-python scripts/manage_categories.py delete <category-id>
-```
-
-### Resource Management
-
-```bash
-# List all resources
-python scripts/manage_resources.py list
-
-# List only books
-python scripts/manage_resources.py list --type book
-
-# Delete a resource
-python scripts/manage_resources.py delete "filename.pdf" --type book
-
-# Get article link
-python scripts/manage_resources.py get-link "article.pdf"
-
-# Show statistics
-python scripts/manage_resources.py stats
-```
-
----
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-project-root/
-├── resources/
-│   ├── books/           # Place book PDFs here
-│   └── articles/        # Place article PDFs here
+FounderGPT/
+├── backend/
+│   ├── main.py              # FastAPI application
+│   ├── vector_search.py     # Qdrant operations + Cohere
+│   ├── llm_gateway.py       # Multi-LLM fallback logic
+│   ├── claude_client.py     # Claude API integration
+│   ├── openai_client.py     # OpenAI API integration
+│   ├── gemini_client.py     # Gemini API integration
+│   ├── query_processor.py   # Query expansion
+│   └── schemas.py           # Pydantic models
+├── frontend/
+│   ├── index.html           # UI structure
+│   ├── styles.css           # Glassmorphic dark theme
+│   └── app.js               # Frontend logic
 ├── ingestion/
 │   ├── ingest_books.py      # Book PDF processing
 │   ├── ingest_articles.py   # Article PDF processing
-│   └── refresh_resources.py # Idempotent refresh system
-├── backend/
-│   ├── main.py          # FastAPI application
-│   ├── vector_search.py # Qdrant operations
-│   ├── claude_client.py # Claude API integration
-│   └── schemas.py       # Pydantic models
-├── frontend/
-│   ├── index.html       # UI structure
-│   ├── styles.css       # Black & white theme
-│   └── app.js           # Frontend logic
+│   └── refresh_resources.py # Idempotent refresh
 ├── config/
-│   └── settings.py      # Configuration
+│   ├── settings.py          # Configuration (reads from .env)
+│   └── categories.json      # Category definitions
+├── resources/
+│   ├── books/               # Place book PDFs here (gitignored)
+│   └── articles/            # Place article PDFs here (gitignored)
+├── scripts/
+│   ├── manage_categories.py # CLI category management
+│   └── manage_resources.py  # CLI resource management
+├── .env.example             # Environment template
+├── .gitignore
 ├── requirements.txt
 └── README.md
 ```
 
 ---
 
-## Configuration
+## 🔧 API Endpoints
 
-All settings are in `config/settings.py`:
+### Core
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/ask` | Submit a query, get structured response |
+| POST | `/refresh` | Ingest new resources |
+| GET | `/stats` | Vector database statistics |
+| GET | `/health` | Health check |
+
+### Category Management
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/categories` | List all categories |
+| POST | `/categories` | Add category (admin) |
+| DELETE | `/categories/{id}` | Delete category (admin) |
+
+### Resource Management
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/resources` | List all resources |
+| DELETE | `/resources/{source_file}` | Delete resource (admin) |
+
+---
+
+## ⚙️ Configuration
+
+Key settings in `config/settings.py` (configured via `.env`):
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `EMBEDDING_MODEL` | `all-MiniLM-L6-v2` | Sentence transformer model |
-| `CHUNK_SIZE` | 500 | Target words per chunk |
-| `CHUNK_OVERLAP` | 50 | Overlap words between chunks |
-| `TOP_K_RESULTS` | 10 | Number of chunks to retrieve |
-| `SIMILARITY_THRESHOLD` | 0.3 | Minimum similarity score |
+| `EMBEDDING_MODEL` | `embed-english-v3.0` | Cohere embedding model |
+| `EMBEDDING_DIMENSION` | 1024 | Vector dimensions |
+| `CHUNK_SIZE` | 700 | Target tokens per chunk |
+| `TOP_K_RESULTS` | 16 | Chunks to retrieve |
+| `SIMILARITY_THRESHOLD` | 0.28 | Minimum similarity score |
+| `ENABLE_RERANKING` | true | Use Cohere reranker |
 
 ---
 
-## Troubleshooting
+## 🛠️ CLI Scripts
 
-### "No sufficient evidence found"
-- Add PDFs to `resources/books/` or `resources/articles/`
-- Click "Refresh Database"
-- Check that PDFs are readable (not scanned images)
+```bash
+# Category management
+python scripts/manage_categories.py list
+python scripts/manage_categories.py add "Category Name" "Description"
+python scripts/manage_categories.py delete <category-id>
 
-### Connection Error
-- Verify `QDRANT_API_KEY` is set
-- Check internet connection (Qdrant Cloud requires internet)
-- Ensure port 8000 is not in use
-
-### Slow First Query
-- First query loads the embedding model (~1-2 seconds)
-- Subsequent queries are fast
+# Resource management
+python scripts/manage_resources.py list
+python scripts/manage_resources.py list --type book
+python scripts/manage_resources.py stats
+```
 
 ---
 
-## Constraints
+## 🔒 Security Notes
 
-- ✅ **Claude Sonnet 4.5** is the only LLM
-- ✅ **Qdrant Cloud** is the only vector database
-- ✅ Answers based **only** on retrieved evidence
-- ✅ Insufficient evidence → explicit refusal
-- ✅ All evidence cited with confidence levels
-- ✅ Runs on localhost only
+- **API keys** are stored in `.env` (gitignored)
+- **Admin password** required for resource/category management
+- **Resources** (books/articles) are gitignored to protect copyrighted content
 
 ---
 
-## License
+## 📝 License
 
 For internal use only.
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Copy `.env.example` to `.env` and add your API keys
+4. Make your changes
+5. Submit a pull request
