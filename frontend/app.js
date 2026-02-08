@@ -1,12 +1,23 @@
 /**
- * Evidence-First Founder - Frontend Application
+ * ScoutMate - Evidence-First Founder Application
  * Handles sidebar, categories, resources, authentication, and results
  */
 
 // ========================================
 // Configuration & State
 // ========================================
-const API_BASE = '';
+
+// API Configuration - auto-detect production vs development
+// In production: set VITE_API_URL environment variable or update this manually after deploying backend
+const API_BASE = (() => {
+    // Check for production deployment
+    if (window.location.hostname === 'scoutmate.in' || window.location.hostname === 'www.scoutmate.in') {
+        // Replace with your Render backend URL after deployment
+        return 'https://scoutmate-api.onrender.com';
+    }
+    // Development - use same origin (relative paths)
+    return '';
+})();
 
 let adminPassword = null;
 let categories = [];
