@@ -247,6 +247,13 @@ class ResourceRefresher:
             
             with open(index_path, 'w', encoding='utf-8') as f:
                 json.dump(index_data, f, indent=2, ensure_ascii=False)
+                
+            # Write to frontend JS file for instant loading
+            frontend_js_path = os.path.join(self.project_root, 'frontend', 'resources_data.js')
+            print(f"  Updating frontend data: {frontend_js_path}")
+            with open(frontend_js_path, 'w', encoding='utf-8') as f:
+                json_str = json.dumps(index_data, indent=2, ensure_ascii=False)
+                f.write(f"const RESOURCES_DATA = {json_str};\n")
             
             print(f"  Updated: {len(categories)} categories, {len(books)} books, {len(articles)} articles")
             

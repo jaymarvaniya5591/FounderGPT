@@ -161,9 +161,20 @@ function closeSidebar() {
 // ========================================
 async function loadCachedData() {
     try {
-        const response = await fetch(`${API_BASE}/cached-data`);
-        const data = await response.json();
-        if (data.success) {
+        let data = null;
+
+        // Try embedded data first (instant)
+        if (typeof RESOURCES_DATA !== 'undefined') {
+            console.log('Loading resources from embedded data');
+            data = RESOURCES_DATA;
+        } else {
+            // Fallback to API
+            console.log('Loading resources from API');
+            const response = await fetch(`${API_BASE}/cached-data`);
+            data = await response.json();
+        }
+
+        if (data) {
             // Store in caches
             categoriesCache = data.categories || [];
             booksCache = data.books || [];

@@ -1,4 +1,4 @@
-{
+const RESOURCES_DATA = {
   "categories": [
     {
       "id": "idea-validation",
@@ -90,4 +90,4 @@
     }
   ],
   "last_updated": "2026-02-08T19:16:02.952031"
-}
+};
