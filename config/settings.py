@@ -43,6 +43,7 @@ class Settings(BaseSettings):
     RESOURCES_BOOKS_PATH: str = "resources/books"
     RESOURCES_ARTICLES_PATH: str = "resources/articles"
     PROCESSED_FILES_PATH: str = ".processed_files.json"
+    RESOURCES_INDEX_FILE: str = "config/resources_index.json"
     
     # Vector Search - Enhanced RAG Settings
     TOP_K_RESULTS: int = 16  # Optimized for relevance/context balance

@@ -158,6 +158,156 @@ class ResourceRefresher:
             print(f"  Error during pruning: {e}")
             return 0
 
+    def _update_resources_index(self):
+        """
+        Update resources_index.json with current categories and resources.
+        This file is used by /cached-data endpoint for instant loading.
+        """
+        from datetime import datetime
+        
+        print("\n=== Updating resources_index.json ===")
+        index_path = os.path.join(self.project_root, settings.RESOURCES_INDEX_FILE)
+        categories_path = os.path.join(self.project_root, settings.CATEGORIES_FILE)
+        
+        try:
+            # Load categories from JSON file
+            categories = []
+            if os.path.exists(categories_path):
+                with open(categories_path, 'r', encoding='utf-8') as f:
+                    cat_data = json.load(f)
+                    categories = cat_data.get("categories", [])
+            
+            # Build resources from Qdrant (one-time scan for index update)
+            books = []
+            articles = []
+            resources_map = {}
+            
+            client = QdrantClient(
+                url=settings.QDRANT_URL,
+                api_key=settings.QDRANT_API_KEY
+            )
+            
+            offset = None
+            while True:
+                scroll_result = client.scroll(
+                    collection_name=settings.QDRANT_COLLECTION_NAME,
+                    scroll_filter=None,
+                    limit=100,
+                    with_payload=True,
+                    with_vectors=False,
+                    offset=offset
+                )
+                
+                points, next_offset = scroll_result
+                if not points:
+                    break
+                
+                for point in points:
+                    payload = point.payload
+                    source_file = payload.get("source_file")
+                    
+                    if source_file and source_file not in resources_map:
+                        res_type = payload.get("resource_type", "book")
+                        
+                        if res_type == "book":
+                            resource = {
+                                "source_file": source_file,
+                                "title": payload.get("book_title", source_file),
+                                "author": payload.get("author", "Unknown"),
+                                "resource_type": "book",
+                                "chunk_count": 1
+                            }
+                            books.append(resource)
+                        else:
+                            resource = {
+                                "source_file": source_file,
+                                "title": payload.get("article_title", source_file),
+                                "author": payload.get("authors", "Unknown"),
+                                "resource_type": "article",
+                                "url": payload.get("url"),
+                                "chunk_count": 1
+                            }
+                            articles.append(resource)
+                        
+                        resources_map[source_file] = resource
+                    elif source_file:
+                        resources_map[source_file]["chunk_count"] = resources_map[source_file].get("chunk_count", 0) + 1
+                
+                offset = next_offset
+                if offset is None:
+                    break
+            
+            # Write index file
+            index_data = {
+                "categories": categories,
+                "books": books,
+                "articles": articles,
+                "last_updated": datetime.now().isoformat()
+            }
+            
+            with open(index_path, 'w', encoding='utf-8') as f:
+                json.dump(index_data, f, indent=2, ensure_ascii=False)
+            
+            print(f"  Updated: {len(categories)} categories, {len(books)} books, {len(articles)} articles")
+            
+        except Exception as e:
+            print(f"  Error updating resources index: {e}")
+
+    def _auto_push_to_github(self) -> bool:
+        """
+        Auto-commit and push changes to GitHub if there are any.
+        Returns True if changes were pushed.
+        """
+        import subprocess
+        
+        print("\n=== Checking for GitHub push ===")
+        
+        try:
+            # Check if there are any changes
+            result = subprocess.run(
+                ['git', 'status', '--porcelain'],
+                cwd=self.project_root,
+                capture_output=True,
+                text=True
+            )
+            
+            if not result.stdout.strip():
+                print("  No changes to commit")
+                return False
+            
+            # Add all changes
+            subprocess.run(
+                ['git', 'add', '-A'],
+                cwd=self.project_root,
+                check=True
+            )
+            
+            # Commit with auto-generated message
+            from datetime import datetime
+            commit_msg = f"Auto-update resources index - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
+            subprocess.run(
+                ['git', 'commit', '-m', commit_msg],
+                cwd=self.project_root,
+                check=True
+            )
+            
+            # Push to origin
+            subprocess.run(
+                ['git', 'push'],
+                cwd=self.project_root,
+                check=True
+            )
+            
+            print("  ✅ Changes pushed to GitHub")
+            return True
+            
+        except subprocess.CalledProcessError as e:
+            print(f"  ⚠️ Git command failed: {e}")
+            return False
+        except Exception as e:
+            print(f"  ⚠️ Error during git push: {e}")
+            return False
+
     def _get_new_files(self, directory: str, resource_type: str, force: bool = False, extensions: list = None) -> list:
         """Get list of new or modified files in directory."""
         if extensions is None:
@@ -258,10 +408,17 @@ class ResourceRefresher:
         # Save updated processed files list (AFTER pruning!)
         self._save_processed_files()
         
+        # Update resources_index.json for fast frontend loading
+        self._update_resources_index()
+        
+        # Auto-push to GitHub if there are changes
+        pushed = self._auto_push_to_github()
+        
         print("\n=== Refresh Complete ===")
         print(f"  Books: {results['books_processed']} files, {results['books_chunks']} chunks")
         print(f"  Articles: {results['articles_processed']} files, {results['articles_chunks']} chunks")
         print(f"  Pruned: {pruned_count} deleted files")
+        print(f"  GitHub: {'pushed' if pushed else 'no changes to push'}")
         if results["errors"]:
             print(f"  Errors: {len(results['errors'])}")
         

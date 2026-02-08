@@ -203,6 +203,56 @@ async def health_check():
     return {"status": "healthy", "service": "FounderGPT"}
 
 
+@app.get("/ping")
+async def ping():
+    """Keep-alive endpoint for Render free tier."""
+    return {"status": "ok"}
+
+
+@app.get("/cached-data")
+async def get_cached_data():
+    """
+    Fast endpoint returning categories + resources from static index file.
+    No Qdrant queries - reads from resources_index.json.
+    """
+    import json
+    from datetime import datetime
+    
+    index_path = project_root / settings.RESOURCES_INDEX_FILE
+    
+    try:
+        if index_path.exists():
+            with open(index_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            return {
+                "success": True,
+                "categories": data.get("categories", []),
+                "books": data.get("books", []),
+                "articles": data.get("articles", []),
+                "last_updated": data.get("last_updated")
+            }
+        else:
+            # Fallback: build from slow queries if index missing
+            from backend.categories import category_manager
+            from backend.resources import resource_manager
+            
+            categories = category_manager.list_categories()
+            resources = resource_manager.list_resources()
+            
+            books = [r.to_dict() for r in resources if r.resource_type == "book"]
+            articles = [r.to_dict() for r in resources if r.resource_type == "article"]
+            
+            return {
+                "success": True,
+                "categories": [{"id": c.id, "name": c.name, "description": c.description} for c in categories],
+                "books": books,
+                "articles": articles,
+                "last_updated": datetime.now().isoformat()
+            }
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
 # ========================================
 # Category Management Endpoints
 # ========================================

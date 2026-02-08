@@ -24,6 +24,11 @@ let resources = [];
 let currentResourceType = 'book';
 let currentQuery = '';
 
+// Caches for fast loading
+let categoriesCache = null;
+let booksCache = null;
+let articlesCache = null;
+
 // ========================================
 // DOM Elements
 // ========================================
@@ -91,9 +96,11 @@ let adminAuthCallback = null;
 document.addEventListener('DOMContentLoaded', init);
 
 function init() {
-    // Load initial data
-    loadCategories();
-    loadResources();
+    // Load all cached data in one call
+    loadCachedData();
+
+    // Start keep-alive ping every 10 minutes to prevent Render shutdown
+    startKeepAlive();
 
     // Sidebar events
     menuBtn.addEventListener('click', openSidebar);
@@ -147,6 +154,44 @@ function openSidebar() {
 function closeSidebar() {
     sidebar.classList.remove('open');
     sidebarOverlay.classList.remove('active');
+}
+
+// ========================================
+// Data Loading & Keep-Alive
+// ========================================
+async function loadCachedData() {
+    try {
+        const response = await fetch(`${API_BASE}/cached-data`);
+        const data = await response.json();
+        if (data.success) {
+            // Store in caches
+            categoriesCache = data.categories || [];
+            booksCache = data.books || [];
+            articlesCache = data.articles || [];
+
+            // Set current data
+            categories = categoriesCache;
+            resources = currentResourceType === 'book' ? booksCache : articlesCache;
+
+            // Render
+            renderCategoryList();
+            renderCategorySelect();
+            renderResourceList();
+        }
+    } catch (error) {
+        console.error('Failed to load cached data:', error);
+        // Fallback to individual loads
+        loadCategories();
+        loadResources();
+    }
+}
+
+function startKeepAlive() {
+    // Ping server every 10 minutes to prevent Render free tier shutdown
+    const TEN_MINUTES = 10 * 60 * 1000;
+    setInterval(() => {
+        fetch(`${API_BASE}/ping`).catch(() => { });
+    }, TEN_MINUTES);
 }
 
 // ========================================
@@ -298,14 +343,23 @@ function switchResourceTab(type) {
         articlesTab.classList.remove('active');
         resourceSearch.placeholder = 'Search books...';
         addResourceBtn.textContent = '+ Add Book';
+        // Use cache if available
+        resources = booksCache || [];
     } else {
         booksTab.classList.remove('active');
         articlesTab.classList.add('active');
         resourceSearch.placeholder = 'Search articles...';
         addResourceBtn.textContent = '+ Add Article';
+        // Use cache if available
+        resources = articlesCache || [];
     }
 
-    loadResources();
+    // Only call API if cache is empty
+    if (resources.length === 0) {
+        loadResources();
+    } else {
+        renderResourceList();
+    }
 }
 
 function showAddResourceModal() {
