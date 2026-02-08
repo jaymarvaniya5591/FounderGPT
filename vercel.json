@@ -1,22 +1,8 @@
 {
     "version": 2,
     "name": "scoutmate-frontend",
-    "builds": [
-        {
-            "src": "frontend/**",
-            "use": "@vercel/static"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/static/(.*)",
-            "dest": "/frontend/$1"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/frontend/index.html"
-        }
-    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
     "headers": [
         {
             "source": "/(.*)",
