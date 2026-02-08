@@ -11,7 +11,7 @@
 const API_BASE = (() => {
     if (window.location.hostname === 'scoutmate.in' || window.location.hostname === 'www.scoutmate.in') {
         // Update this after Render deploys
-        return 'https://scoutmate-api.onrender.com';
+        return 'https://scoutmate-api-9gik.onrender.com';
     }
     return '';
 })();
