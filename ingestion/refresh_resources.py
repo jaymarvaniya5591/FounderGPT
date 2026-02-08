@@ -14,7 +14,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config.settings import settings
 from ingestion.ingest_books import BookIngester
-from ingestion.ingest_articles import ArticleIngester
 from ingestion.ingest_html_articles import HTMLArticleIngester
 from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchValue
@@ -228,25 +227,6 @@ class ResourceRefresher:
         else:
             print("  No books to process")
         
-        # Check for new PDF articles
-        print(f"\n=== Scanning for {'ALL' if force else 'new'} PDF articles ===")
-        new_pdf_articles = self._get_new_files(articles_dir, "article", force=force, extensions=['.pdf'])
-        
-        if new_pdf_articles:
-            article_ingester = ArticleIngester()
-            for filepath, file_key, file_hash in new_pdf_articles:
-                try:
-                    chunk_count = article_ingester.ingest_article(filepath)
-                    self.processed_files[file_key] = file_hash
-                    results["articles_processed"] += 1
-                    results["articles_chunks"] += chunk_count
-                except Exception as e:
-                    error_msg = f"Error processing {filepath}: {e}"
-                    print(error_msg)
-                    results["errors"].append(error_msg)
-        else:
-            print("  No PDF articles to process")
-        
         # Check for new HTML articles
         print(f"\n=== Scanning for {'ALL' if force else 'new'} HTML articles ===")
         new_html_articles = self._get_new_files(articles_dir, "html_article", force=force, extensions=['.html', '.htm'])
@@ -271,7 +251,7 @@ class ResourceRefresher:
         if os.path.exists(books_dir):
             active_files.update([f for f in os.listdir(books_dir) if f.lower().endswith('.pdf')])
         if os.path.exists(articles_dir):
-            active_files.update([f for f in os.listdir(articles_dir) if f.lower().endswith(('.pdf', '.html', '.htm'))])
+            active_files.update([f for f in os.listdir(articles_dir) if f.lower().endswith(('.html', '.htm'))])
             
         pruned_count = self._prune_missing_files(active_files)
         

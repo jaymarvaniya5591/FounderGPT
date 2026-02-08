@@ -140,18 +140,24 @@ async def refresh_database(request: RefreshRequest = None):
     Refresh the vector database with new resources.
     
     Optional 'force' parameter in body triggers a full re-scan.
+    NOTE: This endpoint only works in local development where PyMuPDF is installed.
     """
     try:
+        # Check if PyMuPDF (fitz) is available - it's not installed in production
+        try:
+            import fitz  # noqa: F401
+        except ImportError:
+            return RefreshResponse(
+                success=False,
+                errors=["PyMuPDF not installed"],
+                message="Refresh is only available in local development. Please run refresh locally and push to deploy."
+            )
+        
         # Import here to avoid circular imports
         from ingestion.refresh_resources import refresh_resources
         
         # Default to False if no body
         force = request.force if request else False
-        
-        # Debug logging
-        print(f"\n=== REFRESH API CALL ===")
-        print(f"  project_root: {str(project_root)}")
-        print(f"  force: {force}")
         
         # Run refresh
         results = refresh_resources(str(project_root), force=force)
