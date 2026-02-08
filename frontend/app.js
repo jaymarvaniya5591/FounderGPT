@@ -9,11 +9,13 @@
 
 // API Configuration - auto-detect production vs development
 const API_BASE = (() => {
-    if (window.location.hostname === 'scoutmate.in' || window.location.hostname === 'www.scoutmate.in') {
-        // Update this after Render deploys
-        return 'https://scoutmate-api-9gik.onrender.com';
+    const hostname = window.location.hostname;
+    // Development - localhost uses same origin (backend running locally)
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        return '';
     }
-    return '';
+    // Production - all deployed domains use Render backend
+    return 'https://scoutmate-api-9gik.onrender.com';
 })();
 
 let adminPassword = null;
