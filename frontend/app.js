@@ -440,9 +440,9 @@ async function handleRefresh() {
         // Production environment - show info popup with close button
         refreshModalTitle.textContent = 'ℹ️ Local Development Only';
         refreshStatus.textContent = 'Database refresh is only available when running locally. To add new resources, run the server on your machine and refresh there.';
-        refreshSpinner.classList.add('hidden');
-        forceRefreshLabel.classList.add('hidden');
-        refreshCloseBtn.classList.remove('hidden');
+        refreshSpinner.style.display = 'none';
+        forceRefreshLabel.style.display = 'none';
+        refreshCloseBtn.style.display = 'block';
         refreshModal.classList.remove('hidden');
 
         // Close button handler
@@ -450,9 +450,9 @@ async function handleRefresh() {
             refreshModal.classList.add('hidden');
             // Reset modal state for next time
             refreshModalTitle.textContent = '↻ Refreshing Database';
-            refreshSpinner.classList.remove('hidden');
-            forceRefreshLabel.classList.remove('hidden');
-            refreshCloseBtn.classList.add('hidden');
+            refreshSpinner.style.display = '';
+            forceRefreshLabel.style.display = '';
+            refreshCloseBtn.style.display = 'none';
         };
         return;
     }
@@ -460,9 +460,9 @@ async function handleRefresh() {
     // Local development - proceed with actual refresh
     refreshModalTitle.textContent = '↻ Refreshing Database';
     refreshStatus.textContent = 'Scanning for new resources...';
-    refreshSpinner.classList.remove('hidden');
-    forceRefreshLabel.classList.remove('hidden');
-    refreshCloseBtn.classList.add('hidden');
+    refreshSpinner.style.display = '';
+    forceRefreshLabel.style.display = '';
+    refreshCloseBtn.style.display = 'none';
     refreshModal.classList.remove('hidden');
 
     try {
