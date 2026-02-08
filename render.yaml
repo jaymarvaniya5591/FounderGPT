@@ -5,7 +5,7 @@ services:
   - type: web
     name: scoutmate-api
     runtime: python
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements-prod.txt
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: CLAUDE_API_KEY
