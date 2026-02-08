@@ -12,8 +12,8 @@
 const API_BASE = (() => {
     // Check for production deployment
     if (window.location.hostname === 'scoutmate.in' || window.location.hostname === 'www.scoutmate.in') {
-        // Replace with your Render backend URL after deployment
-        return 'https://scoutmate-api.onrender.com';
+        // Replace with your Koyeb backend URL after deployment
+        return 'https://scoutmate-api-yourusername.koyeb.app';
     }
     // Development - use same origin (relative paths)
     return '';

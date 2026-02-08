@@ -1,0 +1,36 @@
+{
+    "name": "scoutmate-api",
+    "type": "web",
+    "regions": [
+        "fra"
+    ],
+    "instance_types": [
+        "free"
+    ],
+    "git": {
+        "repository": "github.com/jaymarvaniya5591/FounderGPT",
+        "branch": "main",
+        "buildpack": {
+            "name": "python"
+        }
+    },
+    "ports": [
+        {
+            "port": 8000,
+            "protocol": "http"
+        }
+    ],
+    "routes": [
+        {
+            "path": "/",
+            "port": 8000
+        }
+    ],
+    "env": [
+        {
+            "key": "PORT",
+            "value": "8000"
+        }
+    ],
+    "run_command": "uvicorn backend.main:app --host 0.0.0.0 --port 8000"
+}
