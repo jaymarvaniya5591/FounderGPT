@@ -41,7 +41,11 @@ const refreshBtn = document.getElementById('refresh-btn');
 const categorySearch = document.getElementById('category-search');
 const categoryList = document.getElementById('category-list');
 const addCategoryBtn = document.getElementById('add-category-btn');
-const categorySelect = document.getElementById('category-select');
+// Custom Dropdown Elements
+const customCategorySelect = document.getElementById('custom-category-select');
+const selectTrigger = document.getElementById('select-trigger');
+const selectOptions = document.getElementById('select-options');
+const categorySelectValue = document.getElementById('category-select-value');
 
 const resourceSearch = document.getElementById('resource-search');
 const resourceList = document.getElementById('resource-list');
@@ -113,6 +117,10 @@ function init() {
     // Category events
     categorySearch.addEventListener('input', filterCategories);
     addCategoryBtn.addEventListener('click', () => requireAdmin(showAddCategoryModal));
+
+    // Custom Dropdown Events
+    selectTrigger.addEventListener('click', toggleDropdown);
+    document.addEventListener('click', closeDropdownOnClickOutside);
 
     // Resource events
     resourceSearch.addEventListener('input', filterResources);
@@ -237,8 +245,53 @@ function renderCategoryList() {
 }
 
 function renderCategorySelect() {
-    categorySelect.innerHTML = '<option value="">Select a category</option>' +
-        categories.map(cat => `<option value="${cat.id}">${escapeHtml(cat.name)}</option>`).join('');
+    // Populate custom dropdown options
+    selectOptions.innerHTML = categories.map(cat => `
+        <div class="option" data-value="${cat.id}" onclick="selectCategory('${cat.id}')">
+            ${escapeHtml(cat.name)}
+        </div>
+    `).join('');
+
+    // Reset selection if needed
+    categorySelectValue.value = '';
+    selectTrigger.querySelector('span').textContent = 'Select a category';
+    selectTrigger.classList.remove('active');
+}
+window.renderCategorySelect = renderCategorySelect;
+
+function toggleDropdown(e) {
+    e.stopPropagation();
+    selectOptions.classList.toggle('hidden');
+    selectTrigger.classList.toggle('active');
+}
+
+function selectCategory(id) {
+    const category = categories.find(c => c.id === id);
+    if (!category) return;
+
+    categorySelectValue.value = id;
+    selectTrigger.querySelector('span').textContent = category.name;
+    selectOptions.classList.add('hidden');
+    selectTrigger.classList.add('active');
+
+    // Visual feedback for selection state in dropdown
+    const options = selectOptions.querySelectorAll('.option');
+    options.forEach(opt => {
+        if (opt.dataset.value === id) {
+            opt.classList.add('selected');
+        } else {
+            opt.classList.remove('selected');
+        }
+    });
+}
+
+function closeDropdownOnClickOutside(e) {
+    if (!customCategorySelect.contains(e.target)) {
+        selectOptions.classList.add('hidden');
+        if (!categorySelectValue.value) {
+            selectTrigger.classList.remove('active');
+        }
+    }
 }
 
 function filterCategories() {
@@ -893,3 +946,5 @@ function getConfidenceClass(value) {
 window.deleteCategory = deleteCategory;
 window.deleteResource = deleteResource;
 window.toggleQuestion = toggleQuestion;
+window.selectCategory = selectCategory;
+window.toggleDropdown = toggleDropdown;

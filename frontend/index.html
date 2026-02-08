@@ -79,10 +79,16 @@
                     evidence.</p>
 
                 <div class="input-container">
-                    <select id="category-select" class="category-select">
-                        <option value="">Select a category</option>
-                        <!-- Options populated by JS -->
-                    </select>
+                    <div class="custom-select-container" id="custom-category-select">
+                        <div class="select-trigger" id="select-trigger">
+                            <span>Select a category</span>
+                            <span class="arrow">▼</span>
+                        </div>
+                        <div class="select-options hidden" id="select-options">
+                            <!-- Options populated by JS -->
+                        </div>
+                        <input type="hidden" id="category-select-value">
+                    </div>
 
                     <textarea id="query-input" class="query-textarea"
                         placeholder='e.g. "Users say they like it but won&apos;t pay"' rows="5"></textarea>
@@ -98,7 +104,9 @@
 
         <!-- Results Page -->
         <div id="results-page" class="page hidden">
-            <button id="back-btn" class="back-btn">← New scenario</button>
+            <div class="results-header">
+                <button id="back-btn" class="back-btn">← New scenario</button>
+            </div>
 
             <div class="results-container">
                 <div class="scenario-card">

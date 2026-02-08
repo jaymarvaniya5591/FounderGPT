@@ -368,30 +368,96 @@ body {
     gap: 16px;
 }
 
-.category-select {
+/* Custom Select */
+.custom-select-container {
+    position: relative;
+    width: 100%;
+}
+
+.select-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
     padding: 14px 16px;
-    background: var(--bg-input);
+    background: var(--bg-card);
+    /* Grey background */
     border: 1px solid var(--border-color);
     border-radius: 8px;
     color: var(--text-secondary);
     font-size: 14px;
     cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    transition: border-color var(--transition-speed);
+    transition: all var(--transition-speed);
 }
 
-.category-select:focus {
-    outline: none;
+.select-trigger:hover {
+    background: var(--bg-hover);
     border-color: var(--border-accent);
+    color: var(--text-primary);
 }
 
-.category-select option {
-    background: var(--bg-secondary);
+.select-trigger.active {
+    border-color: var(--border-accent);
     color: var(--text-primary);
+}
+
+.arrow {
+    font-size: 10px;
+    transition: transform var(--transition-speed);
+}
+
+.select-trigger.active .arrow {
+    transform: rotate(180deg);
+}
+
+.select-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    max-height: 250px;
+    overflow-y: auto;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: all var(--transition-speed);
+}
+
+.select-options.hidden {
+    display: block;
+    /* Override default hidden to use opacity/visibility for transition if needed, but for now simple display none toggle is safer */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    pointer-events: none;
+}
+
+.option {
+    padding: 12px 16px;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    transition: background var(--transition-speed);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.option:last-child {
+    border-bottom: none;
+}
+
+.option:hover {
+    background: var(--bg-hover);
+    color: var(--accent-gold);
+}
+
+.option.selected {
+    background: var(--bg-hover);
+    color: var(--accent-gold);
 }
 
 .query-textarea {
@@ -454,20 +520,32 @@ body {
 /* ========================================
    Results Page
 ======================================== */
+/* Results Header */
+.results-header {
+    padding: 24px 40px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 32px;
+    background: var(--bg-secondary);
+}
+
 .back-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    background: none;
-    border: none;
-    color: var(--accent-blue);
+    gap: 8px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
     font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    padding: 16px 24px;
-    transition: color var(--transition-speed);
+    padding: 8px 16px;
+    transition: all var(--transition-speed);
 }
 
 .back-btn:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-accent);
     color: var(--text-primary);
 }
 
