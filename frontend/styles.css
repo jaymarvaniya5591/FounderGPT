@@ -688,6 +688,26 @@ body {
     display: block;
 }
 
+/* Answer Block */
+.answer-block {
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.answer-block .answer-label {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+}
+
 /* Quote Cards */
 .quote-card {
     background: var(--bg-input);

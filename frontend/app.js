@@ -539,7 +539,7 @@ function showResults(data) {
                 <span class="question-toggle">▼</span>
             </div>
             <div class="question-content">
-                ${q.answer ? `<div class="answer-block"><strong>Answer:</strong> ${formatMarkdown(q.answer)}</div>` : ''}
+                ${q.answer ? `<div class="answer-block"><span class="answer-label">Answer:</span> ${formatMarkdown(q.answer)}</div>` : ''}
                 ${q.evidence.length > 0 ? `
                     <div class="evidence-section">
                         <span class="evidence-label">EVIDENCE:</span>
