@@ -22,6 +22,13 @@ const RESOURCES_DATA = {
       "chunk_count": 263
     },
     {
+      "source_file": "The Lean Startup-by-Eric Ries.pdf",
+      "title": "The Lean Startup",
+      "author": "Eric Ries",
+      "resource_type": "book",
+      "chunk_count": 150
+    },
+    {
       "source_file": "Running lean-by-Ash Maurya.pdf",
       "title": "Running lean",
       "author": "Ash Maurya",
@@ -121,5 +128,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T11:05:33.941102"
+  "last_updated": "2026-02-09T11:06:27.402915"
 };
