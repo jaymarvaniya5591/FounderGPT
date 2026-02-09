@@ -175,17 +175,21 @@ class BookIngester:
     
     def extract_text_from_pdf(self, pdf_path: str) -> List[Dict[str, Any]]:
         """
-        Extract text from PDF with page awareness.
-        Returns list of chunks with metadata.
+        Extract text from PDF and chunk based purely on word count.
+        Collects all text first, then chunks based on CHUNK_SIZE setting.
+        Page numbers are tracked for metadata but don't affect chunk boundaries.
         """
-        all_chunks = []
         metadata = self.extract_metadata_from_filename(os.path.basename(pdf_path))
-        current_chapter = "Introduction"
         
         print(f"  Processing: {metadata['book_title']} by {metadata['author']}")
         
+        # First pass: collect all text with page info
+        page_texts = []  # List of (page_num, text, chapter)
+        current_chapter = "Introduction"
+        
         try:
             doc = fitz.open(pdf_path)
+            total_words = 0
             
             for page_num, page in enumerate(doc, start=1):
                 text = page.get_text()
@@ -198,18 +202,11 @@ class BookIngester:
                 if detected_chapter:
                     current_chapter = detected_chapter
                 
-                # Create semantic chunks
-                page_chunks = self.semantic_chunk_text(text, page_num, current_chapter)
-                
-                for chunk in page_chunks:
-                    chunk.update({
-                        "resource_type": "book",
-                        "book_title": metadata["book_title"],
-                        "author": metadata["author"],
-                        "exact_text": chunk["text"],
-                        "source_file": os.path.basename(pdf_path)
-                    })
-                    all_chunks.append(chunk)
+                page_texts.append((page_num, text, current_chapter))
+                total_words += len(text.split())
+            
+            doc.close()
+            print(f"    Total words extracted: {total_words}")
             
         except Exception as e:
             import traceback
@@ -217,6 +214,92 @@ class BookIngester:
             print(f"  Error processing {pdf_path}: {e}")
             print(tb)
             raise Exception(f"{e}\n{tb}")
+        
+        # Second pass: chunk based purely on word count
+        all_chunks = self._chunk_document_by_words(page_texts, metadata)
+        print(f"    Created {len(all_chunks)} chunks (target: ~{settings.CHUNK_SIZE} words each)")
+        
+        return all_chunks
+    
+    def _chunk_document_by_words(self, page_texts: List[tuple], metadata: Dict[str, str]) -> List[Dict[str, Any]]:
+        """
+        Chunk the entire document based on word count, ignoring page boundaries.
+        Tracks page numbers for metadata but chunks flow across pages.
+        """
+        all_chunks = []
+        
+        # Combine all text into sentences with page tracking
+        all_sentences = []  # List of (sentence, page_num, chapter)
+        
+        for page_num, text, chapter in page_texts:
+            # Split into sentences
+            sentences = re.split(r'(?<=[.!?])\s+', text)
+            for sentence in sentences:
+                sentence = sentence.strip()
+                if sentence:
+                    all_sentences.append((sentence, page_num, chapter))
+        
+        # Now chunk based purely on word count
+        current_chunk_sentences = []
+        current_word_count = 0
+        chunk_start_page = 1
+        chunk_chapter = "Introduction"
+        
+        for sentence, page_num, chapter in all_sentences:
+            sentence_words = len(sentence.split())
+            
+            # If adding this sentence exceeds chunk size, finalize current chunk
+            if current_word_count + sentence_words > settings.CHUNK_SIZE and current_chunk_sentences:
+                chunk_text = ' '.join(current_chunk_sentences)
+                if len(chunk_text.strip()) > 50:  # Minimum chunk size
+                    all_chunks.append({
+                        "text": chunk_text,
+                        "page_number": chunk_start_page,
+                        "chapter": chunk_chapter,
+                        "resource_type": "book",
+                        "book_title": metadata["book_title"],
+                        "author": metadata["author"],
+                        "exact_text": chunk_text,
+                        "source_file": metadata.get("source_file", "")
+                    })
+                
+                # Keep overlap for context continuity
+                overlap_sentences = []
+                overlap_count = 0
+                for s in reversed(current_chunk_sentences):
+                    s_words = len(s.split())
+                    if overlap_count + s_words <= settings.CHUNK_OVERLAP:
+                        overlap_sentences.insert(0, s)
+                        overlap_count += s_words
+                    else:
+                        break
+                
+                current_chunk_sentences = overlap_sentences
+                current_word_count = overlap_count
+                chunk_start_page = page_num
+                chunk_chapter = chapter
+            
+            current_chunk_sentences.append(sentence)
+            current_word_count += sentence_words
+            
+            # Update chapter if not set yet for this chunk
+            if not chunk_chapter or chunk_chapter == "Introduction":
+                chunk_chapter = chapter
+        
+        # Don't forget the last chunk
+        if current_chunk_sentences:
+            chunk_text = ' '.join(current_chunk_sentences)
+            if len(chunk_text.strip()) > 50:
+                all_chunks.append({
+                    "text": chunk_text,
+                    "page_number": chunk_start_page,
+                    "chapter": chunk_chapter,
+                    "resource_type": "book",
+                    "book_title": metadata["book_title"],
+                    "author": metadata["author"],
+                    "exact_text": chunk_text,
+                    "source_file": metadata.get("source_file", "")
+                })
         
         return all_chunks
     
