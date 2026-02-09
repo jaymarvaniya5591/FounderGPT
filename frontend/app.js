@@ -158,7 +158,23 @@ function init() {
     // Add resource modal events
     addResourceCancelBtn.addEventListener('click', hideAddResourceModal);
     addResourceSubmitBtn.addEventListener('click', handleAddResource);
+
+    // Set random placeholder
+    setRandomPlaceholder();
 }
+
+function setRandomPlaceholder() {
+    const placeholders = [
+        "e.g. \"I have a great product but I'm struggling to find my first 100 customers\"",
+        "e.g. \"My co-founder wants to raise money, but I want to stay profitable and grow slowly\"",
+        "e.g. \"Users are signing up for the free tier but dropping off when asked to pay\""
+    ];
+
+    // Pick one randomly
+    const randomPlaceholder = placeholders[Math.floor(Math.random() * placeholders.length)];
+    queryInput.placeholder = randomPlaceholder;
+}
+
 
 // ========================================
 // Sidebar Functions
@@ -263,7 +279,7 @@ function renderCategorySelect() {
 
     // Reset selection if needed
     categorySelectValue.value = '';
-    selectTrigger.querySelector('span').textContent = 'Select a category';
+    selectTrigger.querySelector('span').textContent = 'Available categories';
     selectTrigger.classList.remove('active');
 }
 window.renderCategorySelect = renderCategorySelect;

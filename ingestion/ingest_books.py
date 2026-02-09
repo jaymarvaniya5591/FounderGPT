@@ -193,18 +193,51 @@ class BookIngester:
             total_words = 0
             
             for page_num, page in enumerate(doc, start=1):
-                text = page.get_text()
+                # Use blocks to filter headers and footers
+                # blocks: (x0, y0, x1, y1, text, block_no, block_type)
+                blocks = page.get_text("blocks")
+                page_height = page.rect.height
                 
-                if not text.strip():
-                    continue
+                # Sort blocks by vertical position (top to bottom)
+                blocks.sort(key=lambda b: b[1])
                 
-                # Check for chapter heading
-                detected_chapter = self.detect_chapter(text, page_num)
+                valid_text_blocks = []
+                full_page_text_for_detection = ""
+                
+                for b in blocks:
+                    x0, y0, x1, y1, text, block_no, block_type = b
+                    
+                    # Skip non-text blocks (images, etc - block_type 0 is text)
+                    if block_type != 0:
+                        continue
+                        
+                    full_page_text_for_detection += text + "\n"
+                    
+                    # Filter logic:
+                    # Headers: usually top 50-60px
+                    # Footers: usually bottom 50px
+                    if y1 < 60:  # Header threshold
+                        continue
+                    if y0 > page_height - 60:  # Footer threshold
+                        continue
+                        
+                    valid_text_blocks.append(text)
+                
+                # Detect chapter from full text (including headers) to capture chapter titles that might be in headers
+                detected_chapter = self.detect_chapter(full_page_text_for_detection, page_num)
                 if detected_chapter:
                     current_chapter = detected_chapter
                 
-                page_texts.append((page_num, text, current_chapter))
-                total_words += len(text.split())
+                # Join valid blocks with space to form page text
+                # clean up whitespace
+                cleaned_blocks = [blk.strip() for blk in valid_text_blocks if blk.strip()]
+                page_text = ' '.join(cleaned_blocks)
+                
+                if not page_text:
+                    continue
+                
+                page_texts.append((page_num, page_text, current_chapter))
+                total_words += len(page_text.split())
             
             doc.close()
             print(f"    Total words extracted: {total_words}")
@@ -230,15 +263,66 @@ class BookIngester:
         all_chunks = []
         
         # Combine all text into sentences with page tracking
+        # Combine all text into sentences with page tracking
         all_sentences = []  # List of (sentence, page_num, chapter)
         
+        # Pre-process: Join all page texts into one giant string to handle cross-page sentences
+        # We need to map back to page numbers, so we'll keep track of character offsets?
+        # Simpler approach: Join pages with space, but keep track of where pages start
+        
+        # Actually, let's keep the page-based iteration but handle the boundary carefully.
+        # If we just join everything with spaces, we solve the "sentence split across pages" issue.
+        
+        combined_text = ""
+        page_map = []  # List of (char_start, char_end, page_num, chapter)
+        
+        current_pos = 0
         for page_num, text, chapter in page_texts:
-            # Split into sentences
-            sentences = re.split(r'(?<=[.!?])\s+', text)
-            for sentence in sentences:
-                sentence = sentence.strip()
-                if sentence:
-                    all_sentences.append((sentence, page_num, chapter))
+            # Add space between pages
+            if combined_text:
+                combined_text += " "
+                current_pos += 1
+            
+            start = current_pos
+            combined_text += text
+            end = current_pos + len(text)
+            page_map.append((start, end, page_num, chapter))
+            current_pos = end
+            
+        # Split into sentences using regex
+        # This handles the case where a sentence ends on page N and starts on page N+1
+        # giving us a coherent sentence.
+        sentences = re.split(r'(?<=[.!?])\s+', combined_text)
+        
+        current_sentence_start = 0
+        for sentence in sentences:
+            sentence = sentence.strip()
+            if not sentence:
+                continue
+                
+            # Find which page this sentence belongs to (mostly)
+            # We'll attribute it to the page where the sentence starts
+            # Approximate start position of this sentence in combined_text
+            # Note: re.split consumes delimiters/whitespace, so exact mapping is tricky.
+            # We'll find the first occurrence of this sentence starting from current search pos.
+            
+            found_start = combined_text.find(sentence, current_sentence_start)
+            if found_start == -1:
+                # Fallback, just increment
+                found_start = current_sentence_start
+            
+            # Find page for found_start
+            sent_page = 1
+            sent_chapter = "Introduction"
+            
+            for p_start, p_end, p_num, p_chap in page_map:
+                if p_start <= found_start < p_end:
+                    sent_page = p_num
+                    sent_chapter = p_chap
+                    break
+            
+            all_sentences.append((sentence, sent_page, sent_chapter))
+            current_sentence_start = found_start + len(sentence)
         
         # Now chunk based purely on word count
         current_chunk_sentences = []

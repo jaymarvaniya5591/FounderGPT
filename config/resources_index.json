@@ -29,13 +29,6 @@
       "chunk_count": 150
     },
     {
-      "source_file": "Running lean-by-Ash Maurya.pdf",
-      "title": "Running lean",
-      "author": "Ash Maurya",
-      "resource_type": "book",
-      "chunk_count": 246
-    },
-    {
       "source_file": "The Four Steps to the Epiphany-by-Steve Blank.pdf",
       "title": "The Four Steps to the Epiphany",
       "author": "Steve Blank",
@@ -128,5 +121,5 @@
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T11:06:27.402915"
+  "last_updated": "2026-02-09T11:39:06.731727"
 }
