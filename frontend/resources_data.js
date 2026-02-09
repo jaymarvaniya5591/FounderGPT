@@ -22,6 +22,13 @@ const RESOURCES_DATA = {
       "chunk_count": 263
     },
     {
+      "source_file": "The Lean Startup-by-Eric Ries.pdf",
+      "title": "The Lean Startup",
+      "author": "Eric Ries",
+      "resource_type": "book",
+      "chunk_count": 1068
+    },
+    {
       "source_file": "Running lean-by-Ash Maurya.pdf",
       "title": "Running lean",
       "author": "Ash Maurya",
@@ -81,6 +88,14 @@ const RESOURCES_DATA = {
       "chunk_count": 14
     },
     {
+      "source_file": "The 18 Mistakes That Kill Startups-by-Paul Graham.html",
+      "title": "The 18 Mistakes That Kill Startups",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://paulgraham.com/startupmistakes.html",
+      "chunk_count": 11
+    },
+    {
       "source_file": "Do Things that Don't Scale-by-Paul Graham.html",
       "title": "Do Things that Don't Scale",
       "author": "Unknown",
@@ -89,13 +104,29 @@ const RESOURCES_DATA = {
       "chunk_count": 8
     },
     {
+      "source_file": "How to Validate a Business Idea & Its Potential in 5 Steps.html",
+      "title": "How to Validate a Business Idea & Its Potential in 5 Steps",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-to-test-a-business-idea-essential-tools-for-validating-before-you-launch/",
+      "chunk_count": 4
+    },
+    {
       "source_file": "Startup = Growth-by-Paul Graham.html",
       "title": "Startup = Growth",
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://paulgraham.com/growth.html",
       "chunk_count": 10
+    },
+    {
+      "source_file": "'Get in the Van' and Other Tips for Getting Meaningful Customer Feedback.html",
+      "title": "'Get in the Van' and Other Tips for Getting Meaningful Customer Feedback",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-power-of-interviewing-customers-the-right-way-from-twitters-ex-vp-product/",
+      "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-08T19:28:37.684253"
+  "last_updated": "2026-02-09T10:14:34.288864"
 };

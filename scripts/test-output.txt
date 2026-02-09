@@ -1,0 +1,146 @@
+================================================================================
+TITLE: How to Validate a Business Idea & Its Potential in 5 Steps
+FILE: How to Validate a Business Idea & Its Potential in 5 Steps.html
+TOTAL PARAGRAPHS EXTRACTED: 7
+================================================================================
+
+--- Paragraph 1 ---
+You’ve got a brilliant new startup idea sketched on the back of a napkin. But after the flutters of excitement fade, you begin to realize that the business idea you’ve dreamed up is full of assumptions that need validation. You start to wonder: 
+Who’s my target audience? Will they buy the product? Is the 
+market overly crowded
+? Is this even a viable idea? 
+It’s impossible to know all the answers on your own, and validating if your concept and business model are sound can be deceptively challenging. As 
+Sunita Mohanty
+, founder and former Meta and Oculus product lead put it: “The bottom line is that you can very easily build something, but to increase your chance of creating something that is solving a real problem you need to be 
+more rigorous in your approach
+.”
+Before setting out on the long journey from 
+sketching a prototype
+ to building a 
+minimum viable product (MVP)
+ to launching out into the world, it’s important to test your assumptions and validate that your product can deliver what you think it can — and eventually be profitable doing so.
+From picking a 
+target audience and ICP
+ to 
+conducting customer research
+, we’ve gathered the Review’s top pieces of advice for validating your business idea. We’ve also included some of the most frequently asked questions about the validation process, along with tactical answers from founders and startup leaders alike. 
+Why market validation is important for testing a new business idea
+If you’re going to embark on making your pie-in-the-sky business idea a reality, you want to validate if someone’s going to buy your product. In other words, you have to be sure that your business model not only solves a problem, but that people care enough about that problem to be willing to invest money in fixing it. 
+“Building is secondary to delivering value to your target market,” says 
+Gagan Biyani
+, co-founder and CEO at 
+Maven
+. “It’s amazing to me how many people print company swag, come up with a name, and go out crowdfunding before they validate their value proposition, how they’re going to deliver it and to whom. 
+You’re nothing until you have customers who want your product
+.”
+To that end, validating the market opportunity isn’t something that should wait until after you have a product. 
+WorkOS
+
+--- Paragraph 2 ---
+founder 
+Michael Grinich
+
+--- Paragraph 3 ---
+calls this finding your 
+product 
+idea
+-market fit
+. “When you don't have it, it's pretty clear. You are struggling and every little thing is tough. But once you get it, it's like all the lights turn on. You feel it clear as day.”
+
+--- Paragraph 4 ---
+If you like Matt Lerner's advice, consider taking his Build your Startup Growth Machine course on Maven
+
+--- Paragraph 5 ---
+How to validate a business idea in 5 steps
+There’s no shortcut here — validating whether or not there’s a market for your business idea comes down to some good old-fashioned research. We’ve organized the specific advice from our idea validation experts into five simple steps. 
+1. Define Your Target Market
+Your first step is to create a hypothesis on who the target audience is for your product. Often, founders can start by looking inwards. “Many entrepreneurs will start a company to solve their own challenges or pain, and that can be hugely beneficial because you know exactly who the specific audience is and what they need,” says PM-turned-founder 
+Ryan Glasgow
+. 
+Whether you are or 
+aren’t an expert in the space in which you’re building
+, Glasgow suggests making your target audience a group that’s currently underserved. In many ways, this will smooth the path ahead. Not only does it help you build a differentiated product, but potential customers may be more willing to sit down and talk to you if there aren’t already a slew of products offering similar value propositions. 
+Getting specific about what sort of customer will be the right fit for your product may seem like trivial work — especially when you don’t even have a product yet. But this thought exercise will waterfall down to every decision you make thereafter — from the features you prioritize building first, to how you approach go-to-market.
+“You have every reason to do the work to figure out your precise target audience,” 
+says former Head of Marketing at YouTube, Julie Supan
+. “Even if it means taking a couple of months to really nail it down, what’s a couple of months in the roughly 5-10 years you’ll spend betting on this customer to build and grow the company?”
+2. Define Your Value Proposition 
+Before you move on to customer interviews, you need to have a clear idea of the value proposition that your product will deliver. This likely will evolve and change down the road as you gather feedback, but get your initial ideas down on paper to help guide your research.
+Gagan Biyani has two suggestions for 
+determining the promise of your idea:
+Focus on actions. 
+Customers don’t always know what they want. Their actions, however, speak volumes. Find a value proposition that speaks to those actions: What are they already trying to do? How can your new business help them achieve their goals better than they know they can?
+Keep it simple. 
+Think about Stripe, Airbnb, Dropbox, Uber. They each had ridiculously simple value propositions. The solution might have been complex or controversial, but the value to the consumer was not. Who wouldn’t want a taxi that arrives on demand in <5 minutes? Who wouldn’t want one line of code to replace the days of implementing complex payment processing systems? Find a value proposition that’s a no-brainer.
+Another tip for defining your value prop? 
+Stay specific in your messaging
+. Not only does this help you explain your business idea more succinctly and clearly during customer research, it's also useful down the line when you're trying to attract that target audience to your landing page. 
+Matt Lerner
+, co-founder and CEO at 
+SYSTM
+, cautions founders against claiming to offer an “all in one” solution. “
+Winning messages
+ that resonated with all prospects aren’t watered down. Find a message that's quite specific but still has broad appeal.”
+3. Interview Potential Customers
+Once you’ve embellished your scrappy idea with a target market and a value proposition, it’s time to put it to the test by collecting feedback from your audience. The goal of conducting customer interviews is two-fold: to more deeply investigate their pain points and probe their willingness to pay for a solution. 
+When 
+Webb Brown
+ and
+
+--- Paragraph 6 ---
+Ajay Tripathy
+ were 
+validating their idea for 
+Kubecost
+, they spent two months interviewing over 120 teams. Their advice to other founders? You shouldn’t have to read the tea leaves when a customer is truly excited about your idea. 
+“When talking to potential customers, their eyes should light up. They should be engaged in the conversation and ready to pull out their wallets on the spot to pay for your solution. There should be no space for doubt when it comes to validating your problem or solution through customer conversations.”
+That’s not to say that conversations between entrepreneurs and interviewees should be exclusively positive. When you get valuable time to sit down with would-be customers, it’s important not to skip over the 
+tough questions that help you fine-tune your startup idea
+. Once you’ve determined that there’s baseline demand, use these conversations to pressure test the shape of your business model to set it up for greater viability.  
+4. Generate a Market Analysis
+Even if the user feedback is telling you that your idea is something that customers want, that’s only one part of the viability equation. Markets are made up of a multitude of factors. To validate your idea properly, you have to take a step back and look at the whole picture
+Jessica McKellar
+, co-founder of 
+Pilot
+, keeps her advice for entrepreneurs simple: Picking a big market for your new business to play in should be your first priority. “If you plan to build your startup into an enduring company — one that can be independent for a long time, one that can go public — the number one thing you need is a market that's large enough,” she says. 
+That’s not to trivialize that 
+taking on a competitor
+ is easy — it’s not. But it’s more attainable than trying to change the market size or build demand when there’s none. Michael Grinich compares building a startup to building a house and the old real estate adage: location, location, location. If the market you’re launching in doesn’t appear to have much of an opportunity to grow, it’s time to go back to the drawing board. 
+Build your startup in the biggest possible market because you can’t change it later. It's like building a house: location can't change. You can tear down the structure and rebuild it, but you can't change where it is.
+5. Test Your Idea and Assumptions
+If you’ve made it this far and your idea has passed the litmus test, it’s time to test it out on a smaller scale to determine whether or not it actually works — long before you’ve assembled a larger team and sunk tons of resources into building. 
+Gagan Biyani uses a minimum viable testing approach — not to be confused with a minimum viable product approach. He calls it “testing the atomic unit,” or narrowing in and piloting a small or simplified version of what you plan to sell. Here are some examples: For Google, the atomic unit is a search query. For Amazon, it’s ordering a book online. For Coinbase, it’s an easier way to buy and sell crypto.
+Biyani offers four tips to keep the process smooth:
+Get specific on your atomic unit. 
+The more niche the better in this case. You are looking for the smallest possible item to distill your product down to. This unit is important because consumers rarely ever buy the value proposition of a company, they buy a specific item that you are selling.
+Test one assumption at a time. 
+Your atomic unit encaptures your whole idea. But when it comes time to actually test, there needs to be a focus on a specific element. If there isn’t, you won’t get conclusive results.
+Devise a test for that specific assumption.
+ If your 
+riskiest hypothesis
+ centers around execution, test that out by actually trying to deliver the goods or services in as hack-y a way as possible. You’ll learn quickly what is tough and what is easier than you expected.
+IDEA VALIDATION FAQs
+Validating a business idea can feel overwhelming, and frankly, a bit of a slog. The initial excitement you had during the back of the napkin phase may have fizzled, but the steps are well worth it for ensuring your startup’s long-term viability. To make sense of it all, we’ve gathered answers to the common questions founders ask when moving through the validation process. 
+Question #1: How do I find customers to interview? 
+It’s impossible to build in a bubble — you have to get out in front of folks to harness a variety of perspectives on what you’re building. But reaching out to a bunch of strangers can be one of the most daunting parts of the startup kickoff process. Often, founders will sidestep this by instead testing out their idea with a set of friends and acquaintances, skipping the cold email process altogether. 
+That’s a mistake, says Ryan Glasgow. “​​One of the key learnings I had early on is to never involve people who you personally know in the customer development process,” he says. 
+“Instead, I started to cold email founders and product managers at Y Combinator companies. I had no relationship with them, and I wanted to see if they would respond to my emails, because if I'm truly solving a pain that they're experiencing, then they will spend time. And I was able to get several of them to respond and take meetings with me.”
+So while cold emailing folks can feel intimidating, it’s an important step — and if you’re having trouble getting in touch with folks or have really low responses to your emails, that could be a signal that the problem you’re solving isn’t as important as you hoped it would be. 
+Question #2: How do I avoid founder bias when validating my business idea?
+Bias exists in every founder
+. You’ve spent time cultivating your idea, and maybe even building an initial version of the product. You don’t want to hear that it’s not a home run. Rather than pretend that bias doesn’t exist, acknowledge it up front, and then take specific steps to cut it off at the pass.
+To muffle the very partial voice in your head, UX Expert 
+Jeanette Mellinger
+ tells founders to 
+put earmuffs on their “happy ears.”
+When you’re asking for feedback, don’t only listen for the things that sound good. Make space for the things you don’t want to hear — those are the ones that’s what will make your product better.
+In practice, this means cutting out leading questions and letting your interviewee talk about their biggest pain points
+ before
+ you introduce them to your potential product. 
+Question #3: When does the validation process end?
+The short answer is, it doesn’t. While it’s important to make your way through the checklist to get your initial idea off the ground, validation is a key part of every business decision. Even many years down the line, this same validation engine will come into play when launching a second product, testing out a go-to-market motion, or undergoing a new design.
+
+--- Paragraph 7 ---
+As Glasgow tells founders
+, there’s just as much success in killing a business idea before it drains your resources than finding that out the hard way. So don’t let the fear of failure scare you away from the validation process, he says.
+A great outcome for any startup, product or new feature that you're working on is that you determine in the very beginning, or as soon as possible, that it's not worth spending time on.
