@@ -180,6 +180,7 @@ class BookIngester:
         Page numbers are tracked for metadata but don't affect chunk boundaries.
         """
         metadata = self.extract_metadata_from_filename(os.path.basename(pdf_path))
+        metadata["source_file"] = os.path.basename(pdf_path)  # Add source_file for Qdrant storage
         
         print(f"  Processing: {metadata['book_title']} by {metadata['author']}")
         
