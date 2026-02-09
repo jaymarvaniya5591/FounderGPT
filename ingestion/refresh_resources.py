@@ -284,18 +284,19 @@ class ResourceRefresher:
                 print(f"  No changes to commit in {target_file}")
                 return False
             
-            # Add only the target file
+            # Commit ONLY the target file, ignoring any other staged changes in the project
+            # We add it first to ensure it's tracked/staged, then commit specifically that path
             subprocess.run(
                 ['git', 'add', target_file],
                 cwd=self.project_root,
                 check=True
             )
-            
-            # Commit with auto-generated message
+
+            # Commit with auto-generated message, scoping to target_file
             from datetime import datetime
             commit_msg = f"Auto-update resources index - {datetime.now().strftime('%Y-%m-%d %H:%M')}"
             subprocess.run(
-                ['git', 'commit', '-m', commit_msg],
+                ['git', 'commit', '-m', commit_msg, '--', target_file],
                 cwd=self.project_root,
                 check=True
             )

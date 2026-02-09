@@ -71,11 +71,39 @@
       "chunk_count": 113
     },
     {
+      "source_file": "Zappos-case study-by-Standford Business School.pdf",
+      "title": "Zappos-case study",
+      "author": "Standford Business School",
+      "resource_type": "book",
+      "chunk_count": 25
+    },
+    {
       "source_file": "The Mom Test-by-Rob FitzPatrick.pdf",
       "title": "The Mom Test",
       "author": "Rob FitzPatrick",
       "resource_type": "book",
       "chunk_count": 117
+    },
+    {
+      "source_file": "LeanCanvas-by-Ash Maurya.pdf",
+      "title": "LeanCanvas",
+      "author": "Ash Maurya",
+      "resource_type": "book",
+      "chunk_count": 10
+    },
+    {
+      "source_file": "Value-Proposition-Design-by-unknown.pdf",
+      "title": "Value-Proposition-Design",
+      "author": "unknown",
+      "resource_type": "book",
+      "chunk_count": 5
+    },
+    {
+      "source_file": "TAM-SAM-SOM-by-unknown.pdf",
+      "title": "TAM-SAM-SOM",
+      "author": "unknown",
+      "resource_type": "book",
+      "chunk_count": 6
     }
   ],
   "articles": [
@@ -85,15 +113,7 @@
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://paulgraham.com/startupideas.html",
-      "chunk_count": 14
-    },
-    {
-      "source_file": "The 18 Mistakes That Kill Startups-by-Paul Graham.html",
-      "title": "The 18 Mistakes That Kill Startups",
-      "author": "Unknown",
-      "resource_type": "article",
-      "url": "https://paulgraham.com/startupmistakes.html",
-      "chunk_count": 11
+      "chunk_count": 13
     },
     {
       "source_file": "Do Things that Don't Scale-by-Paul Graham.html",
@@ -104,12 +124,12 @@
       "chunk_count": 8
     },
     {
-      "source_file": "How to Validate a Business Idea & Its Potential in 5 Steps.html",
-      "title": "How to Validate a Business Idea & Its Potential in 5 Steps",
+      "source_file": "How Tech Founders Can Validate Willingness to Pay.html",
+      "title": "How Tech Founders Can Validate Willingness to Pay | PricingOS.ai",
       "author": "Unknown",
       "resource_type": "article",
-      "url": "https://review.firstround.com/how-to-test-a-business-idea-essential-tools-for-validating-before-you-launch/",
-      "chunk_count": 4
+      "url": "http://pricingos.ai/tech-founders-validate-willingness-to-pay/",
+      "chunk_count": 2
     },
     {
       "source_file": "Startup = Growth-by-Paul Graham.html",
@@ -117,6 +137,14 @@
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://paulgraham.com/growth.html",
+      "chunk_count": 9
+    },
+    {
+      "source_file": "The 18 Mistakes That Kill Startups-by-Paul Graham.html",
+      "title": "The 18 Mistakes That Kill Startups",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://paulgraham.com/startupmistakes.html",
       "chunk_count": 10
     },
     {
@@ -128,13 +156,37 @@
       "chunk_count": 4
     },
     {
-      "source_file": "How Tech Founders Can Validate Willingness to Pay.html",
-      "title": "How Tech Founders Can Validate Willingness to Pay | PricingOS.ai",
+      "source_file": "The Mom Test for Better Customer Interviews.html",
+      "title": "The Mom Test for Better Customer Interviews | Looppanel",
       "author": "Unknown",
       "resource_type": "article",
-      "url": "http://pricingos.ai/tech-founders-validate-willingness-to-pay/",
-      "chunk_count": 2
+      "url": "https://www.looppanel.com/blog/customer-interviews",
+      "chunk_count": 5
+    },
+    {
+      "source_file": "How to Validate a Business Idea & Its Potential in 5 Steps.html",
+      "title": "How to Validate a Business Idea & Its Potential in 5 Steps",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-to-test-a-business-idea-essential-tools-for-validating-before-you-launch/",
+      "chunk_count": 4
+    },
+    {
+      "source_file": "Idea to Paying Customers in 7 Weeks： How We Did It-by-Buffer.html",
+      "title": "Idea to Paying Customers in 7 Weeks： How We Did It",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://buffer.com/resources/idea-to-paying-customers-in-7-weeks-how-we-did-it/",
+      "chunk_count": 3
+    },
+    {
+      "source_file": "Case Study： Why Your SaaS Onboarding is Costing You Revenue (and How to Fix It)-by-Stripe.html",
+      "title": "Case Study： Why Your SaaS Onboarding is Costing You Revenue (and How to Fix It)",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://insart.com/case-study-saas-onboarding-costing-revenue-fix/",
+      "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T11:55:58.385458"
+  "last_updated": "2026-02-09T13:47:40.618707"
 }
