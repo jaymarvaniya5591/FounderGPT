@@ -202,6 +202,14 @@ const RESOURCES_DATA = {
       "chunk_count": 17
     },
     {
+      "source_file": "Bullseye Framework. The Definitive Guide To Traction Channels-by-Rahul Vohra.html",
+      "title": "Bullseye Framework. The Definitive Guide To Traction Channels",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://www.designwithvalue.com/bullseye-framework",
+      "chunk_count": 16
+    },
+    {
       "source_file": "How Tech Founders Can Validate Willingness to Pay.html",
       "title": "How Tech Founders Can Validate Willingness to Pay | PricingOS.ai",
       "author": "Unknown",
@@ -224,6 +232,14 @@ const RESOURCES_DATA = {
       "resource_type": "article",
       "url": "https://paulgraham.com/startupmistakes.html",
       "chunk_count": 10
+    },
+    {
+      "source_file": "Why Retention Is The Silent Killer-by-Brian Balfour.html",
+      "title": "Why Retention Is The Silent Killer",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://www.reforge.com/blog/retention-engagement-growth-silent-killer",
+      "chunk_count": 6
     },
     {
       "source_file": "'Get in the Van' and Other Tips for Getting Meaningful Customer Feedback.html",
@@ -258,6 +274,14 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     },
     {
+      "source_file": "Why Product Market Fit Isn't Enough-by-Brian Balfour.html",
+      "title": "Why Product Market Fit Isn't Enough",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://brianbalfour.com/essays/product-market-fit-isnt-enough",
+      "chunk_count": 2
+    },
+    {
       "source_file": "Idea to Paying Customers in 7 Weeks： How We Did It-by-Buffer.html",
       "title": "Idea to Paying Customers in 7 Weeks： How We Did It",
       "author": "Unknown",
@@ -282,5 +306,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T19:02:28.469183"
+  "last_updated": "2026-02-09T20:34:41.736085"
 };
