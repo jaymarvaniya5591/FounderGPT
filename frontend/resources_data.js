@@ -29,6 +29,13 @@ const RESOURCES_DATA = {
       "chunk_count": 150
     },
     {
+      "source_file": "Running lean-by-Ash Maurya.pdf",
+      "title": "Running lean",
+      "author": "Ash Maurya",
+      "resource_type": "book",
+      "chunk_count": 60
+    },
+    {
       "source_file": "The Four Steps to the Epiphany-by-Steve Blank.pdf",
       "title": "The Four Steps to the Epiphany",
       "author": "Steve Blank",
@@ -121,5 +128,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T11:39:06.731727"
+  "last_updated": "2026-02-09T11:40:08.830482"
 };
