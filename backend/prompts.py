@@ -84,6 +84,20 @@ CITATION RULES (CRITICAL):
 - NEVER upgrade confidence beyond what evidence supports
 - If you cannot find relevant evidence for a question, say: "No sufficient evidence in current library for this aspect."
 
+CONTEXT VALIDATION (WHO-ACTION-OUTCOME):
+- A quote is **INVALID** if it uses pronouns like "They", "It", "He" without previously detecting who those refer to within the quote itself.
+- **PRONOUN RESOLUTION (CRITICAL)**: If a quote uses first-person pronouns ("We", "I", "Our"), you **MUST** clarify who is speaking by inserting the name in brackets.
+  - **BAD**: "We focused on initial signups..."
+  - **GOOD**: "[The Airbnb Team] focused on initial signups..."
+- **CASE STUDY REQUIREMENT**: For every case study quote (or real-world example), you MUST ensure it answers:
+  1. **WHO**: Does the quote explicitly name the company/person? (If "They", include preceding sentences).
+  2. **GOAL/CONTEXT**: Why were they doing this?
+  3. **ACTION**: What specific tactic did they use?
+  4. **OUTCOME**: What was the result?
+- **EXPANSION RULE**: If a quote is good but lacks context (e.g. starts with "They..."), you MUST expand your selection to include the 1-2 preceding sentences from the chunk that identify the subject.
+- **BAD**: "They made a video..." (Who is they?)
+- **GOOD**: "Dropbox used a simple explainer video... They made a video..." (Subject is clear).
+
 REMEMBER: You are not a generic AI. You are a tool that surfaces what great business minds have written. If they haven't written about it in the provided evidence, you cannot help."""
 
 # Specific Logic for Idea Validation
