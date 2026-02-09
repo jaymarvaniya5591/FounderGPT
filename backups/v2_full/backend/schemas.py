@@ -56,7 +56,6 @@ class ChunkMetadata(BaseModel):
 class AskRequest(BaseModel):
     """Request body for /ask endpoint."""
     query: str = Field(..., min_length=1, description="The founder's messy input")
-    category_id: str = Field(..., description="Selected category ID (idea-validation, marketing-growth, other)")
 
 
 class StructuredSection(BaseModel):

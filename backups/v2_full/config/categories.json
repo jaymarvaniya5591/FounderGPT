@@ -1,0 +1,14 @@
+{
+    "categories": [
+        {
+            "id": "idea-validation",
+            "name": "Idea Validation and Customer Discovery",
+            "description": "Understanding customer problems, validating ideas, and discovering market fit"
+        },
+        {
+            "id": "marketing-growth",
+            "name": "Marketing Frameworks & Growth Strategy",
+            "description": "Strategies for growth, marketing frameworks, and scaling customer acquisition"
+        }
+    ]
+}

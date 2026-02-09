@@ -1,14 +1,9 @@
-{
+const RESOURCES_DATA = {
   "categories": [
     {
       "id": "idea-validation",
       "name": "Idea Validation and Customer Discovery",
       "description": "Understanding customer problems, validating ideas, and discovering market fit"
-    },
-    {
-      "id": "marketing-growth",
-      "name": "Marketing Frameworks & Growth Strategy",
-      "description": "Strategies for growth, marketing frameworks, and scaling customer acquisition"
     }
   ],
   "books": [
@@ -104,13 +99,6 @@
       "chunk_count": 5
     },
     {
-      "source_file": "Growth Hacker Marketing-by-Ryan Holiday.pdf",
-      "title": "Growth Hacker Marketing",
-      "author": "Ryan Holiday",
-      "resource_type": "book",
-      "chunk_count": 26
-    },
-    {
       "source_file": "TAM-SAM-SOM-by-unknown.pdf",
       "title": "TAM-SAM-SOM",
       "author": "unknown",
@@ -200,5 +188,5 @@
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T15:34:12.087355"
-}
+  "last_updated": "2026-02-09T13:47:40.618707"
+};

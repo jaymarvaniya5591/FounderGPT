@@ -49,8 +49,7 @@ class LLMGateway:
     def generate_response(
         self,
         query: str,
-        chunks: List[Dict[str, Any]],
-        system_prompt: str = None
+        chunks: List[Dict[str, Any]]
     ) -> Dict[str, Any]:
         """
         Generate response trying providers in order: Claude -> Gemini.
@@ -65,7 +64,7 @@ class LLMGateway:
         try:
             self._log("\n[P1-CLAUDE] Attempting Claude Sonnet 4.5...")
             if self.claude and self.claude.client:
-                result = self.claude.generate_response(query, chunks, system_prompt=system_prompt)
+                result = self.claude.generate_response(query, chunks)
                 if result.get("success"):
                     self._log_provider_success("CLAUDE")
                     result["llm_provider"] = "Claude"
@@ -87,7 +86,7 @@ class LLMGateway:
         try:
             self._log("\n[P2-GEMINI] Falling back to Gemini 3 Flash...")
             if self.gemini and self.gemini.model:
-                result = self.gemini.generate_response(query, chunks, system_prompt=system_prompt)
+                result = self.gemini.generate_response(query, chunks)
                 if result.get("success"):
                     self._log_provider_success("GEMINI")
                     result["llm_provider"] = "Gemini"
@@ -133,6 +132,6 @@ class LLMGateway:
 # Global gateway instance
 llm_gateway = LLMGateway()
 
-def get_founder_advice(query: str, chunks: List[Dict[str, Any]], system_prompt: str = None) -> Dict[str, Any]:
+def get_founder_advice(query: str, chunks: List[Dict[str, Any]]) -> Dict[str, Any]:
     """Convenience function."""
-    return llm_gateway.generate_response(query, chunks, system_prompt=system_prompt)
+    return llm_gateway.generate_response(query, chunks)

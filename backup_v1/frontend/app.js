@@ -204,16 +204,6 @@ async function loadCachedData() {
 
             // Set current data
             categories = categoriesCache;
-
-            // Ensure "Other" category exists
-            if (!categories.find(c => c.id === 'other')) {
-                categories.push({
-                    id: 'other',
-                    name: 'Other / Not Listed',
-                    description: 'Anything else not covered above'
-                });
-            }
-
             resources = currentResourceType === 'book' ? booksCache : articlesCache;
 
             // Render
@@ -247,15 +237,6 @@ async function loadCategories() {
         if (data.success) {
             categories = data.categories;
 
-            // Ensure "Other" category exists
-            if (!categories.find(c => c.id === 'other')) {
-                categories.push({
-                    id: 'other',
-                    name: 'Other / Not Listed',
-                    description: 'Anything else not covered above'
-                });
-            }
-
             renderCategorySelect();
         }
     } catch (error) {
@@ -275,7 +256,7 @@ function renderCategorySelect() {
 
     // Reset selection if needed
     categorySelectValue.value = '';
-    selectTrigger.querySelector('span').textContent = 'Select Category';
+    selectTrigger.querySelector('span').textContent = 'Available categories';
     selectTrigger.classList.remove('active');
 }
 window.renderCategorySelect = renderCategorySelect;
@@ -304,11 +285,6 @@ function selectCategory(id) {
             opt.classList.remove('selected');
         }
     });
-
-    // Update button state
-    if (typeof updateAnalyzeButtonState === 'function') {
-        updateAnalyzeButtonState();
-    }
 }
 
 function closeDropdownOnClickOutside(e) {
@@ -507,14 +483,9 @@ function requireAdmin(callback) {
 // ========================================
 // Query & Analyze
 // ========================================
-function updateAnalyzeButtonState() {
-    const hasText = queryInput.value.trim().length > 0;
-    const hasCategory = categorySelectValue.value !== '';
-    analyzeBtn.disabled = !(hasText && hasCategory);
-}
-
 function handleQueryInput() {
-    updateAnalyzeButtonState();
+    const hasText = queryInput.value.trim().length > 0;
+    analyzeBtn.disabled = !hasText;
 }
 
 async function handleAnalyze() {
@@ -528,10 +499,7 @@ async function handleAnalyze() {
         const response = await fetch(`${API_BASE}/ask`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                query,
-                category_id: categorySelectValue.value
-            })
+            body: JSON.stringify({ query })
         });
 
         const data = await response.json();

@@ -3,7 +3,12 @@
         {
             "id": "idea-validation",
             "name": "Idea Validation and Customer Discovery",
-            "description": "Understanding customer problems, validating ideas, and discovering market fit"
+            "description": "Early-stage idea validation, customer discovery interviews (The Mom Test), and problem definition. Matches questions about validating a concept BEFORE building."
+        },
+        {
+            "id": "marketing-growth",
+            "name": "Marketing Frameworks & Growth Strategy",
+            "description": "Go-to-market strategy, acquiring first users, growth channels, and scaling. Matches questions about getting traction, marketing, or growing a business."
         }
     ]
 }

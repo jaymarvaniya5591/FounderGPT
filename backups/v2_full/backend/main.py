@@ -84,26 +84,26 @@ async def ask_question(request: AskRequest):
         print(f"[ASK] Received query: {request.query[:100]}...", flush=True)
         print(f"{'='*60}", flush=True)
         
-        # 1. Use User-Selected Category
-        category_id = request.category_id
-        print(f"[ASK] User selected category: {category_id}", flush=True)
-        
+        # 1. Classify Intent
+        from backend.intent_classifier import intent_classifier
         from backend.prompts import IDEA_VALIDATION_PROMPT, MARKETING_PROMPT
-
-        if category_id == "other":
+        
+        intent = intent_classifier.classify(request.query)
+        print(f"[ASK] Intent detected: {intent}", flush=True)
+        
+        if intent == "other":
             return AskResponse(
                 success=True,
-                full_response="## ⚠️ No Resources Available\n\nWe currently do not have resources or answering logic for this specific category.\n\nScoutMate helps you with:\n1. **Idea Validation & Customer Discovery**\n2. **Marketing Frameworks & Growth Strategy**\n\nPlease select one of these categories to get evidence-based advice.",
+                full_response="## ⚠️ Off-Topic\n\nI can only help with **Idea Validation, Customer Discovery, and Marketing/Growth** questions based on vetted books and case studies.\n\nPlease ask a relevant startup question.",
                 chunks_retrieved=0,
-                section_d_action="Please select a supported category."
+                section_d_action="Please rephrase your question to focus on startup validation or growth."
             )
             
-        # Select prompt based on category
-        if category_id == "marketing-growth":
+        # Select prompt based on intent
+        if intent == "marketing-growth":
             system_prompt = MARKETING_PROMPT
             print(f"[ASK] Using MARKETING logic (up to 5 citations, diverse sources)", flush=True)
         else:
-            # Default to Idea Validation for safety, or specifically for idea-validation ID
             system_prompt = IDEA_VALIDATION_PROMPT
             print(f"[ASK] Using VALIDATION logic (strict 3 citations)", flush=True)
         
@@ -113,7 +113,7 @@ async def ask_question(request: AskRequest):
         # Search for relevant chunks
         # Note: We could tune top_k based on intent (e.g., fetch more for marketing to get diversity)
         search_top_k = settings.TOP_K_RESULTS
-        if category_id == "marketing-growth":
+        if intent == "marketing-growth":
             search_top_k = 20  # Fetch more to allow for diversity selection
             
         chunks = vs.search(request.query, top_k=search_top_k)
