@@ -36,10 +36,6 @@
             <button id="close-sidebar-btn" class="close-btn" aria-label="Close menu">&times;</button>
         </div>
 
-        <button id="refresh-btn" class="refresh-btn">
-            <span class="refresh-icon">↻</span> Refresh Database
-        </button>
-
         <!-- History Section -->
         <section class="sidebar-section">
             <div class="section-header">
@@ -48,16 +44,6 @@
             </div>
             <ul id="history-list" class="item-list">
                 <!-- History populated by JS -->
-            </ul>
-        </section>
-
-        <!-- Categories Section -->
-        <section class="sidebar-section">
-            <h3 class="section-title">CATEGORIES</h3>
-            <input type="search" id="category-search" class="search-input" placeholder="Search categories...">
-            <button id="add-category-btn" class="add-btn">+ Add Category</button>
-            <ul id="category-list" class="item-list">
-                <!-- Categories populated by JS -->
             </ul>
         </section>
 
@@ -161,23 +147,6 @@
         </div>
     </div>
 
-    <!-- Add Category Modal -->
-    <div id="add-category-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>📁 Add New Category</h2>
-            </div>
-            <div class="modal-body">
-                <input type="text" id="new-category-name" class="modal-input" placeholder="Category name...">
-                <input type="text" id="new-category-desc" class="modal-input" placeholder="Description (optional)...">
-            </div>
-            <div class="modal-footer">
-                <button id="add-category-cancel-btn" class="btn btn-secondary">Cancel</button>
-                <button id="add-category-submit-btn" class="btn btn-primary">Add Category</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Add Resource Modal -->
     <div id="add-resource-modal" class="modal hidden">
         <div class="modal-content">
@@ -194,24 +163,6 @@
             <div class="modal-footer">
                 <button id="add-resource-cancel-btn" class="btn btn-secondary">Cancel</button>
                 <button id="add-resource-submit-btn" class="btn btn-primary">Add</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Refresh Modal -->
-    <div id="refresh-modal" class="modal hidden">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 id="refresh-modal-title">↻ Refreshing Database</h2>
-                <button id="refresh-close-btn" class="close-btn" style="display: none;" aria-label="Close">×</button>
-            </div>
-            <div class="modal-body">
-                <div id="refresh-spinner" class="spinner"></div>
-                <p id="refresh-status">Scanning for new resources...</p>
-                <label id="force-refresh-label" class="checkbox-container">
-                    <input type="checkbox" id="force-refresh-checkbox">
-                    Force Rescan (Re-process all files)
-                </label>
             </div>
         </div>
     </div>

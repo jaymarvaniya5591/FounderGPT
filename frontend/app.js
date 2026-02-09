@@ -37,13 +37,11 @@ const sidebar = document.getElementById('sidebar');
 const sidebarOverlay = document.getElementById('sidebar-overlay');
 const menuBtn = document.getElementById('menu-btn');
 const closeSidebarBtn = document.getElementById('close-sidebar-btn');
-const refreshBtn = document.getElementById('refresh-btn');
+
 const historyList = document.getElementById('history-list'); // NEW
 const clearHistoryBtn = document.getElementById('clear-history-btn'); // NEW
 
-const categorySearch = document.getElementById('category-search');
-const categoryList = document.getElementById('category-list');
-const addCategoryBtn = document.getElementById('add-category-btn');
+
 // Custom Dropdown Elements
 const customCategorySelect = document.getElementById('custom-category-select');
 const selectTrigger = document.getElementById('select-trigger');
@@ -76,11 +74,7 @@ const adminError = document.getElementById('admin-error');
 const adminCancelBtn = document.getElementById('admin-cancel-btn');
 const adminSubmitBtn = document.getElementById('admin-submit-btn');
 
-const addCategoryModal = document.getElementById('add-category-modal');
-const newCategoryName = document.getElementById('new-category-name');
-const newCategoryDesc = document.getElementById('new-category-desc');
-const addCategoryCancelBtn = document.getElementById('add-category-cancel-btn');
-const addCategorySubmitBtn = document.getElementById('add-category-submit-btn');
+
 
 const addResourceModal = document.getElementById('add-resource-modal');
 const addResourceTitle = document.getElementById('add-resource-title');
@@ -90,9 +84,7 @@ const newResourceUrl = document.getElementById('new-resource-url');
 const addResourceCancelBtn = document.getElementById('add-resource-cancel-btn');
 const addResourceSubmitBtn = document.getElementById('add-resource-submit-btn');
 
-const refreshModal = document.getElementById('refresh-modal');
-const refreshStatus = document.getElementById('refresh-status');
-const forceRefreshCheckbox = document.getElementById('force-refresh-checkbox');
+
 
 // Callback for admin auth
 let adminAuthCallback = null;
@@ -120,12 +112,10 @@ function init() {
     // History events
     clearHistoryBtn.addEventListener('click', clearHistory); // NEW
 
-    // Refresh button
-    refreshBtn.addEventListener('click', handleRefresh);
+
 
     // Category events
-    categorySearch.addEventListener('input', filterCategories);
-    addCategoryBtn.addEventListener('click', () => requireAdmin(showAddCategoryModal));
+
 
     // Custom Dropdown Events
     selectTrigger.addEventListener('click', toggleDropdown);
@@ -152,8 +142,7 @@ function init() {
     });
 
     // Add category modal events
-    addCategoryCancelBtn.addEventListener('click', hideAddCategoryModal);
-    addCategorySubmitBtn.addEventListener('click', handleAddCategory);
+
 
     // Add resource modal events
     addResourceCancelBtn.addEventListener('click', hideAddResourceModal);
@@ -218,7 +207,7 @@ async function loadCachedData() {
             resources = currentResourceType === 'book' ? booksCache : articlesCache;
 
             // Render
-            renderCategoryList();
+
             renderCategorySelect();
             renderResourceList();
         }
@@ -247,7 +236,7 @@ async function loadCategories() {
         const data = await response.json();
         if (data.success) {
             categories = data.categories;
-            renderCategoryList();
+
             renderCategorySelect();
         }
     } catch (error) {
@@ -255,19 +244,7 @@ async function loadCategories() {
     }
 }
 
-function renderCategoryList() {
-    const searchTerm = categorySearch.value.toLowerCase();
-    const filtered = categories.filter(c =>
-        c.name.toLowerCase().includes(searchTerm)
-    );
 
-    categoryList.innerHTML = filtered.map(cat => `
-        <li data-id="${cat.id}">
-            <span class="item-name">${escapeHtml(cat.name)}</span>
-            <button class="delete-btn" onclick="deleteCategory('${cat.id}')" title="Delete">🗑</button>
-        </li>
-    `).join('');
-}
 
 function renderCategorySelect() {
     // Populate custom dropdown options
@@ -319,75 +296,9 @@ function closeDropdownOnClickOutside(e) {
     }
 }
 
-function filterCategories() {
-    renderCategoryList();
-}
 
-function showAddCategoryModal() {
-    newCategoryName.value = '';
-    newCategoryDesc.value = '';
-    addCategoryModal.classList.remove('hidden');
-    newCategoryName.focus();
-}
 
-function hideAddCategoryModal() {
-    addCategoryModal.classList.add('hidden');
-}
 
-async function handleAddCategory() {
-    const name = newCategoryName.value.trim();
-    const description = newCategoryDesc.value.trim();
-
-    if (!name) {
-        alert('Please enter a category name');
-        return;
-    }
-
-    try {
-        const response = await fetch(`${API_BASE}/categories`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name,
-                description: description || null,
-                admin_password: adminPassword
-            })
-        });
-
-        if (response.ok) {
-            hideAddCategoryModal();
-            loadCategories();
-        } else {
-            const error = await response.json();
-            alert(error.detail || 'Failed to add category');
-        }
-    } catch (error) {
-        alert('Failed to add category: ' + error.message);
-    }
-}
-
-async function deleteCategory(categoryId) {
-    requireAdmin(async () => {
-        if (!confirm('Are you sure you want to delete this category?')) return;
-
-        try {
-            const response = await fetch(`${API_BASE}/categories/${categoryId}`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ admin_password: adminPassword })
-            });
-
-            if (response.ok) {
-                loadCategories();
-            } else {
-                const error = await response.json();
-                alert(error.detail || 'Failed to delete category');
-            }
-        } catch (error) {
-            alert('Failed to delete category: ' + error.message);
-        }
-    });
-}
 
 // ========================================
 // Resource Functions
@@ -567,76 +478,7 @@ function requireAdmin(callback) {
 // ========================================
 // Refresh Database
 // ========================================
-async function handleRefresh() {
-    closeSidebar();
 
-    const refreshModalTitle = document.getElementById('refresh-modal-title');
-    const refreshSpinner = document.getElementById('refresh-spinner');
-    const refreshCloseBtn = document.getElementById('refresh-close-btn');
-    const forceRefreshLabel = document.getElementById('force-refresh-label');
-
-    // Check if we're in local development
-    const isLocalhost = window.location.hostname === 'localhost' ||
-        window.location.hostname === '127.0.0.1';
-
-    if (!isLocalhost) {
-        // Production environment - show info popup with close button
-        refreshModalTitle.textContent = 'ℹ️ Local Development Only';
-        refreshStatus.textContent = 'Database refresh is only available when running locally. To add new resources, run the server on your machine and refresh there.';
-        refreshSpinner.style.display = 'none';
-        forceRefreshLabel.style.display = 'none';
-        refreshCloseBtn.style.display = 'block';
-        refreshModal.classList.remove('hidden');
-
-        // Close button handler
-        refreshCloseBtn.onclick = () => {
-            refreshModal.classList.add('hidden');
-            // Reset modal state for next time
-            refreshModalTitle.textContent = '↻ Refreshing Database';
-            refreshSpinner.style.display = '';
-            forceRefreshLabel.style.display = '';
-            refreshCloseBtn.style.display = 'none';
-        };
-        return;
-    }
-
-    // Local development - proceed with actual refresh
-    refreshModalTitle.textContent = '↻ Refreshing Database';
-    refreshStatus.textContent = 'Scanning for new resources...';
-    refreshSpinner.style.display = '';
-    forceRefreshLabel.style.display = '';
-    refreshCloseBtn.style.display = 'none';
-    refreshModal.classList.remove('hidden');
-
-    try {
-        const force = forceRefreshCheckbox.checked;
-        const response = await fetch(`${API_BASE}/refresh`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ force })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            refreshStatus.textContent = `Done! Processed ${data.books_processed} books and ${data.articles_processed} articles.`;
-            setTimeout(() => {
-                refreshModal.classList.add('hidden');
-                loadResources();
-            }, 2000);
-        } else {
-            refreshStatus.textContent = `Error: ${data.message || 'Refresh failed'}`;
-            setTimeout(() => {
-                refreshModal.classList.add('hidden');
-            }, 3000);
-        }
-    } catch (error) {
-        refreshStatus.textContent = `Error: ${error.message}`;
-        setTimeout(() => {
-            refreshModal.classList.add('hidden');
-        }, 3000);
-    }
-}
 
 // ========================================
 // Query & Analyze

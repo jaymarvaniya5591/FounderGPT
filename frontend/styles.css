@@ -123,30 +123,7 @@ body {
     color: var(--text-primary);
 }
 
-.refresh-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    margin: 16px 20px;
-    padding: 10px 16px;
-    background: transparent;
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    color: var(--text-secondary);
-    font-size: 13px;
-    cursor: pointer;
-    transition: all var(--transition-speed);
-}
 
-.refresh-btn:hover {
-    background: var(--bg-hover);
-    color: var(--text-primary);
-}
-
-.refresh-icon {
-    font-size: 14px;
-}
 
 /* Sidebar Sections */
 .sidebar-section {
@@ -902,22 +879,7 @@ body {
     background: var(--bg-hover);
 }
 
-/* Checkbox */
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 13px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    margin-top: 16px;
-}
 
-.checkbox-container input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--accent-gold);
-}
 
 /* ========================================
    Scrollbar Styling
