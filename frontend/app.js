@@ -1010,8 +1010,8 @@ function addToHistory(query, fullResponse) {
 
     conversationHistory.unshift(newItem);
 
-    if (conversationHistory.length > 20) {
-        conversationHistory = conversationHistory.slice(0, 20);
+    if (conversationHistory.length > 5) {
+        conversationHistory = conversationHistory.slice(0, 5);
     }
 
     saveHistory();

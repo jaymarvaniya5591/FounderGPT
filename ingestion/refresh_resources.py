@@ -270,21 +270,23 @@ class ResourceRefresher:
         print("\n=== Checking for GitHub push ===")
         
         try:
-            # Check if there are any changes
+            target_file = 'frontend/resources_data.js'
+            
+            # Check if there are any changes in the target file
             result = subprocess.run(
-                ['git', 'status', '--porcelain'],
+                ['git', 'status', '--porcelain', target_file],
                 cwd=self.project_root,
                 capture_output=True,
                 text=True
             )
             
             if not result.stdout.strip():
-                print("  No changes to commit")
+                print(f"  No changes to commit in {target_file}")
                 return False
             
-            # Add all changes
+            # Add only the target file
             subprocess.run(
-                ['git', 'add', '-A'],
+                ['git', 'add', target_file],
                 cwd=self.project_root,
                 check=True
             )
