@@ -3,12 +3,12 @@ const RESOURCES_DATA = {
     {
       "id": "idea-validation",
       "name": "Idea Validation and Customer Discovery",
-      "description": "Understanding customer problems, validating ideas, and discovering market fit"
+      "description": "Early-stage idea validation, customer discovery interviews (The Mom Test), and problem definition. Matches questions about validating a concept BEFORE building."
     },
     {
       "id": "marketing-growth",
       "name": "Marketing Frameworks & Growth Strategy",
-      "description": "Strategies for growth, marketing frameworks, and scaling customer acquisition"
+      "description": "Go-to-market strategy, acquiring first users, growth channels, and scaling. Matches questions about getting traction, marketing, or growing a business."
     }
   ],
   "books": [
@@ -69,11 +69,32 @@ const RESOURCES_DATA = {
       "chunk_count": 232
     },
     {
+      "source_file": "Hacking-growth-by-Sean Ellis & Morgan Brown.pdf",
+      "title": "Hacking-growth",
+      "author": "Sean Ellis & Morgan Brown",
+      "resource_type": "book",
+      "chunk_count": 172
+    },
+    {
       "source_file": "Competing Against Luck-by-Clayton M Christensen.pdf",
       "title": "Competing Against Luck",
       "author": "Clayton M Christensen",
       "resource_type": "book",
       "chunk_count": 113
+    },
+    {
+      "source_file": "Traction - How Any Startup Can Achieve Explosive Customer Growth-by-Gabriel Weinberg.pdf",
+      "title": "Traction - How Any Startup Can Achieve Explosive Customer Growth",
+      "author": "Gabriel Weinberg",
+      "resource_type": "book",
+      "chunk_count": 113
+    },
+    {
+      "source_file": "Product-Led Growth-by-Wes Bush.pdf",
+      "title": "Product-Led Growth",
+      "author": "Wes Bush",
+      "resource_type": "book",
+      "chunk_count": 74
     },
     {
       "source_file": "Zappos-case study-by-Standford Business School.pdf",
@@ -90,11 +111,25 @@ const RESOURCES_DATA = {
       "chunk_count": 117
     },
     {
+      "source_file": "lean-analytics-by-Alistair Croll & Benjamin Yoskovitz.pdf",
+      "title": "lean-analytics",
+      "author": "Alistair Croll & Benjamin Yoskovitz",
+      "resource_type": "book",
+      "chunk_count": 55
+    },
+    {
       "source_file": "LeanCanvas-by-Ash Maurya.pdf",
       "title": "LeanCanvas",
       "author": "Ash Maurya",
       "resource_type": "book",
       "chunk_count": 10
+    },
+    {
+      "source_file": "obviously-awesome-by-April-Dunford.pdf",
+      "title": "obviously-awesome",
+      "author": "April-Dunford",
+      "resource_type": "book",
+      "chunk_count": 58
     },
     {
       "source_file": "Value-Proposition-Design-by-unknown.pdf",
@@ -136,6 +171,22 @@ const RESOURCES_DATA = {
       "chunk_count": 8
     },
     {
+      "source_file": "The law of shitty click-throughs-by-Andrew Chen.html",
+      "title": "The law of shitty click-throughs",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://andrewchen.com/retention-causes-virality-and-vice-versa/",
+      "chunk_count": 2
+    },
+    {
+      "source_file": "Product-Market Fit Survey Guide-by-Sean Ellis.html",
+      "title": "Product-Market Fit Survey Guide",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://learningloop.io/plays/product-market-fit-survey",
+      "chunk_count": 17
+    },
+    {
       "source_file": "How Tech Founders Can Validate Willingness to Pay.html",
       "title": "How Tech Founders Can Validate Willingness to Pay | PricingOS.ai",
       "author": "Unknown",
@@ -168,6 +219,14 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     },
     {
+      "source_file": "Four Fits For $100M＋ Growth-by-Brian Balfour.html",
+      "title": "Four Fits For $100M＋ Growth",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://brianbalfour.com/four-fits-growth-framework",
+      "chunk_count": 2
+    },
+    {
       "source_file": "The Mom Test for Better Customer Interviews.html",
       "title": "The Mom Test for Better Customer Interviews | Looppanel",
       "author": "Unknown",
@@ -198,7 +257,15 @@ const RESOURCES_DATA = {
       "resource_type": "article",
       "url": "https://insart.com/case-study-saas-onboarding-costing-revenue-fix/",
       "chunk_count": 4
+    },
+    {
+      "source_file": "Growth Loops-by-Brian Balfour.html",
+      "title": "Growth Loops",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://www.reforge.com/blog/growth-loops",
+      "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T15:34:12.087355"
+  "last_updated": "2026-02-09T18:49:38.721674"
 };
