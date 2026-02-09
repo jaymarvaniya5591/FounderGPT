@@ -860,21 +860,44 @@ function addToHistory(query, fullResponse) {
 }
 
 function renderHistoryList() {
+    historyList.innerHTML = '';
+
     if (conversationHistory.length === 0) {
         historyList.innerHTML = '<li class="empty-state" style="border:none; background:none; color:var(--text-muted); padding:10px; text-align:center; font-size:12px;">No history yet</li>';
         return;
     }
 
-    historyList.innerHTML = conversationHistory.map(item => `
-        <li onclick="loadHistoryItem('${item.id}')" title="${escapeHtml(item.query)}">
-            <span class="item-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(item.query)}</span>
-            <button class="delete-btn" onclick="deleteHistoryItem('${item.id}', event)" title="Delete">🗑</button>
-        </li>
-    `).join('');
+    conversationHistory.forEach(item => {
+        const li = document.createElement('li');
+        li.title = item.query;
+
+        // click handler for the list item
+        li.addEventListener('click', () => loadHistoryItem(item.id));
+
+        const span = document.createElement('span');
+        span.className = 'item-name';
+        span.style.whiteSpace = 'nowrap';
+        span.style.overflow = 'hidden';
+        span.style.textOverflow = 'ellipsis';
+        span.textContent = item.query;
+        li.appendChild(span);
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.title = 'Delete';
+        deleteBtn.textContent = '🗑';
+
+        // click handler for the delete button
+        deleteBtn.addEventListener('click', (e) => deleteHistoryItem(item.id, e));
+
+        li.appendChild(deleteBtn);
+        historyList.appendChild(li);
+    });
 }
 
-window.loadHistoryItem = function (id) {
-    const item = conversationHistory.find(h => h.id === id);
+function loadHistoryItem(id) {
+    // Loose comparison just in case id types mismatch (string vs number)
+    const item = conversationHistory.find(h => h.id == id);
     if (!item) return;
 
     currentQuery = item.query;
@@ -883,15 +906,16 @@ window.loadHistoryItem = function (id) {
     if (window.innerWidth <= 768) {
         closeSidebar();
     }
-};
+}
 
-window.deleteHistoryItem = function (id, event) {
+function deleteHistoryItem(id, event) {
     event.stopPropagation();
     if (!confirm('Remove this conversation from history?')) return;
 
-    conversationHistory = conversationHistory.filter(h => h.id !== id);
+    // Loose comparison filter
+    conversationHistory = conversationHistory.filter(h => h.id != id);
     saveHistory();
-};
+}
 
 function clearHistory() {
     if (!conversationHistory.length) return;
