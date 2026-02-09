@@ -126,7 +126,15 @@ const RESOURCES_DATA = {
       "resource_type": "article",
       "url": "https://review.firstround.com/the-power-of-interviewing-customers-the-right-way-from-twitters-ex-vp-product/",
       "chunk_count": 4
+    },
+    {
+      "source_file": "How Tech Founders Can Validate Willingness to Pay.html",
+      "title": "How Tech Founders Can Validate Willingness to Pay | PricingOS.ai",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "http://pricingos.ai/tech-founders-validate-willingness-to-pay/",
+      "chunk_count": 2
     }
   ],
-  "last_updated": "2026-02-09T11:40:08.830482"
+  "last_updated": "2026-02-09T11:55:58.385458"
 };
