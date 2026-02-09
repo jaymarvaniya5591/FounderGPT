@@ -20,6 +20,13 @@ const RESOURCES_DATA = {
       "chunk_count": 273
     },
     {
+      "source_file": "PDT-Growth-and-Product-Guide-by-unknown.pdf",
+      "title": "PDT-Growth-and-Product-Guide",
+      "author": "unknown",
+      "resource_type": "book",
+      "chunk_count": 56
+    },
+    {
       "source_file": "Sprint-How to Solve Big Problems and Test-by-Jake Knapp.pdf",
       "title": "Sprint-How to Solve Big Problems and Test",
       "author": "Jake Knapp",
@@ -155,6 +162,14 @@ const RESOURCES_DATA = {
   ],
   "articles": [
     {
+      "source_file": "My 9 Favorite Growth Frameworks-by-Elena Verna.html",
+      "title": "My 9 Favorite Growth Frameworks",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://www.elenaverna.com/p/my-9-favorite-growth-frameworks",
+      "chunk_count": 3
+    },
+    {
       "source_file": "How to Get Startup Ideas-by-Paul Graham.html",
       "title": "How to Get Startup Ideas",
       "author": "Unknown",
@@ -267,5 +282,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T18:49:38.721674"
+  "last_updated": "2026-02-09T19:02:28.469183"
 };
