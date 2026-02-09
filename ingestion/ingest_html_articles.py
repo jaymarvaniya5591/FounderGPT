@@ -161,29 +161,67 @@ class HTMLArticleIngester:
                 print(f"    URL: {url}")
             
             # Remove script, style, and other non-content elements
-            for element in soup(['script', 'style', 'nav', 'header', 'footer', 'aside', 'noscript']):
+            for element in soup(['script', 'style', 'nav', 'header', 'footer', 'aside', 'noscript', 'iframe', 'svg']):
                 element.decompose()
+                
+            # Remove elements by class/id that are likely noise
+            # Extended list of noise selectors
+            noise_selectors = [
+                '.sidebar', '#sidebar', '.menu', '#menu', '.nav', '#nav',
+                '.footer', '#footer', '.header', '#header',
+                '.ad', '.ads', '.advertisement', '.banner',
+                '.popup', '.modal', '.cookie-consent',
+                '.comment', '#comments', '.comments-section',
+                '.related-posts', '.share-buttons', '.social-media',
+                '.login-form', '.signup-form', '.newsletter-form'
+            ]
+            for selector in noise_selectors:
+                for element in soup.select(selector):
+                    element.decompose()
             
-            # Get main content - try common content containers first
-            main_content = None
-            for selector in ['article', 'main', '.content', '.post-content', '#content']:
-                main_content = soup.select_one(selector)
-                if main_content:
-                    break
+            # Smart extraction: Prioritize specific semantic containers
+            # We look for the first container that has substantial content
+            selectors = [
+                 'article', 
+                 'main', 
+                 'div[role="main"]',
+                 '.post_content', 
+                 '.entry-content', 
+                 '.article-content',
+                 '#content', 
+                 '.content', 
+                 '.prose' # Common in Tailwind
+            ]
             
-            if not main_content:
-                main_content = soup.find('body') or soup
+            target_element = None
             
-            # Extract all text using get_text() - this is the most reliable method
-            # as it handles both modern HTML with p tags and old-school HTML with br/font tags
-            raw_text = main_content.get_text(separator='\n')
+            # 1. Try specific selectors
+            for selector in selectors:
+                element = soup.select_one(selector)
+                if element:
+                    text = element.get_text(separator=' ', strip=True)
+                    # Basic validation: must have some length to be considered the main content
+                    if len(text) > 500:
+                        target_element = element
+                        print(f"    Selected content source: '{selector}' ({len(text)} chars)")
+                        break
             
-            # Split into paragraphs by double newlines or long gaps
+            # 2. Fallback to body if no refined selector found
+            if not target_element:
+                target_element = soup.find('body') or soup
+                print(f"    Selected content source: 'body' (fallback)")
+
+            # Extract text with better separator handling
+            # get_text with separator='\n\n' preserves paragraph structure better for chunking
+            raw_text = target_element.get_text(separator='\n\n', strip=True)
+            
+            # Split into paragraphs by double newlines
             paragraph_texts = []
             raw_paragraphs = re.split(r'\n\s*\n+', raw_text)
             for para in raw_paragraphs:
                 para = para.strip()
-                if len(para) > 20:
+                # slightly lower threshold to catch short but meaningful sentences
+                if len(para) > 10: 
                     paragraph_texts.append(("text", para))
             
             current_section = "Introduction"
@@ -191,14 +229,6 @@ class HTMLArticleIngester:
             current_length = 0
             
             for para_type, text in paragraph_texts:
-                if not text or len(text) < 10:
-                    continue
-                
-                # Detect section headings
-                if para_type in ['h1', 'h2', 'h3', 'h4']:
-                    current_section = text[:100]
-                    continue
-                
                 word_count = len(text.split())
                 
                 if current_length + word_count > settings.CHUNK_SIZE:
@@ -260,6 +290,8 @@ class HTMLArticleIngester:
     
     def generate_embeddings(self, chunks: List[Dict[str, Any]]) -> List[List[float]]:
         """Generate embeddings for all chunks using Cohere with rate limit handling."""
+        if not chunks:
+            return []
         texts = [chunk["exact_text"] for chunk in chunks]
         print(f"    Generating Cohere embeddings for {len(texts)} chunks...")
         
@@ -268,6 +300,9 @@ class HTMLArticleIngester:
     
     def upload_to_qdrant(self, chunks: List[Dict[str, Any]], embeddings: List[List[float]]):
         """Upload chunks with embeddings to Qdrant."""
+        if not chunks or not embeddings:
+            return
+
         points = []
         
         for chunk, embedding in zip(chunks, embeddings):
@@ -296,18 +331,14 @@ class HTMLArticleIngester:
             )
             print(f"    Uploaded batch {i // batch_size + 1}/{(len(points) - 1) // batch_size + 1}")
     
-    def delete_article_vectors(self, filename: str):
-        """Delete all vectors associated with a specific file."""
-        print(f"    Deleting existing vectors for {filename}...")
+    def delete_all_articles(self):
+        """Delete ALL vectors with resource_type='article'."""
+        print("Deleting ALL existing articles from Qdrant...")
         try:
             self.qdrant.delete(
                 collection_name=settings.QDRANT_COLLECTION_NAME,
                 points_selector=Filter(
                     must=[
-                        FieldCondition(
-                            key="source_file",
-                            match=MatchValue(value=filename)
-                        ),
                         FieldCondition(
                             key="resource_type",
                             match=MatchValue(value="article")
@@ -315,14 +346,15 @@ class HTMLArticleIngester:
                     ]
                 )
             )
+            print("  Successfully deleted all article vectors.")
         except Exception as e:
-            print(f"    Error deleting vectors for {filename}: {e}")
+            print(f"  Error deleting all articles: {e}")
 
     def ingest_article(self, html_path: str) -> int:
         """Full pipeline: extract, embed, upload a single HTML article."""
-        # First, ensure idempotency by deleting any existing vectors for this file
+        # No need to delete individual files if we delete all at start
+        # but kept for idempotency if run individually
         filename = os.path.basename(html_path)
-        self.delete_article_vectors(filename)
         
         chunks = self.extract_text_from_html(html_path)
         
@@ -364,6 +396,10 @@ if __name__ == "__main__":
     ingester = HTMLArticleIngester()
     project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     articles_dir = os.path.join(project_root, settings.RESOURCES_ARTICLES_PATH)
+    
+    # NEW: Delete all existing articles first to ensure clean state
+    ingester.delete_all_articles()
+    
     results = ingester.ingest_all_articles(articles_dir)
     
     print("\n=== Ingestion Complete ===")

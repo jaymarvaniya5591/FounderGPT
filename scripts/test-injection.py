@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 # ============================================
 # CONFIGURATION - Set your HTML file path here
 # ============================================
-HTML_FILE_PATH = r"D:\Downloads\How to Validate a Business Idea & Its Potential in 5 Steps.html"
+HTML_FILE_PATH = r"C:\Users\marva\Documents\project-startupguru\antigravity-code\resources\articles\The Mom Test for Better Customer Interviews.html"
 # ============================================
 
 # Output file (in same directory as this script)
