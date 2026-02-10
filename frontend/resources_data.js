@@ -201,12 +201,36 @@ const RESOURCES_DATA = {
       "chunk_count": 8
     },
     {
+      "source_file": "Lessons from Notion on building a thriving decentralized community-by-Ben Lang.html",
+      "title": "Lessons from Notion on building a thriving decentralized community",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/podcast/lessons-from-notion-on-building-a-thriving-decentralized-community-ben-lang/",
+      "chunk_count": 16
+    },
+    {
       "source_file": "Do Things that Don't Scale-by-Paul Graham.html",
       "title": "Do Things that Don't Scale",
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://paulgraham.com/ds.html",
       "chunk_count": 8
+    },
+    {
+      "source_file": "The 30 Best Pieces of Advice for Entrepreneurs in 2023-by-First Round Collection.html",
+      "title": "The 30 Best Pieces of Advice for Entrepreneurs in 2023",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-30-best-pieces-of-advice-for-entrepreneurs-in-2023/",
+      "chunk_count": 16
+    },
+    {
+      "source_file": "The 30 Best Pieces of Advice for Entrepreneurs in 2022-by-First Round Collection.html",
+      "title": "The 30 Best Pieces of Advice for Entrepreneurs in 2022",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-30-best-pieces-of-advice-for-entrepreneurs-in-2022/",
+      "chunk_count": 18
     },
     {
       "source_file": "The Inside Story-by-First Round Collection.html",
@@ -225,6 +249,14 @@ const RESOURCES_DATA = {
       "chunk_count": 2
     },
     {
+      "source_file": "The 30 Best Pieces of Company Building Advice We Heard in 2024-by-First Round Collection.html",
+      "title": "The 30 Best Pieces of Company Building Advice We Heard in 2024",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-30-best-pieces-of-company-building-advice-we-heard-in-2024/",
+      "chunk_count": 4
+    },
+    {
       "source_file": "Product-Market Fit Survey Guide-by-Sean Ellis.html",
       "title": "Product-Market Fit Survey Guide",
       "author": "Unknown",
@@ -239,6 +271,14 @@ const RESOURCES_DATA = {
       "resource_type": "article",
       "url": "https://review.firstround.com/start-up-on-the-right-foot-build-a-customer-advisory-board/",
       "chunk_count": 8
+    },
+    {
+      "source_file": "The AI Eval Process for Figma's AI Product-by-First Round Collection.html",
+      "title": "The AI Eval Process for Figma's AI Product",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/figma-ai-eval-process/",
+      "chunk_count": 7
     },
     {
       "source_file": "The Founder Dating Playbook-by-First Round Collection.html",
@@ -281,6 +321,14 @@ const RESOURCES_DATA = {
       "chunk_count": 8
     },
     {
+      "source_file": "How to Make Your Product Idea Go Viral Inside Your Company-by-First Round Collection.html",
+      "title": "How to Make Your Product Idea Go Viral Inside Your Company",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-to-make-your-product-idea-go-viral-inside-your-company-lessons-from-figma-slides/",
+      "chunk_count": 8
+    },
+    {
       "source_file": "Mastering the Art of the Outcome-by-First Round Collection.html",
       "title": "Mastering the Art of the Outcome",
       "author": "Unknown",
@@ -303,6 +351,22 @@ const RESOURCES_DATA = {
       "resource_type": "article",
       "url": "http://pricingos.ai/tech-founders-validate-willingness-to-pay/",
       "chunk_count": 2
+    },
+    {
+      "source_file": "Notion’s Head of Marketing on building a growth marketing engine at a PLG company-by-Rachel Hepworth.html",
+      "title": "Notion’s Head of Marketing on building a growth marketing engine at a PLG company",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/podcast/notions-head-of-marketing-on-building-a-growth-marketing-engine-at-a-plg-company-rachel-hepworth/",
+      "chunk_count": 18
+    },
+    {
+      "source_file": "How to Scale Your Product from Figma's CPO-by-First Round Collection.html",
+      "title": "How to Scale Your Product from Figma's CPO",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/lessons-in-product-scaling-and-storytelling-from-figmas-cpo/",
+      "chunk_count": 6
     },
     {
       "source_file": "PlanGrid's Playbook for Startups-by-First Round Collection.html",
@@ -489,5 +553,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-10T10:16:05.883623"
+  "last_updated": "2026-02-10T10:37:13.437401"
 };
