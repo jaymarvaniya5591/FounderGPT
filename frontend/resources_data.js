@@ -83,6 +83,13 @@ const RESOURCES_DATA = {
       "chunk_count": 172
     },
     {
+      "source_file": "Cold Start Problem-by-Andrew Chen.pdf",
+      "title": "Cold Start Problem",
+      "author": "Andrew Chen",
+      "resource_type": "book",
+      "chunk_count": 192
+    },
+    {
       "source_file": "Competing Against Luck-by-Clayton M Christensen.pdf",
       "title": "Competing Against Luck",
       "author": "Clayton M Christensen",
@@ -183,6 +190,14 @@ const RESOURCES_DATA = {
       "resource_type": "article",
       "url": "https://www.elenaverna.com/p/my-9-favorite-growth-frameworks",
       "chunk_count": 3
+    },
+    {
+      "source_file": "Growth for startups-by-YC Startup Library.html",
+      "title": "Growth for startups",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://www.ycombinator.com/library/6k-growth-for-startups",
+      "chunk_count": 19
     },
     {
       "source_file": "How to Get Startup Ideas-by-Paul Graham.html",
@@ -385,6 +400,14 @@ const RESOURCES_DATA = {
       "chunk_count": 9
     },
     {
+      "source_file": "Retention： The situationship of SaaS-by-Elena Verna.html",
+      "title": "Retention： The situationship of SaaS",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://www.elenaverna.com/p/retention-the-situationship-of-saas",
+      "chunk_count": 3
+    },
+    {
       "source_file": "The 18 Mistakes That Kill Startups-by-Paul Graham.html",
       "title": "The 18 Mistakes That Kill Startups",
       "author": "Unknown",
@@ -449,6 +472,14 @@ const RESOURCES_DATA = {
       "chunk_count": 2
     },
     {
+      "source_file": "Designing for Success： The Set Up, Aha, and Habit Moments-by-Patricio Villanueva.html",
+      "title": "Designing for Success： The Set Up, Aha, and Habit Moments",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://patonv.medium.com/designing-for-success-the-set-up-aha-and-habit-moments-a34e9873e0d4",
+      "chunk_count": 3
+    },
+    {
       "source_file": "How Instacart Uses Data-by-First Round Collection.html",
       "title": "How Instacart Uses Data",
       "author": "Unknown",
@@ -505,6 +536,14 @@ const RESOURCES_DATA = {
       "chunk_count": 9
     },
     {
+      "source_file": "The North Star Metric & Framework-by-Sean Ellis.html",
+      "title": "The North Star Metric & Framework",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://growthmethod.com/the-north-star-metric/",
+      "chunk_count": 2
+    },
+    {
       "source_file": "Navigating the Leap from Big Tech to Startups-by-First Round Collection.html",
       "title": "Navigating the Leap from Big Tech to Startups",
       "author": "Unknown",
@@ -553,5 +592,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-10T10:37:13.437401"
+  "last_updated": "2026-02-10T10:46:21.266912"
 };
