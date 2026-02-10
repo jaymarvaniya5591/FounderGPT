@@ -289,6 +289,14 @@ const RESOURCES_DATA = {
       "chunk_count": 8
     },
     {
+      "source_file": "How A_B Testing Made Me a Better Manager-by-First Round Collection.html",
+      "title": "How A_B Testing Made Me a Better Manager",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-a-b-testing-at-linkedin-wealthfront-and-ebay-made-me-a-better-manager/",
+      "chunk_count": 6
+    },
+    {
       "source_file": "How Tech Founders Can Validate Willingness to Pay.html",
       "title": "How Tech Founders Can Validate Willingness to Pay | PricingOS.ai",
       "author": "Unknown",
@@ -377,6 +385,14 @@ const RESOURCES_DATA = {
       "chunk_count": 2
     },
     {
+      "source_file": "How Instacart Uses Data-by-First Round Collection.html",
+      "title": "How Instacart Uses Data",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-instacart-uses-data-to-craft-a-bespoke-comp-strategy/",
+      "chunk_count": 8
+    },
+    {
       "source_file": "The Mom Test for Better Customer Interviews.html",
       "title": "The Mom Test for Better Customer Interviews | Looppanel",
       "author": "Unknown",
@@ -441,6 +457,14 @@ const RESOURCES_DATA = {
       "chunk_count": 3
     },
     {
+      "source_file": "How Fidji Simo Finds Focus and Creates Conditions for Intentional Work-by-First Round Collection.html",
+      "title": "How Fidji Simo Finds Focus and Creates Conditions for Intentional Work",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-facebooks-vp-of-product-finds-focus-and-creates-conditions-for-intentional-work/",
+      "chunk_count": 7
+    },
+    {
       "source_file": "ICE Framework： The original prioritisation framework for marketers-by-Sean Ellis.html",
       "title": "ICE Framework： The original prioritisation framework for marketers",
       "author": "Unknown",
@@ -465,5 +489,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-10T10:13:47.370268"
+  "last_updated": "2026-02-10T10:16:05.883623"
 };
