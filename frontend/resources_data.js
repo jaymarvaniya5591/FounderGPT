@@ -249,6 +249,30 @@ const RESOURCES_DATA = {
       "chunk_count": 16
     },
     {
+      "source_file": "Sentry's Path to Product-Market Fit-by-First Round Collection.html",
+      "title": "Sentry's Path to Product-Market Fit",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/sentrys-path-to-product-market-fit/",
+      "chunk_count": 7
+    },
+    {
+      "source_file": "Canva’s Path to Product-Market Fit-by-First Round Collection.html",
+      "title": "Canva’s Path to Product-Market Fit",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/canvas-path-to-product-market-fit-2/",
+      "chunk_count": 7
+    },
+    {
+      "source_file": "Mastering the Art of the Outcome-by-First Round Collection.html",
+      "title": "Mastering the Art of the Outcome",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/mastering-the-art-of-the-outcome-how-guru-turned-customer-success-into-a-company-cornerstone/",
+      "chunk_count": 8
+    },
+    {
       "source_file": "How Tech Founders Can Validate Willingness to Pay.html",
       "title": "How Tech Founders Can Validate Willingness to Pay | PricingOS.ai",
       "author": "Unknown",
@@ -321,6 +345,14 @@ const RESOURCES_DATA = {
       "chunk_count": 7
     },
     {
+      "source_file": "Gusto’s Path to Product-Market Fit-by-First Round Collection.html",
+      "title": "Gusto’s Path to Product-Market Fit",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/gustos-path-to-product-market-fit/",
+      "chunk_count": 6
+    },
+    {
       "source_file": "Four Fits For $100M＋ Growth-by-Brian Balfour.html",
       "title": "Four Fits For $100M＋ Growth",
       "author": "Unknown",
@@ -351,6 +383,14 @@ const RESOURCES_DATA = {
       "resource_type": "article",
       "url": "https://brianbalfour.com/essays/product-market-fit-isnt-enough",
       "chunk_count": 2
+    },
+    {
+      "source_file": "How Backcountry’s Support Reps Go the Extra Mile-by-First Round Collection.html",
+      "title": "How Backcountry’s Support Reps Go the Extra Mile",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-backcountrys-support-reps-go-the-extra-mile-and-get-invited-to-their-customers-weddings/",
+      "chunk_count": 9
     },
     {
       "source_file": "Growth at All Costs is Perilous-by-first round collection.html",
@@ -401,5 +441,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-10T10:07:24.225717"
+  "last_updated": "2026-02-10T10:12:46.895346"
 };
