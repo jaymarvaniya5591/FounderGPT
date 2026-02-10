@@ -193,6 +193,14 @@ const RESOURCES_DATA = {
       "chunk_count": 13
     },
     {
+      "source_file": "So You Think You’re Ready to Hire a Marketer-by-First Round Collection.html",
+      "title": "So You Think You’re Ready to Hire a Marketer",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/so-you-think-youre-ready-to-hire-a-marketer-read-this-first/",
+      "chunk_count": 8
+    },
+    {
       "source_file": "Do Things that Don't Scale-by-Paul Graham.html",
       "title": "Do Things that Don't Scale",
       "author": "Unknown",
@@ -263,6 +271,14 @@ const RESOURCES_DATA = {
       "resource_type": "article",
       "url": "https://review.firstround.com/canvas-path-to-product-market-fit-2/",
       "chunk_count": 7
+    },
+    {
+      "source_file": "Why You Need Two Chiefs in the Executive Office-by-First Round Collection.html",
+      "title": "Why You Need Two Chiefs in the Executive Office",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/why-you-need-two-chiefs-in-the-executive-office/",
+      "chunk_count": 8
     },
     {
       "source_file": "Mastering the Art of the Outcome-by-First Round Collection.html",
@@ -377,6 +393,14 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     },
     {
+      "source_file": "Defining Growth Design-by-First Round Collection.html",
+      "title": "Defining Growth Design",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/defining-growth-design-the-guide-to-the-role-most-startups-are-missing/",
+      "chunk_count": 10
+    },
+    {
       "source_file": "Why Product Market Fit Isn't Enough-by-Brian Balfour.html",
       "title": "Why Product Market Fit Isn't Enough",
       "author": "Unknown",
@@ -441,5 +465,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-10T10:12:46.895346"
+  "last_updated": "2026-02-10T10:13:47.370268"
 };
