@@ -83,6 +83,13 @@
       "chunk_count": 172
     },
     {
+      "source_file": "Cold Start Problem-by-Andrew Chen.pdf",
+      "title": "Cold Start Problem",
+      "author": "Andrew Chen",
+      "resource_type": "book",
+      "chunk_count": 192
+    },
+    {
       "source_file": "Competing Against Luck-by-Clayton M Christensen.pdf",
       "title": "Competing Against Luck",
       "author": "Clayton M Christensen",
@@ -153,6 +160,13 @@
       "chunk_count": 26
     },
     {
+      "source_file": "PirateMetrics-by-Dave McClure.pdf",
+      "title": "PirateMetrics",
+      "author": "Dave McClure",
+      "resource_type": "book",
+      "chunk_count": 4
+    },
+    {
       "source_file": "TAM-SAM-SOM-by-unknown.pdf",
       "title": "TAM-SAM-SOM",
       "author": "unknown",
@@ -162,12 +176,28 @@
   ],
   "articles": [
     {
+      "source_file": "How Superhuman Built an Engine to Find PMF-by-First Round Collection.html",
+      "title": "How Superhuman Built an Engine to Find PMF",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-superhuman-built-an-engine-to-find-product-market-fit/",
+      "chunk_count": 9
+    },
+    {
       "source_file": "My 9 Favorite Growth Frameworks-by-Elena Verna.html",
       "title": "My 9 Favorite Growth Frameworks",
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://www.elenaverna.com/p/my-9-favorite-growth-frameworks",
       "chunk_count": 3
+    },
+    {
+      "source_file": "Growth for startups-by-YC Startup Library.html",
+      "title": "Growth for startups",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://www.ycombinator.com/library/6k-growth-for-startups",
+      "chunk_count": 19
     },
     {
       "source_file": "How to Get Startup Ideas-by-Paul Graham.html",
@@ -178,12 +208,52 @@
       "chunk_count": 13
     },
     {
+      "source_file": "So You Think You’re Ready to Hire a Marketer-by-First Round Collection.html",
+      "title": "So You Think You’re Ready to Hire a Marketer",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/so-you-think-youre-ready-to-hire-a-marketer-read-this-first/",
+      "chunk_count": 8
+    },
+    {
+      "source_file": "Lessons from Notion on building a thriving decentralized community-by-Ben Lang.html",
+      "title": "Lessons from Notion on building a thriving decentralized community",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/podcast/lessons-from-notion-on-building-a-thriving-decentralized-community-ben-lang/",
+      "chunk_count": 16
+    },
+    {
       "source_file": "Do Things that Don't Scale-by-Paul Graham.html",
       "title": "Do Things that Don't Scale",
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://paulgraham.com/ds.html",
       "chunk_count": 8
+    },
+    {
+      "source_file": "The 30 Best Pieces of Advice for Entrepreneurs in 2023-by-First Round Collection.html",
+      "title": "The 30 Best Pieces of Advice for Entrepreneurs in 2023",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-30-best-pieces-of-advice-for-entrepreneurs-in-2023/",
+      "chunk_count": 16
+    },
+    {
+      "source_file": "The 30 Best Pieces of Advice for Entrepreneurs in 2022-by-First Round Collection.html",
+      "title": "The 30 Best Pieces of Advice for Entrepreneurs in 2022",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-30-best-pieces-of-advice-for-entrepreneurs-in-2022/",
+      "chunk_count": 18
+    },
+    {
+      "source_file": "The Inside Story-by-First Round Collection.html",
+      "title": "The Inside Story",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-inside-story-of-how-this-startup-turned-a-216-word-pitch-email-into-a-2-6-billion-acquisition/",
+      "chunk_count": 18
     },
     {
       "source_file": "The law of shitty click-throughs-by-Andrew Chen.html",
@@ -194,12 +264,44 @@
       "chunk_count": 2
     },
     {
+      "source_file": "The 30 Best Pieces of Company Building Advice We Heard in 2024-by-First Round Collection.html",
+      "title": "The 30 Best Pieces of Company Building Advice We Heard in 2024",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-30-best-pieces-of-company-building-advice-we-heard-in-2024/",
+      "chunk_count": 4
+    },
+    {
       "source_file": "Product-Market Fit Survey Guide-by-Sean Ellis.html",
       "title": "Product-Market Fit Survey Guide",
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://learningloop.io/plays/product-market-fit-survey",
       "chunk_count": 17
+    },
+    {
+      "source_file": "Start Up on the Right Foot-by-first round collection.html",
+      "title": "Start Up on the Right Foot",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/start-up-on-the-right-foot-build-a-customer-advisory-board/",
+      "chunk_count": 8
+    },
+    {
+      "source_file": "The AI Eval Process for Figma's AI Product-by-First Round Collection.html",
+      "title": "The AI Eval Process for Figma's AI Product",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/figma-ai-eval-process/",
+      "chunk_count": 7
+    },
+    {
+      "source_file": "The Founder Dating Playbook-by-First Round Collection.html",
+      "title": "The Founder Dating Playbook",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-founder-dating-playbook-heres-the-process-i-used-to-find-my-co-founder/",
+      "chunk_count": 12
     },
     {
       "source_file": "Bullseye Framework. The Definitive Guide To Traction Channels-by-Rahul Vohra.html",
@@ -210,6 +312,54 @@
       "chunk_count": 16
     },
     {
+      "source_file": "Sentry's Path to Product-Market Fit-by-First Round Collection.html",
+      "title": "Sentry's Path to Product-Market Fit",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/sentrys-path-to-product-market-fit/",
+      "chunk_count": 7
+    },
+    {
+      "source_file": "Canva’s Path to Product-Market Fit-by-First Round Collection.html",
+      "title": "Canva’s Path to Product-Market Fit",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/canvas-path-to-product-market-fit-2/",
+      "chunk_count": 7
+    },
+    {
+      "source_file": "Why You Need Two Chiefs in the Executive Office-by-First Round Collection.html",
+      "title": "Why You Need Two Chiefs in the Executive Office",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/why-you-need-two-chiefs-in-the-executive-office/",
+      "chunk_count": 8
+    },
+    {
+      "source_file": "How to Make Your Product Idea Go Viral Inside Your Company-by-First Round Collection.html",
+      "title": "How to Make Your Product Idea Go Viral Inside Your Company",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-to-make-your-product-idea-go-viral-inside-your-company-lessons-from-figma-slides/",
+      "chunk_count": 8
+    },
+    {
+      "source_file": "Mastering the Art of the Outcome-by-First Round Collection.html",
+      "title": "Mastering the Art of the Outcome",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/mastering-the-art-of-the-outcome-how-guru-turned-customer-success-into-a-company-cornerstone/",
+      "chunk_count": 8
+    },
+    {
+      "source_file": "How A_B Testing Made Me a Better Manager-by-First Round Collection.html",
+      "title": "How A_B Testing Made Me a Better Manager",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-a-b-testing-at-linkedin-wealthfront-and-ebay-made-me-a-better-manager/",
+      "chunk_count": 6
+    },
+    {
       "source_file": "How Tech Founders Can Validate Willingness to Pay.html",
       "title": "How Tech Founders Can Validate Willingness to Pay | PricingOS.ai",
       "author": "Unknown",
@@ -218,12 +368,44 @@
       "chunk_count": 2
     },
     {
+      "source_file": "Notion’s Head of Marketing on building a growth marketing engine at a PLG company-by-Rachel Hepworth.html",
+      "title": "Notion’s Head of Marketing on building a growth marketing engine at a PLG company",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/podcast/notions-head-of-marketing-on-building-a-growth-marketing-engine-at-a-plg-company-rachel-hepworth/",
+      "chunk_count": 18
+    },
+    {
+      "source_file": "How to Scale Your Product from Figma's CPO-by-First Round Collection.html",
+      "title": "How to Scale Your Product from Figma's CPO",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/lessons-in-product-scaling-and-storytelling-from-figmas-cpo/",
+      "chunk_count": 6
+    },
+    {
+      "source_file": "PlanGrid's Playbook for Startups-by-First Round Collection.html",
+      "title": "PlanGrid's Playbook for Startups",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/plangrids-playbook-for-startups-to-crack-open-big-established-industries/",
+      "chunk_count": 6
+    },
+    {
       "source_file": "Startup = Growth-by-Paul Graham.html",
       "title": "Startup = Growth",
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://paulgraham.com/growth.html",
       "chunk_count": 9
+    },
+    {
+      "source_file": "Retention： The situationship of SaaS-by-Elena Verna.html",
+      "title": "Retention： The situationship of SaaS",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://www.elenaverna.com/p/retention-the-situationship-of-saas",
+      "chunk_count": 3
     },
     {
       "source_file": "The 18 Mistakes That Kill Startups-by-Paul Graham.html",
@@ -250,12 +432,60 @@
       "chunk_count": 4
     },
     {
+      "source_file": "The Three Frameworks You Need to Kick-start Sales-by-first round collection.html",
+      "title": "The Three Frameworks You Need to Kick-start Sales",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-three-frameworks-you-need-to-kick-start-sales/",
+      "chunk_count": 8
+    },
+    {
+      "source_file": "Get Out of the ARPU-CAC Danger Zone with Channel Model Fit-by-Brian Balfour.html",
+      "title": "Get Out of the ARPU-CAC Danger Zone with Channel Model Fit",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://brianbalfour.com/essays/channel-model-fit-for-user-acquisition",
+      "chunk_count": 3
+    },
+    {
+      "source_file": "Resiliency-by-First round collection.html",
+      "title": "Resiliency",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/this-founder-built-startups-in-2008-2016-and-2018-heres-what-hes-learned-about-resiliency/",
+      "chunk_count": 7
+    },
+    {
+      "source_file": "Gusto’s Path to Product-Market Fit-by-First Round Collection.html",
+      "title": "Gusto’s Path to Product-Market Fit",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/gustos-path-to-product-market-fit/",
+      "chunk_count": 6
+    },
+    {
       "source_file": "Four Fits For $100M＋ Growth-by-Brian Balfour.html",
       "title": "Four Fits For $100M＋ Growth",
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://brianbalfour.com/four-fits-growth-framework",
       "chunk_count": 2
+    },
+    {
+      "source_file": "Designing for Success： The Set Up, Aha, and Habit Moments-by-Patricio Villanueva.html",
+      "title": "Designing for Success： The Set Up, Aha, and Habit Moments",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://patonv.medium.com/designing-for-success-the-set-up-aha-and-habit-moments-a34e9873e0d4",
+      "chunk_count": 3
+    },
+    {
+      "source_file": "How Instacart Uses Data-by-First Round Collection.html",
+      "title": "How Instacart Uses Data",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-instacart-uses-data-to-craft-a-bespoke-comp-strategy/",
+      "chunk_count": 8
     },
     {
       "source_file": "The Mom Test for Better Customer Interviews.html",
@@ -274,6 +504,14 @@
       "chunk_count": 4
     },
     {
+      "source_file": "Defining Growth Design-by-First Round Collection.html",
+      "title": "Defining Growth Design",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/defining-growth-design-the-guide-to-the-role-most-startups-are-missing/",
+      "chunk_count": 10
+    },
+    {
       "source_file": "Why Product Market Fit Isn't Enough-by-Brian Balfour.html",
       "title": "Why Product Market Fit Isn't Enough",
       "author": "Unknown",
@@ -282,12 +520,60 @@
       "chunk_count": 2
     },
     {
+      "source_file": "How Backcountry’s Support Reps Go the Extra Mile-by-First Round Collection.html",
+      "title": "How Backcountry’s Support Reps Go the Extra Mile",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-backcountrys-support-reps-go-the-extra-mile-and-get-invited-to-their-customers-weddings/",
+      "chunk_count": 9
+    },
+    {
+      "source_file": "Growth at All Costs is Perilous-by-first round collection.html",
+      "title": "Growth at All Costs is Perilous",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/growth-at-all-costs-is-perilous-this-is-how-to-scale-sales-sustainably/",
+      "chunk_count": 9
+    },
+    {
+      "source_file": "The North Star Metric & Framework-by-Sean Ellis.html",
+      "title": "The North Star Metric & Framework",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://growthmethod.com/the-north-star-metric/",
+      "chunk_count": 2
+    },
+    {
+      "source_file": "Navigating the Leap from Big Tech to Startups-by-First Round Collection.html",
+      "title": "Navigating the Leap from Big Tech to Startups",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/navigating-the-leap-from-big-tech-to-startups-advice-from-a-former-google-and-flipkart-exec/",
+      "chunk_count": 8
+    },
+    {
       "source_file": "Idea to Paying Customers in 7 Weeks： How We Did It-by-Buffer.html",
       "title": "Idea to Paying Customers in 7 Weeks： How We Did It",
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://buffer.com/resources/idea-to-paying-customers-in-7-weeks-how-we-did-it/",
       "chunk_count": 3
+    },
+    {
+      "source_file": "How Fidji Simo Finds Focus and Creates Conditions for Intentional Work-by-First Round Collection.html",
+      "title": "How Fidji Simo Finds Focus and Creates Conditions for Intentional Work",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-facebooks-vp-of-product-finds-focus-and-creates-conditions-for-intentional-work/",
+      "chunk_count": 7
+    },
+    {
+      "source_file": "ICE Framework： The original prioritisation framework for marketers-by-Sean Ellis.html",
+      "title": "ICE Framework： The original prioritisation framework for marketers",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://growthmethod.com/ice-framework/",
+      "chunk_count": 1
     },
     {
       "source_file": "Case Study： Why Your SaaS Onboarding is Costing You Revenue (and How to Fix It)-by-Stripe.html",
@@ -306,5 +592,5 @@
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T20:34:41.736085"
+  "last_updated": "2026-02-10T10:46:21.266912"
 }

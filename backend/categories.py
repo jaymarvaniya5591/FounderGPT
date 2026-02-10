@@ -43,7 +43,7 @@ class CategoryManager:
                 "categories": [
                     {
                         "id": "idea-validation",
-                        "name": "Idea Validation and Customer Discovery",
+                        "name": "Idea Validation, Customer Discovery & PMF",
                         "description": "Understanding customer problems, validating ideas, and discovering market fit"
                     }
                 ]

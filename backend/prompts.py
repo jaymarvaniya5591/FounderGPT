@@ -100,8 +100,9 @@ CONTEXT VALIDATION (WHO-ACTION-OUTCOME):
 
 REMEMBER: You are not a generic AI. You are a tool that surfaces what great business minds have written. If they haven't written about it in the provided evidence, you cannot help."""
 
-# Specific Logic for Idea Validation
-IDEA_VALIDATION_PROMPT = BASE_INSTRUCTIONS + """
+# General Logic (Standard Blueprint for all categories)
+# This serves as the foundation for new categories and Idea Validation
+GENERAL_PROMPT = BASE_INSTRUCTIONS + """
 
 EVIDENCE PRIORITIZATION (CRITICAL):
 1. SPECIFIC CASE STUDIES that match the user's business model (e.g., specific company examples, real-world scenarios) are PREFERRED over generic advice.
@@ -117,6 +118,30 @@ ADDITIONAL CITATION RULES:
 - The quote should include enough context so readers understand the situation being described
 """
 
+# Specific Logic for Idea Validation
+# Currently adopts the General Prompt exactly, but allows for future divergence
+IDEA_VALIDATION_PROMPT = GENERAL_PROMPT
+
+# Logic for "Other" Category
+# Adopts General Prompt logic but with STRICTER evidence requirements
+OTHER_CATEGORY_PROMPT = BASE_INSTRUCTIONS + """
+
+EVIDENCE PRIORITIZATION (STRICTER):
+1. STRICT RELEVANCE CHECK: You must ONLY answer if the evidence EXPLICITLY addresses the user's query.
+2. NO VAGUE ANSWERS: If the evidence is only tangentially relevant, DO NOT USE IT. Return "No sufficient evidence found".
+3. SPECIFIC CASE STUDIES are preferred, but only if they directly relate to the question.
+
+ADDITIONAL CITATION RULES (STRICT):
+- CITATION COUNT: Use 1-3 citations.
+  * If only 1 strong piece of evidence exists, USE ONLY 1. Do not force 3 if they are weak.
+  * If no strong evidence exists, return "No sufficient evidence".
+- DYNAMIC CITATION LENGTH:
+  * HIGH RELEVANCE/CORE EVIDENCE: Use MINIMUM 4 complete sentences. Provide deep context.
+  * SUPPORTING EVIDENCE: Use 2-3 complete sentences.
+- FOCUS ON SPECIFICS: Prioritize quotes that describe SOLUTION MECHANICS and OUTCOMES.
+- The quote should include enough context so readers understand the situation being described
+"""
+
 # New Logic for Marketing & Growth
 MARKETING_PROMPT = BASE_INSTRUCTIONS + """
 
@@ -125,7 +150,7 @@ EVIDENCE PRIORITIZATION (CRITICAL):
    - Since this is about marketing, diversity and real-world scenarios are CRITICAL.
    - If there are different relevant case studies for the query, show up to 5 evidences.
    - ONLY show up to 5 evidences when there are REAL WORLD SCENARIOS (case studies, examples) relevant to the query.
-   - If the evidence is technical or generic, KEEP IT TO MAXIMUM 3 CITATIONS.
+   - If the evidence is technical or generic, KEEP IT TO MAXIMUM 3 citations.
    - Prioritize diverse sources (different companies, different industries) to show breadth of tactics.
 
 2. SPECIFIC ACTIONABLE TACTICS:

@@ -88,24 +88,22 @@ async def ask_question(request: AskRequest):
         category_id = request.category_id
         print(f"[ASK] User selected category: {category_id}", flush=True)
         
-        from backend.prompts import IDEA_VALIDATION_PROMPT, MARKETING_PROMPT
+        from backend.prompts import IDEA_VALIDATION_PROMPT, MARKETING_PROMPT, OTHER_CATEGORY_PROMPT, GENERAL_PROMPT
 
-        if category_id == "other":
-            return AskResponse(
-                success=True,
-                full_response="## ⚠️ No Resources Available\n\nWe currently do not have resources or answering logic for this specific category.\n\nScoutMate helps you with:\n1. **Idea Validation & Customer Discovery**\n2. **Marketing Frameworks & Growth Strategy**\n\nPlease select one of these categories to get evidence-based advice.",
-                chunks_retrieved=0,
-                section_d_action="Please select a supported category."
-            )
-            
         # Select prompt based on category
         if category_id == "marketing-growth":
             system_prompt = MARKETING_PROMPT
             print(f"[ASK] Using MARKETING logic (up to 5 citations, diverse sources)", flush=True)
-        else:
-            # Default to Idea Validation for safety, or specifically for idea-validation ID
+        elif category_id == "other":
+            system_prompt = OTHER_CATEGORY_PROMPT
+            print(f"[ASK] Using OTHER/STRICT logic (strict 1-3 citations)", flush=True)
+        elif category_id == "idea-validation":
             system_prompt = IDEA_VALIDATION_PROMPT
-            print(f"[ASK] Using VALIDATION logic (strict 3 citations)", flush=True)
+            print(f"[ASK] Using VALIDATION logic (standard 3 citations)", flush=True)
+        else:
+            # Default to General Prompt for any new/unknown categories
+            system_prompt = GENERAL_PROMPT
+            print(f"[ASK] Using GENERAL logic (standard template)", flush=True)
         
         # Get vector search instance
         vs = get_vector_search()
