@@ -153,6 +153,13 @@ const RESOURCES_DATA = {
       "chunk_count": 26
     },
     {
+      "source_file": "PirateMetrics-by-Dave McClure.pdf",
+      "title": "PirateMetrics",
+      "author": "Dave McClure",
+      "resource_type": "book",
+      "chunk_count": 4
+    },
+    {
       "source_file": "TAM-SAM-SOM-by-unknown.pdf",
       "title": "TAM-SAM-SOM",
       "author": "unknown",
@@ -161,6 +168,14 @@ const RESOURCES_DATA = {
     }
   ],
   "articles": [
+    {
+      "source_file": "How Superhuman Built an Engine to Find PMF-by-First Round Collection.html",
+      "title": "How Superhuman Built an Engine to Find PMF",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/how-superhuman-built-an-engine-to-find-product-market-fit/",
+      "chunk_count": 9
+    },
     {
       "source_file": "My 9 Favorite Growth Frameworks-by-Elena Verna.html",
       "title": "My 9 Favorite Growth Frameworks",
@@ -186,6 +201,14 @@ const RESOURCES_DATA = {
       "chunk_count": 8
     },
     {
+      "source_file": "The Inside Story-by-First Round Collection.html",
+      "title": "The Inside Story",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-inside-story-of-how-this-startup-turned-a-216-word-pitch-email-into-a-2-6-billion-acquisition/",
+      "chunk_count": 18
+    },
+    {
       "source_file": "The law of shitty click-throughs-by-Andrew Chen.html",
       "title": "The law of shitty click-throughs",
       "author": "Unknown",
@@ -202,6 +225,22 @@ const RESOURCES_DATA = {
       "chunk_count": 17
     },
     {
+      "source_file": "Start Up on the Right Foot-by-first round collection.html",
+      "title": "Start Up on the Right Foot",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/start-up-on-the-right-foot-build-a-customer-advisory-board/",
+      "chunk_count": 8
+    },
+    {
+      "source_file": "The Founder Dating Playbook-by-First Round Collection.html",
+      "title": "The Founder Dating Playbook",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-founder-dating-playbook-heres-the-process-i-used-to-find-my-co-founder/",
+      "chunk_count": 12
+    },
+    {
       "source_file": "Bullseye Framework. The Definitive Guide To Traction Channels-by-Rahul Vohra.html",
       "title": "Bullseye Framework. The Definitive Guide To Traction Channels",
       "author": "Unknown",
@@ -216,6 +255,14 @@ const RESOURCES_DATA = {
       "resource_type": "article",
       "url": "http://pricingos.ai/tech-founders-validate-willingness-to-pay/",
       "chunk_count": 2
+    },
+    {
+      "source_file": "PlanGrid's Playbook for Startups-by-First Round Collection.html",
+      "title": "PlanGrid's Playbook for Startups",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/plangrids-playbook-for-startups-to-crack-open-big-established-industries/",
+      "chunk_count": 6
     },
     {
       "source_file": "Startup = Growth-by-Paul Graham.html",
@@ -250,6 +297,30 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     },
     {
+      "source_file": "The Three Frameworks You Need to Kick-start Sales-by-first round collection.html",
+      "title": "The Three Frameworks You Need to Kick-start Sales",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/the-three-frameworks-you-need-to-kick-start-sales/",
+      "chunk_count": 8
+    },
+    {
+      "source_file": "Get Out of the ARPU-CAC Danger Zone with Channel Model Fit-by-Brian Balfour.html",
+      "title": "Get Out of the ARPU-CAC Danger Zone with Channel Model Fit",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://brianbalfour.com/essays/channel-model-fit-for-user-acquisition",
+      "chunk_count": 3
+    },
+    {
+      "source_file": "Resiliency-by-First round collection.html",
+      "title": "Resiliency",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/this-founder-built-startups-in-2008-2016-and-2018-heres-what-hes-learned-about-resiliency/",
+      "chunk_count": 7
+    },
+    {
       "source_file": "Four Fits For $100M＋ Growth-by-Brian Balfour.html",
       "title": "Four Fits For $100M＋ Growth",
       "author": "Unknown",
@@ -282,12 +353,36 @@ const RESOURCES_DATA = {
       "chunk_count": 2
     },
     {
+      "source_file": "Growth at All Costs is Perilous-by-first round collection.html",
+      "title": "Growth at All Costs is Perilous",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/growth-at-all-costs-is-perilous-this-is-how-to-scale-sales-sustainably/",
+      "chunk_count": 9
+    },
+    {
+      "source_file": "Navigating the Leap from Big Tech to Startups-by-First Round Collection.html",
+      "title": "Navigating the Leap from Big Tech to Startups",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://review.firstround.com/navigating-the-leap-from-big-tech-to-startups-advice-from-a-former-google-and-flipkart-exec/",
+      "chunk_count": 8
+    },
+    {
       "source_file": "Idea to Paying Customers in 7 Weeks： How We Did It-by-Buffer.html",
       "title": "Idea to Paying Customers in 7 Weeks： How We Did It",
       "author": "Unknown",
       "resource_type": "article",
       "url": "https://buffer.com/resources/idea-to-paying-customers-in-7-weeks-how-we-did-it/",
       "chunk_count": 3
+    },
+    {
+      "source_file": "ICE Framework： The original prioritisation framework for marketers-by-Sean Ellis.html",
+      "title": "ICE Framework： The original prioritisation framework for marketers",
+      "author": "Unknown",
+      "resource_type": "article",
+      "url": "https://growthmethod.com/ice-framework/",
+      "chunk_count": 1
     },
     {
       "source_file": "Case Study： Why Your SaaS Onboarding is Costing You Revenue (and How to Fix It)-by-Stripe.html",
@@ -306,5 +401,5 @@ const RESOURCES_DATA = {
       "chunk_count": 4
     }
   ],
-  "last_updated": "2026-02-09T20:34:41.736085"
+  "last_updated": "2026-02-10T10:07:24.225717"
 };
