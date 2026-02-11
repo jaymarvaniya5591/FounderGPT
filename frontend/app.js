@@ -695,6 +695,20 @@ function showMainPage() {
 // Response Parsing
 // ========================================
 function parseResponse(text) {
+    // Determine which model was used based on the dropdown selection
+    const model = document.getElementById('model-select-value').value;
+
+    if (model === 'claude-haiku-4-5') {
+        return parseResponseHaiku(text);
+    } else {
+        return parseResponseSonnet(text);
+    }
+}
+
+// ----------------------------------------
+// HAIKU PARSER (Strict/Legacy Logic -> Now Enhanced)
+// ----------------------------------------
+function parseResponseHaiku(text) {
     const result = {
         summary: '',
         questions: []
@@ -702,21 +716,18 @@ function parseResponse(text) {
 
     if (!text) return result;
 
-    // Split by ## headers
     const sections = text.split(/(?=^##\s)/gm);
 
     for (const section of sections) {
         const trimmed = section.trim();
         if (!trimmed) continue;
 
-        // Check for SUMMARY section
         if (trimmed.match(/^##\s*SUMMARY/i)) {
             const summaryContent = trimmed.replace(/^##\s*SUMMARY\s*/i, '').trim();
             result.summary = summaryContent;
             continue;
         }
 
-        // Check for QUESTION sections
         const questionMatch = trimmed.match(/^##\s*QUESTION\s*\d*:?\s*(.+?)(?:\n|$)/i);
         if (questionMatch) {
             const questionTitle = questionMatch[1].trim();
@@ -728,27 +739,28 @@ function parseResponse(text) {
                 evidence: []
             };
 
-            // Parse answer - look for Answer marker and stop at Evidence marker
-            // Flexible regex to handle: **Answer**: or **Answer** or Answer:
-            // Stop at Evidence section (case insensitive, flexible format)
+            // Parse answer - Flexible regex for Haiku to handle bolding issues
             const answerMatch = questionBody.match(/(?:\*\*Answer\*\*:?|Answer:)\s*(.+?)(?=\n\s*(?:\*\*|##)?\s*Evidence|Evidence:|$)/is);
             if (answerMatch) {
-                question.answer = answerMatch[1].trim();
+                let rawAnswer = answerMatch[1].trim();
+                // CLEANUP: Remove leading "**" or "** " if existing
+                if (rawAnswer.startsWith('**')) {
+                    rawAnswer = rawAnswer.replace(/^\*\*\s?/, '');
+                }
+                question.answer = rawAnswer;
             }
 
             // Extract evidence section
-            // split by "Evidence" identifier, handling various formats
             const evidenceParts = questionBody.split(/\n\s*(?:\*\*|##)?\s*Evidence:?/i);
             const evidenceSection = evidenceParts.length > 1 ? evidenceParts.slice(1).join('\n') : '';
 
-            // Parse evidence using line-by-line approach
-            question.evidence = parseEvidenceSection(evidenceSection);
+            // Parse evidence using strict line-by-line approach
+            question.evidence = parseEvidenceSectionHaiku(evidenceSection);
 
             result.questions.push(question);
         }
     }
 
-    // Fallback if no structured content found
     if (!result.summary && result.questions.length === 0) {
         result.summary = text;
     }
@@ -756,12 +768,149 @@ function parseResponse(text) {
     return result;
 }
 
-// Parse evidence section line by line for more robust extraction
-function parseEvidenceSection(evidenceText) {
+function parseEvidenceSectionHaiku(evidenceText) {
     const evidence = [];
     if (!evidenceText) return evidence;
 
-    // Split into lines
+    const lines = evidenceText.split('\n');
+    let currentQuote = '';
+    let currentSource = '';
+    let currentConfidence = null;
+    let inQuote = false;
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+
+        // Enhanced dash check for Haiku (optional dash)
+        const quoteMatch = line.match(/^(-\s*)?"/);
+        if (quoteMatch) {
+            if (currentQuote && currentSource) {
+                evidence.push({
+                    quote: currentQuote,
+                    source: formatSourceText(currentSource),
+                    confidence: currentConfidence || 'Medium'
+                });
+            }
+
+            // Reset for new quote using logic that handles optional dash
+            currentQuote = '';
+            currentSource = '';
+            currentConfidence = null;
+            inQuote = true;
+
+            const quoteStart = line.indexOf('"') + 1;
+            const quoteEnd = line.lastIndexOf('"');
+
+            if (quoteEnd > quoteStart) {
+                currentQuote = line.substring(quoteStart, quoteEnd);
+                inQuote = false;
+                const afterQuote = line.substring(quoteEnd + 1);
+                const sourceMatch = afterQuote.match(/[—–-]\s*(Book|Article):?\s*(.+)/i);
+                if (sourceMatch) {
+                    currentSource = sourceMatch[1] + ': ' + sourceMatch[2].trim();
+                }
+            } else {
+                currentQuote = line.substring(quoteStart);
+            }
+        }
+        else if (line.match(/(Book|Article):/i) && !line.startsWith('-')) {
+            const sourceMatch = line.match(/(Book|Article):?\s*(.+)/i);
+            if (sourceMatch) {
+                currentSource = sourceMatch[1] + ': ' + sourceMatch[2].trim();
+            }
+        }
+        else if (line.match(/Confidence:\s*(High|Medium|Low)/i)) {
+            const confMatch = line.match(/Confidence:\s*(High|Medium|Low)/i);
+            if (confMatch) {
+                currentConfidence = confMatch[1].trim();
+            }
+        }
+        else if (inQuote && line) {
+            if (line.includes('"')) {
+                const quoteEnd = line.indexOf('"');
+                currentQuote += ' ' + line.substring(0, quoteEnd);
+                inQuote = false;
+                const afterQuote = line.substring(quoteEnd + 1);
+                const sourceMatch = afterQuote.match(/[—–-]\s*(Book|Article):?\s*(.+)/i);
+                if (sourceMatch) {
+                    currentSource = sourceMatch[1] + ': ' + sourceMatch[2].trim();
+                }
+            } else {
+                currentQuote += ' ' + line;
+            }
+        }
+    }
+
+    if (currentQuote && currentSource) {
+        evidence.push({
+            quote: currentQuote,
+            source: formatSourceText(currentSource),
+            confidence: currentConfidence || 'Medium'
+        });
+    }
+
+    return evidence;
+}
+
+// ----------------------------------------
+// SONNET PARSER (Flexible Logic)
+// ----------------------------------------
+function parseResponseSonnet(text) {
+    const result = {
+        summary: '',
+        questions: []
+    };
+
+    if (!text) return result;
+
+    const sections = text.split(/(?=^##\s)/gm);
+
+    for (const section of sections) {
+        const trimmed = section.trim();
+        if (!trimmed) continue;
+
+        if (trimmed.match(/^##\s*SUMMARY/i)) {
+            const summaryContent = trimmed.replace(/^##\s*SUMMARY\s*/i, '').trim();
+            result.summary = summaryContent;
+            continue;
+        }
+
+        const questionMatch = trimmed.match(/^##\s*QUESTION\s*\d*:?\s*(.+?)(?:\n|$)/i);
+        if (questionMatch) {
+            const questionTitle = questionMatch[1].trim();
+            const questionBody = trimmed.replace(/^##\s*QUESTION\s*\d*:?\s*.+?\n/i, '').trim();
+
+            const question = {
+                title: questionTitle || 'Question',
+                answer: '',
+                evidence: []
+            };
+
+            const answerMatch = questionBody.match(/(?:\*\*Answer\*\*:?|Answer:)\s*(.+?)(?=\n\s*(?:\*\*|##)?\s*Evidence|Evidence:|$)/is);
+            if (answerMatch) {
+                question.answer = answerMatch[1].trim();
+            }
+
+            const evidenceParts = questionBody.split(/\n\s*(?:\*\*|##)?\s*Evidence:?/i);
+            const evidenceSection = evidenceParts.length > 1 ? evidenceParts.slice(1).join('\n') : '';
+
+            question.evidence = parseEvidenceSectionSonnet(evidenceSection);
+
+            result.questions.push(question);
+        }
+    }
+
+    if (!result.summary && result.questions.length === 0) {
+        result.summary = text;
+    }
+
+    return result;
+}
+
+function parseEvidenceSectionSonnet(evidenceText) {
+    const evidence = [];
+    if (!evidenceText) return evidence;
+
     const lines = evidenceText.split('\n');
 
     let currentQuote = '';
@@ -775,7 +924,6 @@ function parseEvidenceSection(evidenceText) {
         // Check if this line starts a new quote (dash quote OR just quote)
         const quoteMatch = line.match(/^(-\s*)?"/);
         if (quoteMatch) {
-            // Save previous quote if exists
             if (currentQuote && currentSource) {
                 evidence.push({
                     quote: currentQuote,
@@ -784,56 +932,45 @@ function parseEvidenceSection(evidenceText) {
                 });
             }
 
-            // Reset for new quote
             currentQuote = '';
             currentSource = '';
             currentConfidence = null;
             inQuote = true;
 
-            // Extract quote from this line - might continue on next lines
             const quoteStart = line.indexOf('"') + 1;
             const quoteEnd = line.lastIndexOf('"');
 
             if (quoteEnd > quoteStart) {
-                // Quote ends on same line
                 currentQuote = line.substring(quoteStart, quoteEnd);
                 inQuote = false;
 
-                // Check for source on same line after quote
                 const afterQuote = line.substring(quoteEnd + 1);
                 const sourceMatch = afterQuote.match(/[—–-]\s*(Book|Article):?\s*(.+)/i);
                 if (sourceMatch) {
                     currentSource = sourceMatch[1] + ': ' + sourceMatch[2].trim();
                 }
             } else {
-                // Quote continues on next lines
                 currentQuote = line.substring(quoteStart);
             }
         }
-        // Check for source line - flexible to handle encoding issues
-        // Matches any line containing Book: or Article: with content after
         else if (line.match(/(Book|Article):/i) && !line.startsWith('-')) {
             const sourceMatch = line.match(/(Book|Article):?\s*(.+)/i);
             if (sourceMatch) {
                 currentSource = sourceMatch[1] + ': ' + sourceMatch[2].trim();
             }
         }
-        // Check for confidence line - anywhere in line
         else if (line.match(/Confidence:\s*(High|Medium|Low)/i)) {
             const confMatch = line.match(/Confidence:\s*(High|Medium|Low)/i);
             if (confMatch) {
                 currentConfidence = confMatch[1].trim();
             }
         }
-        // Continue reading quote if we're in the middle of one
         else if (inQuote && line) {
             if (line.includes('"')) {
-                // Quote ends on this line
                 const quoteEnd = line.indexOf('"');
                 currentQuote += ' ' + line.substring(0, quoteEnd);
                 inQuote = false;
 
-                // Check for source after quote
                 const afterQuote = line.substring(quoteEnd + 1);
                 const sourceMatch = afterQuote.match(/[—–-]\s*(Book|Article):?\s*(.+)/i);
                 if (sourceMatch) {
@@ -845,7 +982,6 @@ function parseEvidenceSection(evidenceText) {
         }
     }
 
-    // Don't forget the last quote
     if (currentQuote && currentSource) {
         evidence.push({
             quote: currentQuote,
@@ -854,12 +990,11 @@ function parseEvidenceSection(evidenceText) {
         });
     }
 
-    // Fallback: if no quotes found, try simple regex extraction
+    // Fallback: if no quotes found, try simple regex extraction (SAME AS BEFORE)
     if (evidence.length === 0) {
         const simplePattern = /"([^"]{20,})"/g;
         let match;
         while ((match = simplePattern.exec(evidenceText)) !== null) {
-            // Look for source after this quote - flexible pattern
             const afterQuote = evidenceText.substring(match.index + match[0].length, match.index + match[0].length + 300);
             const sourceMatch = afterQuote.match(/(Book|Article):?\s*([^\n]+)/i);
             const confMatch = afterQuote.match(/Confidence:\s*(High|Medium|Low)/i);
@@ -871,7 +1006,6 @@ function parseEvidenceSection(evidenceText) {
             });
         }
     }
-
 
     return evidence;
 }
