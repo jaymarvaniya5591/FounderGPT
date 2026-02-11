@@ -5,6 +5,7 @@ Main entry point for the API server.
 
 import os
 import sys
+import time
 from pathlib import Path
 
 # Fix Windows console encoding for Unicode characters (em-dashes, etc.)
@@ -80,6 +81,7 @@ async def ask_question(request: AskRequest):
     evidence-backed advice following the strict 5-section format.
     """
     try:
+        start_time = time.time()
         print(f"\n{'='*60}", flush=True)
         print(f"[ASK] Received query: {request.query[:100]}...", flush=True)
         print(f"{'='*60}", flush=True)
@@ -110,13 +112,16 @@ async def ask_question(request: AskRequest):
         
         # Search for relevant chunks
         # Note: We could tune top_k based on intent (e.g., fetch more for marketing to get diversity)
+        t0_search = time.time()
         search_top_k = settings.TOP_K_RESULTS
         if category_id == "marketing-growth":
-            search_top_k = 20  # Fetch more to allow for diversity selection
+            search_top_k = 12  # Fetch more to allow for diversity selection
             
         chunks = vs.search(request.query, top_k=search_top_k)
+        t1_search = time.time()
+        search_time = t1_search - t0_search
         
-        print(f"\n[ASK] Retrieved {len(chunks)} chunks", flush=True)
+        print(f"\n[ASK] Retrieved {len(chunks)} chunks in {search_time:.2f}s", flush=True)
         
         # If no chunks found, return insufficient evidence response
         if not chunks:
@@ -128,12 +133,16 @@ async def ask_question(request: AskRequest):
         
         # Get LLM gateway and generate response
         gateway = get_llm_gateway()
+        
+        t0_llm = time.time()
         result = gateway.generate_response(
             request.query, 
             chunks, 
             system_prompt=system_prompt,
             model=request.model
         )
+        t1_llm = time.time()
+        llm_time = t1_llm - t0_llm
         
         if not result["success"]:
             return AskResponse(
@@ -145,6 +154,8 @@ async def ask_question(request: AskRequest):
         # Parse sections from result
         sections = result.get("sections", {})
         
+        total_time = time.time() - start_time
+        
         return AskResponse(
             success=True,
             section_a_problem=sections.get("section_a"),
@@ -154,7 +165,12 @@ async def ask_question(request: AskRequest):
             section_e_avoid=sections.get("section_e"),
             full_response=result.get("full_response"),
             chunks_retrieved=len(chunks),
-            llm_provider=result.get("llm_provider")
+            llm_provider=result.get("llm_provider"),
+            timing_data={
+                "total_time": total_time,
+                "search_time": search_time,
+                "llm_time": llm_time
+            }
         )
         
     except Exception as e:

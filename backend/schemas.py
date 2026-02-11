@@ -87,6 +87,9 @@ class AskResponse(BaseModel):
     # LLM Provider that generated the response (OpenAI, Claude, or Gemini)
     llm_provider: Optional[str] = None
 
+    # Timing Data
+    timing_data: Optional[Dict[str, float]] = None
+
 
 class RefreshRequest(BaseModel):
     """Request body for /refresh endpoint (optional)."""

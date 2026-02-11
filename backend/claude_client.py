@@ -97,17 +97,10 @@ Content:
         user_message = f"""FOUNDER'S INPUT:
 \"\"\"{user_query}\"\"\"
 
-STEP 1 - ANALYZE THE INPUT:
-Before responding, carefully analyze the founder's input:
-- What is the CONTEXT? (e.g., user research results, specific numbers mentioned, stage of company)
-- What are ALL the DISTINCT QUESTIONS being asked? List each one explicitly.
-- Are there any emotional undertones or implicit concerns?
-
-STEP 2 - SEARCH FOR EVIDENCE:
+CONTEXTUAL EVIDENCE:
 {evidence_context}
 
-STEP 3 - RESPOND:
-Now provide your structured response following the EXACT format specified:
+Provide your structured response following the EXACT format specified in the system prompt.
 - Create a SUMMARY section first that addresses the founder's complete situation
 - Create a separate QUESTION section for EACH distinct question you identified
 - Remember: ONLY use quotes from the evidence above

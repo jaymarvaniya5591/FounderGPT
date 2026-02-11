@@ -62,6 +62,7 @@ const resultsPage = document.getElementById('results-page');
 const backBtn = document.getElementById('back-btn');
 const scenarioText = document.getElementById('scenario-text');
 const evidenceSummary = document.getElementById('evidence-summary');
+const timingStats = document.getElementById('timing-stats'); // NEW
 const questionsHeader = document.getElementById('questions-header');
 const questionsList = document.getElementById('questions-list');
 
@@ -105,7 +106,7 @@ function init() {
     loadCachedData();
 
     // Load history
-    loadHistory(); // NEW
+    loadHistoryInternal(); // NEW
 
     // Start keep-alive ping every 10 minutes to prevent Render shutdown
     startKeepAlive();
@@ -157,6 +158,19 @@ function init() {
 
     // Set random placeholder
     setRandomPlaceholder();
+}
+
+function loadHistoryInternal() {
+    const saved = localStorage.getItem('scoutmate_history');
+    if (saved) {
+        try {
+            conversationHistory = JSON.parse(saved);
+            renderHistory();
+        } catch (e) {
+            console.error('Failed to parse history', e);
+            conversationHistory = [];
+        }
+    }
 }
 
 function setRandomPlaceholder() {
@@ -591,7 +605,7 @@ async function handleAnalyze() {
         loadingOverlay.classList.add('hidden');
 
         if (data.success) {
-            addToHistory(currentQuery, data.full_response); // NEW: Save to history
+            addToHistory(currentQuery, data.full_response, data.timing_data); // NEW: Save to history with timing
             showResults(data);
         } else {
             alert(data.error || 'Analysis failed');
@@ -613,6 +627,29 @@ function showResults(data) {
 
     // Render summary with markdown formatting
     evidenceSummary.innerHTML = formatMarkdown(parsed.summary) || 'Analysis complete. See questions below.';
+
+    // Render Timing Stats if available
+    if (data.timing_data) {
+        const t = data.timing_data;
+        timingStats.innerHTML = `
+            <div class="timing-item">
+                <span class="timing-label">TOTAL TIME</span>
+                <span class="timing-value">${t.total_time.toFixed(2)}s</span>
+            </div>
+            <div class="timing-divider"></div>
+            <div class="timing-item">
+                <span class="timing-label">RETRIEVAL (QDRANT)</span>
+                <span class="timing-value">${t.search_time.toFixed(2)}s</span>
+            </div>
+            <div class="timing-item">
+                <span class="timing-label">GENERATION (LLM)</span>
+                <span class="timing-value">${t.llm_time.toFixed(2)}s</span>
+            </div>
+        `;
+        timingStats.classList.remove('hidden');
+    } else {
+        timingStats.classList.add('hidden');
+    }
 
     questionsHeader.textContent = `DECOMPOSED QUESTIONS (${parsed.questions.length})`;
 
@@ -927,31 +964,36 @@ function loadHistory() {
 
 function saveHistory() {
     localStorage.setItem('scoutmate_history', JSON.stringify(conversationHistory));
-    renderHistoryList();
+    renderHistory();
 }
 
-function addToHistory(query, fullResponse) {
-    if (conversationHistory.length > 0 && conversationHistory[0].query === query) {
-        return;
-    }
+function addToHistory(query, response, timingData = null) {
+    if (!query) return;
 
-    const newItem = {
+    const item = {
         id: Date.now().toString(),
-        timestamp: Date.now(),
-        query: query,
-        response: fullResponse
+        query,
+        response,
+        timing_data: timingData, // Save timing data
+        timestamp: new Date().toISOString()
     };
 
-    conversationHistory.unshift(newItem);
+    // Add to beginning
+    conversationHistory.unshift(item);
 
+    // Limit to 5 items (as per user request)
     if (conversationHistory.length > 5) {
-        conversationHistory = conversationHistory.slice(0, 5);
+        conversationHistory.pop();
     }
 
+    // Save
     saveHistory();
+
+    // Render
+    renderHistory();
 }
 
-function renderHistoryList() {
+function renderHistory() {
     historyList.innerHTML = '';
 
     if (conversationHistory.length === 0) {
@@ -962,6 +1004,7 @@ function renderHistoryList() {
     conversationHistory.forEach(item => {
         const li = document.createElement('li');
         li.title = item.query;
+        li.dataset.id = item.id; // Add dataset ID for selection
 
         // click handler for the list item
         li.addEventListener('click', () => loadHistoryItem(item.id));
@@ -993,7 +1036,14 @@ function loadHistoryItem(id) {
     if (!item) return;
 
     currentQuery = item.query;
-    showResults({ full_response: item.response });
+    queryInput.value = item.query;
+
+    // Show results with saved data
+    showResults({
+        success: true,
+        full_response: item.response,
+        timing_data: item.timing_data // Pass saved timing data
+    });
 
     if (window.innerWidth <= 768) {
         closeSidebar();

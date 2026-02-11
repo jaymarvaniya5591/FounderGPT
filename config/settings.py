@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     RESOURCES_INDEX_FILE: str = "config/resources_index.json"
     
     # Vector Search - Enhanced RAG Settings
-    TOP_K_RESULTS: int = 16  # Optimized for relevance/context balance
+    TOP_K_RESULTS: int = 10  # Optimized for relevance/context balance
     SIMILARITY_THRESHOLD: float = 0.28  # Lowered to capture more relevant usage
     
     # Cohere Reranker
