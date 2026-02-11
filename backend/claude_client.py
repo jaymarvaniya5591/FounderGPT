@@ -73,7 +73,8 @@ Content:
         self,
         user_query: str,
         chunks: List[Dict[str, Any]],
-        system_prompt: str = None
+        system_prompt: str = None,
+        model: str = None
     ) -> Dict[str, Any]:
         """
         Generate a structured response using Claude.
@@ -115,8 +116,11 @@ Now provide your structured response following the EXACT format specified:
 - Use 2-3 sentence quotes that provide full context, not single lines"""
         
         try:
+            # Determine model to use
+            target_model = model if model else self.model
+            
             response = self.client.messages.create(
-                model=self.model,
+                model=target_model,
                 max_tokens=4096,
                 system=prompt_to_use,
                 messages=[

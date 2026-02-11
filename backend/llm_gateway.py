@@ -50,7 +50,8 @@ class LLMGateway:
         self,
         query: str,
         chunks: List[Dict[str, Any]],
-        system_prompt: str = None
+        system_prompt: str = None,
+        model: str = None
     ) -> Dict[str, Any]:
         """
         Generate response trying providers in order: Claude -> Gemini.
@@ -65,7 +66,7 @@ class LLMGateway:
         try:
             self._log("\n[P1-CLAUDE] Attempting Claude Sonnet 4.5...")
             if self.claude and self.claude.client:
-                result = self.claude.generate_response(query, chunks, system_prompt=system_prompt)
+                result = self.claude.generate_response(query, chunks, system_prompt=system_prompt, model=model)
                 if result.get("success"):
                     self._log_provider_success("CLAUDE")
                     result["llm_provider"] = "Claude"

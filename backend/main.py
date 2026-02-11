@@ -128,7 +128,12 @@ async def ask_question(request: AskRequest):
         
         # Get LLM gateway and generate response
         gateway = get_llm_gateway()
-        result = gateway.generate_response(request.query, chunks, system_prompt=system_prompt)
+        result = gateway.generate_response(
+            request.query, 
+            chunks, 
+            system_prompt=system_prompt,
+            model=request.model
+        )
         
         if not result["success"]:
             return AskResponse(

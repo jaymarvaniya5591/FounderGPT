@@ -380,6 +380,8 @@ body {
 .custom-select-container {
     position: relative;
     width: 100%;
+    margin-bottom: 0px;
+    /* Reset */
 }
 
 .select-trigger {

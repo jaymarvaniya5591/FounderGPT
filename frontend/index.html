@@ -89,6 +89,20 @@
 
                     <textarea id="query-input" class="query-textarea" rows="5"></textarea>
 
+                    <div class="custom-select-container" id="custom-model-select">
+                        <div class="select-trigger" id="model-select-trigger">
+                            <span>Claude Sonnet 4.5 (Smart)</span>
+                            <span class="arrow">▼</span>
+                        </div>
+                        <div class="select-options hidden" id="model-select-options">
+                            <div class="option" data-value="claude-haiku-4-5" onclick="selectModel('claude-haiku-4-5')">
+                                Claude Haiku 4.5 (Fast)</div>
+                            <div class="option selected" data-value="claude-sonnet-4-5"
+                                onclick="selectModel('claude-sonnet-4-5')">Claude Sonnet 4.5 (Smart)</div>
+                        </div>
+                        <input type="hidden" id="model-select-value" value="claude-sonnet-4-5">
+                    </div>
+
                     <button id="analyze-btn" class="analyze-btn" disabled>Analyze with Evidence</button>
                 </div>
             </div>

@@ -65,6 +65,12 @@ const evidenceSummary = document.getElementById('evidence-summary');
 const questionsHeader = document.getElementById('questions-header');
 const questionsList = document.getElementById('questions-list');
 
+// Model Dropdown Elements
+const customModelSelect = document.getElementById('custom-model-select');
+const modelSelectTrigger = document.getElementById('model-select-trigger');
+const modelSelectOptions = document.getElementById('model-select-options');
+const modelSelectValue = document.getElementById('model-select-value');
+
 const loadingOverlay = document.getElementById('loading-overlay');
 
 // Modals
@@ -119,6 +125,7 @@ function init() {
 
     // Custom Dropdown Events
     selectTrigger.addEventListener('click', toggleDropdown);
+    modelSelectTrigger.addEventListener('click', toggleModelDropdown);
     document.addEventListener('click', closeDropdownOnClickOutside);
 
     // Resource events
@@ -312,13 +319,58 @@ function selectCategory(id) {
 }
 
 function closeDropdownOnClickOutside(e) {
+    // Category Dropdown
     if (!customCategorySelect.contains(e.target)) {
         selectOptions.classList.add('hidden');
         if (!categorySelectValue.value) {
             selectTrigger.classList.remove('active');
         }
     }
+
+    // Model Dropdown
+    if (!customModelSelect.contains(e.target)) {
+        modelSelectOptions.classList.add('hidden');
+        if (!modelSelectValue.value) {
+            modelSelectTrigger.classList.remove('active');
+        }
+    }
 }
+
+// Model Dropdown Functions
+function toggleModelDropdown(e) {
+    e.stopPropagation();
+    modelSelectOptions.classList.toggle('hidden');
+    modelSelectTrigger.classList.toggle('active');
+
+    // Close other dropdown
+    selectOptions.classList.add('hidden');
+}
+
+function selectModel(id) {
+    const models = [
+        { id: 'claude-haiku-4-5', name: 'Claude Haiku 4.5 (Fast)' },
+        { id: 'claude-sonnet-4-5', name: 'Claude Sonnet 4.5 (Smart)' }
+    ];
+
+    const model = models.find(m => m.id === id);
+    if (!model) return;
+
+    modelSelectValue.value = id;
+    modelSelectTrigger.querySelector('span').textContent = model.name;
+    modelSelectOptions.classList.add('hidden');
+    modelSelectTrigger.classList.add('active');
+
+    // Visual feedback
+    const options = modelSelectOptions.querySelectorAll('.option');
+    options.forEach(opt => {
+        if (opt.dataset.value === id) {
+            opt.classList.add('selected');
+        } else {
+            opt.classList.remove('selected');
+        }
+    });
+}
+window.selectModel = selectModel;
 
 
 
@@ -530,7 +582,8 @@ async function handleAnalyze() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 query,
-                category_id: categorySelectValue.value
+                category_id: categorySelectValue.value,
+                model: modelSelectValue.value
             })
         });
 
@@ -638,15 +691,18 @@ function parseResponse(text) {
                 evidence: []
             };
 
-            // Parse answer
-            const answerMatch = questionBody.match(/\*\*Answer\*\*:?\s*(.+?)(?=\n\s*Evidence:|$)/is);
+            // Parse answer - look for Answer marker and stop at Evidence marker
+            // Flexible regex to handle: **Answer**: or **Answer** or Answer:
+            // Stop at Evidence section (case insensitive, flexible format)
+            const answerMatch = questionBody.match(/(?:\*\*Answer\*\*:?|Answer:)\s*(.+?)(?=\n\s*(?:\*\*|##)?\s*Evidence|Evidence:|$)/is);
             if (answerMatch) {
                 question.answer = answerMatch[1].trim();
             }
 
             // Extract evidence section
-            const evidenceParts = questionBody.split(/Evidence:/i);
-            const evidenceSection = evidenceParts[1] || '';
+            // split by "Evidence" identifier, handling various formats
+            const evidenceParts = questionBody.split(/\n\s*(?:\*\*|##)?\s*Evidence:?/i);
+            const evidenceSection = evidenceParts.length > 1 ? evidenceParts.slice(1).join('\n') : '';
 
             // Parse evidence using line-by-line approach
             question.evidence = parseEvidenceSection(evidenceSection);
@@ -679,14 +735,15 @@ function parseEvidenceSection(evidenceText) {
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
 
-        // Check if this line starts a new quote (starts with - ")
-        if (line.match(/^-\s*"/)) {
+        // Check if this line starts a new quote (dash quote OR just quote)
+        const quoteMatch = line.match(/^(-\s*)?"/);
+        if (quoteMatch) {
             // Save previous quote if exists
             if (currentQuote && currentSource) {
                 evidence.push({
                     quote: currentQuote,
                     source: formatSourceText(currentSource),
-                    confidence: currentConfidence
+                    confidence: currentConfidence || 'Medium'
                 });
             }
 
@@ -756,7 +813,7 @@ function parseEvidenceSection(evidenceText) {
         evidence.push({
             quote: currentQuote,
             source: formatSourceText(currentSource),
-            confidence: currentConfidence
+            confidence: currentConfidence || 'Medium'
         });
     }
 
@@ -778,6 +835,7 @@ function parseEvidenceSection(evidenceText) {
         }
     }
 
+
     return evidence;
 }
 
@@ -797,6 +855,8 @@ function formatMarkdown(text) {
     if (!text) return '';
 
     return text
+        // Ensure newlines before bullets
+        .replace(/([^\n])\n(- |\d+\.|[a-z]\))/g, '$1\n\n$2')
         // Bold
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         // Italic

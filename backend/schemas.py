@@ -57,6 +57,7 @@ class AskRequest(BaseModel):
     """Request body for /ask endpoint."""
     query: str = Field(..., min_length=1, description="The founder's messy input")
     category_id: str = Field(..., description="Selected category ID (idea-validation, marketing-growth, other)")
+    model: Optional[str] = Field("claude-sonnet-4-5", description="Model ID to use (claude-haiku-4-5 or claude-sonnet-4-5)")
 
 
 class StructuredSection(BaseModel):

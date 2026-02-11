@@ -49,7 +49,7 @@ OUTPUT FORMAT (STRICT - MUST FOLLOW EXACTLY):
 
 ## QUESTION 1: [Restate the first distinct question/topic from user input]
 
-**Answer**: [Direct, opinionated answer based on evidence]
+**Answer**: [Direct, opinionated answer based on evidence. Write a complete but concise answer.]
 
 Evidence:
 - "[Quote 2-3 complete sentences from the source that provide full context for understanding the author's point.]"
@@ -62,7 +62,7 @@ Evidence:
 
 ## QUESTION 2: [Restate the second distinct question/topic]
 
-**Answer**: [Direct, opinionated answer based on evidence]
+**Answer**: [Direct, opinionated answer based on evidence. Write a complete but concise answer.]
 
 Evidence:
 - "[2-3 sentence quote with full context...]"
@@ -80,6 +80,7 @@ CITATION RULES (CRITICAL):
 - FORMAT MUST BE EXACT MATCH FOR FRONTEND PARSING:
 - Book format:   - "Quote text..." — Book: Title Name, Author Name, Page 123
 - Article format: - "Quote text..." — Article: Title Name, Section Section Name
+- IMPORTANT: You MUST start every evidence line with a dash `-`.
 - IMPORTANT: Use an em-dash (—) or double hyphen (--) before the source type.
 - NEVER upgrade confidence beyond what evidence supports
 - If you cannot find relevant evidence for a question, say: "No sufficient evidence in current library for this aspect."
