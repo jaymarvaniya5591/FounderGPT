@@ -91,16 +91,17 @@
 
                     <div class="custom-select-container" id="custom-model-select">
                         <div class="select-trigger" id="model-select-trigger">
-                            <span>GPT-4o (Fast)</span>
+                            <span>Claude Sonnet (Smart)</span>
                             <span class="arrow">▼</span>
                         </div>
                         <div class="select-options hidden" id="model-select-options">
-                            <div class="option selected" data-value="gpt-4o" onclick="selectModel('gpt-4o')">GPT-4o
+                            <div class="option" data-value="gpt-4o" onclick="selectModel('gpt-4o')">GPT-4o
                                 (Fast)</div>
-                            <div class="option" data-value="claude-sonnet" onclick="selectModel('claude-sonnet')">Claude
+                            <div class="option selected" data-value="claude-sonnet"
+                                onclick="selectModel('claude-sonnet')">Claude
                                 Sonnet (Smart)</div>
                         </div>
-                        <input type="hidden" id="model-select-value" value="gpt-4o">
+                        <input type="hidden" id="model-select-value" value="claude-sonnet">
                     </div>
 
                     <button id="analyze-btn" class="analyze-btn" disabled>Analyze with Evidence</button>
