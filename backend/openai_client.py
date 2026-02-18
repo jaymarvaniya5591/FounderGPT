@@ -13,75 +13,8 @@ from openai import OpenAI
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config.settings import settings
 
-# Reuse the same system prompt to ensure consistent behavior
-SYSTEM_PROMPT = """You are FounderGPT, an advisor for founders under stress. Your ONLY job is to convert chaos into clarity using evidence from business books and articles provided to you.
-
-CRITICAL RULES:
-1. You can ONLY use information from the provided evidence chunks
-2. If evidence is insufficient, respond with: "No sufficient evidence found in the current resource library."
-3. NO hallucinated advice. NO generic wisdom. ONLY cite what's in the evidence.
-4. Every claim must be backed by a specific quote from the evidence
-
-PHILOSOPHY:
-- Clarity > advice
-- Opinionated > exhaustive  
-- Few actions > many frameworks
-- Confidence must be explicit, never implied
-- Ignore weak or redundant ideas
-- Surface real disagreement between sources
-- Reduce decisions to 1-3 concrete actions
-
-MULTI-QUESTION HANDLING:
-- Carefully analyze the user's input for MULTIPLE distinct questions or topics
-- Examples: "Should I build this? Any frameworks?" contains TWO questions: (1) build decision (2) frameworks
-- You MUST address EVERY question/topic the user raises
-- DO NOT focus on just one aspect while ignoring others
-
-OUTPUT FORMAT (STRICT - MUST FOLLOW EXACTLY):
-
-## SUMMARY
-(A comprehensive synthesized answer that addresses ALL aspects of the user's input. This should be 3-5 sentences combining insights from books to give the founder clarity on their entire situation. This is the most important section - make it actionable and direct.)
-
-## QUESTION 1: [Restate the first distinct question/topic from user input]
-
-**Answer**: [Direct, opinionated answer based on evidence]
-
-Evidence:
-- "[Quote 2-3 complete sentences from the source that provide full context for understanding the author's point. Do not use single-line snippets - capture enough text so the reader understands the situation the author was describing.]"
-  — Book: <title>, <author>, Page <number>
-  Confidence: High/Medium/Low
-
-- "[Another 2-3 sentence quote with full context...]"
-  — Book/Article: <details>
-  Confidence: <Level>
-
-## QUESTION 2: [Restate the second distinct question/topic]
-
-**Answer**: [Direct, opinionated answer based on evidence]
-
-Evidence:
-- "[2-3 sentence quote with full context...]"
-  — Book/Article: <details>
-  Confidence: <level>
-
-(Continue for each distinct question/topic found in the user's input. If there's only one question, you may have just QUESTION 1.)
-
-CONFIDENCE LEVEL DEFINITIONS:
-- HIGH: Multiple independent sources align OR author speaks from repeated real-world experience
-- MEDIUM: Strong argument but context-dependent OR supported by limited examples
-- LOW: Anecdotal, controversial, or highly situation-specific
-
-CITATION RULES:
-- Maximum 3 citations per question
-- Every citation needs 2-3 complete sentences from evidence (not single lines)
-- The quote should include enough context so readers understand the situation being described
-- Book format: "Quote" — Book: <title>, <author>, Page <number>
-- Article format: "Quote" — Article: <title>, Section <section>
-- NEVER upgrade confidence beyond what evidence supports
-- If you cannot find relevant evidence for a question, say: "No sufficient evidence in current library for this aspect."
-
-REMEMBER: You are not a generic AI. You are a tool that surfaces what great business minds have written. If they haven't written about it in the provided evidence, you cannot help."""
-
+# Import central prompts
+from backend.prompts import IDEA_VALIDATION_PROMPT
 
 class OpenAIClient:
     """Handles OpenAI API interactions."""
@@ -137,23 +70,26 @@ class OpenAIClient:
                 "sections": {}
             }
         
-        prompt_to_use = system_prompt if system_prompt else SYSTEM_PROMPT
+        # Use provided prompt or default to generic validation logic
+        prompt_to_use = system_prompt if system_prompt else IDEA_VALIDATION_PROMPT
+        
+        # Format evidence
         evidence_context = self.format_evidence_context(chunks)
         
-        user_message = f"""FOUNDER'S QUESTION:
+        # Build user message (MATCHING CLAUDE CLIENT EXACTLY)
+        user_message = f"""FOUNDER'S INPUT:
 \"\"\"{user_query}\"\"\"
 
-BELOW ARE THE RETRIEVED EVIDENCE DOCUMENTS. When quoting, you MUST copy-paste the EXACT text from these documents — character for character. Do NOT paraphrase, summarize, or reword ANY quote. If a quote uses pronouns like "They" or "We" without naming the subject, insert [Company/Person Name] in brackets.
-
+CONTEXTUAL EVIDENCE:
 {evidence_context}
 
-Now generate your response following the system prompt format EXACTLY. Remember:
-- Identify ALL implicit questions in the founder's input (there are usually 2-3 distinct concerns)
-- Each quote must be 3-6 COMPLETE sentences copied VERBATIM from the documents above
-- NEVER use "..." or ellipsis to skip parts of a quote. Always quote COMPLETE, UNBROKEN consecutive sentences.
-- Write like a battle-tested startup advisor: direct, opinionated, specific — NOT like a corporate consultant
-- Prefer case study quotes (with WHO did it, WHAT they did, WHAT happened) over generic advice
-- The SUMMARY section MUST use numbered action items, for example: "(1) diagnose using surveys, (2) analyze your funnel data, (3) run targeted experiments." Always structure the summary with clear numbered takeaways."""
+Provide your structured response following the EXACT format specified in the system prompt.
+- Create a SUMMARY section first that addresses the founder's complete situation
+- Create a separate QUESTION section for EACH distinct question you identified
+- Remember: ONLY use quotes from the evidence above
+- Be opinionated but evidence-backed
+- If evidence is insufficient for any question, say so explicitly
+- Use 2-3 sentence quotes that provide full context, not single lines"""
         
         try:
             response = self.client.chat.completions.create(

@@ -117,6 +117,13 @@ async def ask_question(request: AskRequest):
         if category_id == "marketing-growth":
             search_top_k = 8  # Fetch more for diversity in marketing
             
+        # 20% boost for Claude models (better context handling)
+        if "claude" in request.model.lower():
+            import math
+            old_k = search_top_k
+            search_top_k = math.ceil(search_top_k * 1.2)
+            print(f"[ASK] Claude model detected. Boosting top_k from {old_k} to {search_top_k}", flush=True)
+            
         chunks = vs.search(request.query, top_k=search_top_k)
         t1_search = time.time()
         search_time = t1_search - t0_search

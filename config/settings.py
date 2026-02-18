@@ -56,6 +56,9 @@ class Settings(BaseSettings):
     # Query Expansion
     ENABLE_QUERY_EXPANSION: bool = True
     
+    # Retrieval Configuration
+    INITIAL_RETRIEVAL_MULTIPLIER: int = 3  # Fetch 3x chunks initially before reranking
+    
     # Admin Configuration (loaded from .env)
     ADMIN_PASSWORD: str
     

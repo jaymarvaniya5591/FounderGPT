@@ -150,10 +150,11 @@ class VectorSearch:
         
         try:
             # Use rate-limited embedder for reranking
+            # Rank ALL documents so diversity filter has candidates to choose from
             response = self.embedder.rerank(
                 query=original_query,
                 documents=documents,
-                top_n=min(top_k, len(documents))
+                top_n=len(documents)
             )
             
             # Map rerank results back to chunks
@@ -169,7 +170,7 @@ class VectorSearch:
             
         except Exception as e:
             self._log(f"  Reranking failed, using original order: {e}")
-            return chunks[:top_k * 2]
+            return chunks
     
     def _apply_diversity(self, chunks: List[Dict[str, Any]], top_k: int) -> List[Dict[str, Any]]:
         """
@@ -255,7 +256,9 @@ class VectorSearch:
         
         # Search with each pre-computed embedding
         all_results = []
-        fetch_limit = top_k * 2  # Reduced fetch volume
+        # Search with each pre-computed embedding
+        all_results = []
+        fetch_limit = top_k * settings.INITIAL_RETRIEVAL_MULTIPLIER  # Fetch more candidates for reranking
         
         for i, (q, emb) in enumerate(zip(queries, all_embeddings)):
             results = self._search_with_embedding(emb, fetch_limit, search_filter)
