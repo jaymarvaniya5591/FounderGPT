@@ -13,15 +13,15 @@ class Settings(BaseSettings):
     
     # Claude API Configuration (loaded from .env)
     CLAUDE_API_KEY: str
-    CLAUDE_MODEL: str = "claude-sonnet-4-20250514"
+    CLAUDE_MODEL: str = "claude-sonnet-4-5-20250929"
     
     # OpenAI Configuration (loaded from .env)
     OPENAI_API_KEY: Optional[str] = None
-    OPENAI_MODEL: str = "gpt-4o"
+    OPENAI_MODEL: str = "gpt-4.1"
 
     # Gemini Configuration (loaded from .env)
     GEMINI_API_KEY: Optional[str] = None
-    GEMINI_MODEL: str = "gemini-flash-latest"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
     
     # Cohere Configuration (loaded from .env)
     COHERE_API_KEY: str
@@ -46,7 +46,7 @@ class Settings(BaseSettings):
     RESOURCES_INDEX_FILE: str = "config/resources_index.json"
     
     # Vector Search - Enhanced RAG Settings
-    TOP_K_RESULTS: int = 10  # Optimized for relevance/context balance
+    TOP_K_RESULTS: int = 6  # Reduced from 10 — model only cites 2-3 per question
     SIMILARITY_THRESHOLD: float = 0.28  # Lowered to capture more relevant usage
     
     # Cohere Reranker

@@ -124,6 +124,19 @@ class CohereEmbedder:
         
         raise Exception("Unexpected state in retry loop")
     
+    def embed_queries(self, queries: List[str], max_retries: int = 3, initial_wait: float = 10.0) -> List[List[float]]:
+        """
+        Batch embed multiple queries in a single API call.
+        Uses input_type="search_query" for asymmetric search.
+        """
+        embeddings = self._embed_batch_with_retry(
+            queries,
+            input_type="search_query",
+            max_retries=max_retries,
+            initial_wait=initial_wait
+        )
+        return embeddings
+    
     def rerank(
         self,
         query: str,

@@ -26,47 +26,28 @@ class ClaudeClient:
         self.model = settings.CLAUDE_MODEL
     
     def format_evidence_context(self, chunks: List[Dict[str, Any]]) -> str:
-        """Format retrieved chunks as context for Claude."""
+        """Format retrieved chunks with explicit document labels for precise referencing."""
         if not chunks:
             return "NO EVIDENCE AVAILABLE - Must respond with 'No sufficient evidence found in the current resource library.'"
         
         # Sort chunks by score descending to ensure most relevant are presented first
         chunks = sorted(chunks, key=lambda x: x.get("score", 0), reverse=True)
         
-        context_parts = ["=== EVIDENCE FROM RESOURCE LIBRARY ===\n"]
+        context_parts = []
         
         for i, chunk in enumerate(chunks, 1):
             resource_type = chunk.get("resource_type", "unknown")
             text = chunk.get("exact_text", "")
-            score = chunk.get("score", 0)
             
             if resource_type == "book":
-                source_info = f"""
---- Evidence #{i} (Relevance: {score:.2f}) ---
-Type: Book
-Title: {chunk.get('book_title', 'Unknown')}
-Author: {chunk.get('author', 'Unknown')}
-Chapter: {chunk.get('chapter', 'Unknown')}
-Page: {chunk.get('page_number', 'Unknown')}
-
-Content:
-\"\"\"{text}\"\"\"
-"""
-            else:  # article
-                source_info = f"""
---- Evidence #{i} (Relevance: {score:.2f}) ---
-Type: Article
-Title: {chunk.get('article_title', 'Unknown')}
-Authors: {chunk.get('authors', 'Unknown')}
-Section: {chunk.get('section_heading', 'Unknown')}
-URL: {chunk.get('url', 'N/A')}
-
-Content:
-\"\"\"{text}\"\"\"
-"""
-            context_parts.append(source_info)
+                source = f"Book: {chunk.get('book_title', 'Unknown')}, {chunk.get('author', 'Unknown')}, Ch.{chunk.get('chapter', '?')}, P.{chunk.get('page_number', '?')}"
+            else:
+                source = f"Article: {chunk.get('article_title', 'Unknown')}, Section: {chunk.get('section_heading', '?')}"
+                if chunk.get('url'):
+                    source += f", URL: {chunk.get('url')}"
+            
+            context_parts.append(f"[DOCUMENT {i}] Source: {source}\n{text}\n[/DOCUMENT {i}]\n")
         
-        context_parts.append("\n=== END OF EVIDENCE ===")
         return "\n".join(context_parts)
     
     def generate_response(
@@ -109,12 +90,15 @@ Provide your structured response following the EXACT format specified in the sys
 - Use 2-3 sentence quotes that provide full context, not single lines"""
         
         try:
-            # Determine model to use
-            target_model = model if model else self.model
+            # Map frontend aliases to actual model IDs
+            MODEL_MAP = {
+                "claude-sonnet": self.model,  # Use server-configured model
+            }
+            target_model = MODEL_MAP.get(model, self.model) if model else self.model
             
             response = self.client.messages.create(
                 model=target_model,
-                max_tokens=4096,
+                max_tokens=1500,
                 system=prompt_to_use,
                 messages=[
                     {"role": "user", "content": user_message}
@@ -139,20 +123,12 @@ Provide your structured response following the EXACT format specified in the sys
             
         except Exception as e:
             print(f"Claude API Error: {e}")
-            print("Attempting fallback to Gemini...")
-            
-            try:
-                # Lazy import to avoid circular dependency issues if any
-                from backend.gemini_client import GeminiClient
-                gemini = GeminiClient()
-                return gemini.generate_response(user_query, chunks)
-            except Exception as fallback_error:
-                return {
-                    "success": False,
-                    "error": f"Primary Error: {str(e)} | Fallback Error: {str(fallback_error)}",
-                    "full_response": None,
-                    "sections": {}
-                }
+            return {
+                "success": False,
+                "error": str(e),
+                "full_response": None,
+                "sections": {}
+            }
     
     def _parse_sections(self, response_text: str) -> Dict[str, str]:
         """Parse the response into individual sections."""

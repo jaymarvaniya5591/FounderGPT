@@ -97,50 +97,34 @@ class OpenAIClient:
         self.model = settings.OPENAI_MODEL
     
     def format_evidence_context(self, chunks: List[Dict[str, Any]]) -> str:
-        """Format retrieved chunks as context (same format as others)."""
+        """Format retrieved chunks with explicit document labels for precise referencing."""
         if not chunks:
             return "NO EVIDENCE AVAILABLE - Must respond with 'No sufficient evidence found in the current resource library.'"
         
-        context_parts = ["=== EVIDENCE FROM RESOURCE LIBRARY ===\n"]
+        chunks = sorted(chunks, key=lambda x: x.get("score", 0), reverse=True)
+        
+        context_parts = []
         
         for i, chunk in enumerate(chunks, 1):
             resource_type = chunk.get("resource_type", "unknown")
             text = chunk.get("exact_text", "")
-            score = chunk.get("score", 0)
             
             if resource_type == "book":
-                source_info = f"""
---- Evidence #{i} (Relevance: {score:.2f}) ---
-Type: Book
-Title: {chunk.get('book_title', 'Unknown')}
-Author: {chunk.get('author', 'Unknown')}
-Chapter: {chunk.get('chapter', 'Unknown')}
-Page: {chunk.get('page_number', 'Unknown')}
-
-Content:
-\"\"\"{text}\"\"\"
-"""
-            else:  # article
-                source_info = f"""
---- Evidence #{i} (Relevance: {score:.2f}) ---
-Type: Article
-Title: {chunk.get('article_title', 'Unknown')}
-Authors: {chunk.get('authors', 'Unknown')}
-Section: {chunk.get('section_heading', 'Unknown')}
-URL: {chunk.get('url', 'N/A')}
-
-Content:
-\"\"\"{text}\"\"\"
-"""
-            context_parts.append(source_info)
+                source = f"Book: {chunk.get('book_title', 'Unknown')}, {chunk.get('author', 'Unknown')}, Ch.{chunk.get('chapter', '?')}, P.{chunk.get('page_number', '?')}"
+            else:
+                source = f"Article: {chunk.get('article_title', 'Unknown')}, Section: {chunk.get('section_heading', '?')}"
+                if chunk.get('url'):
+                    source += f", URL: {chunk.get('url')}"
+            
+            context_parts.append(f"[DOCUMENT {i}] Source: {source}\n{text}\n[/DOCUMENT {i}]\n")
         
-        context_parts.append("\n=== END OF EVIDENCE ===")
         return "\n".join(context_parts)
     
     def generate_response(
         self,
         user_query: str,
-        chunks: List[Dict[str, Any]]
+        chunks: List[Dict[str, Any]],
+        system_prompt: str = None
     ) -> Dict[str, Any]:
         """
         Generate a structured response using OpenAI.
@@ -152,35 +136,37 @@ Content:
                 "full_response": None,
                 "sections": {}
             }
-            
+        
+        prompt_to_use = system_prompt if system_prompt else SYSTEM_PROMPT
         evidence_context = self.format_evidence_context(chunks)
         
-        user_message = f"""FOUNDER'S INPUT:
+        user_message = f"""FOUNDER'S QUESTION:
 \"\"\"{user_query}\"\"\"
+
+BELOW ARE THE RETRIEVED EVIDENCE DOCUMENTS. When quoting, you MUST copy-paste the EXACT text from these documents — character for character. Do NOT paraphrase, summarize, or reword ANY quote. If a quote uses pronouns like "They" or "We" without naming the subject, insert [Company/Person Name] in brackets.
 
 {evidence_context}
 
-Now provide your structured response following the EXACT format specified. Remember:
-1. ONLY use quotes from the evidence above
-2. Be opinionated but evidence-backed
-3. If evidence is insufficient, say so explicitly
-4. Assign confidence levels honestly based on the strength of evidence"""
+Now generate your response following the system prompt format EXACTLY. Remember:
+- Identify ALL implicit questions in the founder's input (there are usually 2-3 distinct concerns)
+- Each quote must be 3-6 COMPLETE sentences copied VERBATIM from the documents above
+- NEVER use "..." or ellipsis to skip parts of a quote. Always quote COMPLETE, UNBROKEN consecutive sentences.
+- Write like a battle-tested startup advisor: direct, opinionated, specific — NOT like a corporate consultant
+- Prefer case study quotes (with WHO did it, WHAT they did, WHAT happened) over generic advice
+- The SUMMARY section MUST use numbered action items, for example: "(1) diagnose using surveys, (2) analyze your funnel data, (3) run targeted experiments." Always structure the summary with clear numbered takeaways."""
         
         try:
             response = self.client.chat.completions.create(
                 model=self.model,
                 messages=[
-                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "system", "content": prompt_to_use},
                     {"role": "user", "content": user_message}
                 ],
-                temperature=0.7,
-                max_tokens=2000
+                temperature=0,
+                max_tokens=2048
             )
             
-            # Extract the text response
             response_text = response.choices[0].message.content
-            
-            # Parse sections
             sections = self._parse_sections(response_text)
             
             return {
@@ -194,8 +180,13 @@ Now provide your structured response following the EXACT format specified. Remem
             }
             
         except Exception as e:
-            # Raise exception to allow fallback to catch it
-            raise e
+            print(f"OpenAI API Error: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "full_response": None,
+                "sections": {}
+            }
             
     def _parse_sections(self, response_text: str) -> Dict[str, str]:
         """Parse the response into individual sections (Shared logic)."""

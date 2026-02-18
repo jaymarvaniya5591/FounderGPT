@@ -115,7 +115,7 @@ async def ask_question(request: AskRequest):
         t0_search = time.time()
         search_top_k = settings.TOP_K_RESULTS
         if category_id == "marketing-growth":
-            search_top_k = 12  # Fetch more to allow for diversity selection
+            search_top_k = 8  # Fetch more for diversity in marketing
             
         chunks = vs.search(request.query, top_k=search_top_k)
         t1_search = time.time()

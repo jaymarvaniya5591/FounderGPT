@@ -64,7 +64,15 @@ class VectorSearch:
     ) -> List[Dict[str, Any]]:
         """Perform a single vector search."""
         query_embedding = self.embed_query(query)
-        
+        return self._search_with_embedding(query_embedding, limit, search_filter)
+    
+    def _search_with_embedding(
+        self,
+        query_embedding: List[float],
+        limit: int,
+        search_filter: Optional[Filter] = None
+    ) -> List[Dict[str, Any]]:
+        """Perform vector search with a pre-computed embedding."""
         try:
             results = self.qdrant.search(
                 collection_name=settings.QDRANT_COLLECTION_NAME,
@@ -145,7 +153,7 @@ class VectorSearch:
             response = self.embedder.rerank(
                 query=original_query,
                 documents=documents,
-                top_n=min(top_k * 2, len(documents))
+                top_n=min(top_k, len(documents))
             )
             
             # Map rerank results back to chunks
@@ -241,12 +249,16 @@ class VectorSearch:
         
         self._log(f"  Expanded to {len(queries)} query variations")
         
-        # Search with each query variation
-        all_results = []
-        fetch_limit = top_k * 3  # Fetch more per query for merging
+        # Batch embed all queries in one Cohere API call
+        all_embeddings = self.embedder.embed_queries(queries)
+        self._log(f"  Batch embedded {len(queries)} queries in one call")
         
-        for i, q in enumerate(queries):
-            results = self._single_query_search(q, fetch_limit, search_filter)
+        # Search with each pre-computed embedding
+        all_results = []
+        fetch_limit = top_k * 2  # Reduced fetch volume
+        
+        for i, (q, emb) in enumerate(zip(queries, all_embeddings)):
+            results = self._search_with_embedding(emb, fetch_limit, search_filter)
             all_results.extend(results)
             self._log(f"    Query {i+1}: {len(results)} results")
         

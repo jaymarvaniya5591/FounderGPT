@@ -362,8 +362,8 @@ function toggleModelDropdown(e) {
 
 function selectModel(id) {
     const models = [
-        { id: 'claude-haiku-4-5', name: 'Claude Haiku 4.5 (Fast)' },
-        { id: 'claude-sonnet-4-5', name: 'Claude Sonnet 4.5 (Smart)' }
+        { id: 'gpt-4o', name: 'GPT-4o (Fast)' },
+        { id: 'claude-sonnet', name: 'Claude Sonnet (Smart)' }
     ];
 
     const model = models.find(m => m.id === id);
@@ -695,14 +695,8 @@ function showMainPage() {
 // Response Parsing
 // ========================================
 function parseResponse(text) {
-    // Determine which model was used based on the dropdown selection
-    const model = document.getElementById('model-select-value').value;
-
-    if (model === 'claude-haiku-4-5') {
-        return parseResponseHaiku(text);
-    } else {
-        return parseResponseSonnet(text);
-    }
+    // Both Gemini Flash and Claude Sonnet use the same output format
+    return parseResponseSonnet(text);
 }
 
 // ----------------------------------------

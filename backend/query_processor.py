@@ -67,24 +67,11 @@ class QueryProcessor:
         if concepts:
             queries.add(concepts)
         
-        # 3. Reformulate as different question types
-        reformulations = self._reformulate_query(query)
-        queries.update(reformulations)
-        
-        # 4. Add decomposed sub-queries if complex
-        sub_queries = self._decompose_complex_query(query)
-        queries.update(sub_queries)
-        
-        # 5. Add Case Study / Real World Scenarios variations (CRITICAL for evidence)
-        queries.add(f"{query} case study")
-        queries.add(f"{query} real world example")
-        queries.add(f"{query} how they did it")
-        
         # Remove empty strings and duplicates
         result = [q.strip() for q in queries if q.strip()]
         
-        # Limit to 8 queries max for performance (increased for case studies)
-        return list(set(result))[:8]
+        # Limit to 3 queries max for performance (reranker handles relevance)
+        return list(set(result))[:3]
     
     def _expand_with_synonyms(self, query: str) -> str:
         """Replace key terms with their synonyms."""
